@@ -1,0 +1,1550 @@
+%% Python 101
+%%
+%% Tim van Werkhoven (t.i.m.vanwerkhoven@xs4all.nl), 20110321
+%%
+%% This file is licensed under the Creative Commons Attribution-Share Alike
+%% license versions 3.0 or higher, see
+%% http://creativecommons.org/licenses/by-sa/3.0/
+
+% Copyright 2004 by Till Tantau <tantau@users.sourceforge.net>.
+%
+% In principle, this file can be redistributed and/or modified under
+% the terms of the GNU Public License, version 2.
+%
+% However, this file is supposed to be a template to be modified
+% for your own needs. For this reason, if you use this file as a
+% template and not specifically distribute it as part of a another
+% package/program, I grant the extra permission to freely copy and
+% modify this file as you see fit and even to delete this copyright
+% notice. 
+
+% Generate either a full presentation, or just handouts. Handouts don't 
+% include the overlay things and 'compact' a presentation on less slides.
+\documentclass[xetex,10pt]{beamer}
+%\documentclass[xetex,mathserif,serif,10pt, handout]{beamer}
+
+%%% Theme %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usetheme{Madrid}
+
+\def\imgpath{./img/}
+
+\def\green{\color{green}}
+\def\orange{\color{orange}}
+\def\red{\color{red}}
+
+\newcommand{\squash}[1]{\parbox{0pt}{#1}}
+
+%%% Packages %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Prefer British spelling & hyphenation
+\usepackage[british]{babel}
+\usepackage{xunicode}
+\usepackage{xltxtra}
+\defaultfontfeatures{Mapping=tex-text}
+
+\usepackage{graphicx}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{hyperref}
+
+% from http://blog.miliauskas.lt/2008/09/python-syntax-highlighting-in-latex.html
+% from http://licejus.lt/~gintas/files/pythonlisting.tex
+%\include{pythonlisting}
+\usepackage{color}
+\usepackage[procnames]{listings}
+\usepackage{setspace}
+\usepackage{textcomp}
+
+% from http://www.nabble.com/zorder-seems-to-cause-problems-when-embed-python-in-latex-files-td19949285.html
+% from http://www.imada.sdu.dk/~ehmsen/python.sty
+%\usepackage{python}
+
+\newcommand{\pypypy}[1]{\footnote[frame]{Py3: #1}}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows,positioning} 
+
+%%% Python code highlighting %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\renewcommand{\lstlistlistingname}{Python Listings}
+\renewcommand{\lstlistingname}{Code Listing}
+
+\definecolor{gray}{gray}{0.5}
+\definecolor{green}{rgb}{0,0.5,0}
+\definecolor{lightgreen}{rgb}{0,0.7,0}
+\definecolor{purple}{rgb}{0.5,0,0.5}
+\definecolor{darkred}{rgb}{0.5,0,0}
+
+%\lstdefinelanguage{pythontim}{
+%basicstyle=\ttfamily\small\setstretch{1},
+%numberstyle=\footnotesize,      % the size of the fonts that are used for the line-numbers
+%showspaces=false,               % show spaces adding particular underscores
+%showstringspaces=false,         % underline spaces within strings
+%showtabs=false,                 % show tabs within strings adding particular underscores
+%stringstyle=\color{green},
+%alsoletter={1234567890},
+%keywordstyle=\color{blue},
+%emph={access,and,as,break,class,continue,def,del,elif,else,%
+%except,exec,finally,for,from,global,if,import,in,is,%
+%lambda,not,or,pass,print,raise,return,try,while,assert},
+%emphstyle=\color{orange}\bfseries,
+%tabsize=2,
+%emph={[2]self},
+%emphstyle=[2]\color{gray},
+%emph={[4]ArithmeticError,AssertionError,AttributeError,BaseException,%
+%DeprecationWarning,EOFError,Ellipsis,EnvironmentError,Exception,%
+%False,FloatingPointError,FutureWarning,GeneratorExit,IOError,%
+%ImportError,ImportWarning,IndentationError,IndexError,KeyError,%
+%KeyboardInterrupt,LookupError,MemoryError,NameError,None,%
+%NotImplemented,NotImplementedError,OSError,OverflowError,%
+%PendingDeprecationWarning,ReferenceError,RuntimeError,RuntimeWarning,%
+%StandardError,StopIteration,SyntaxError,SyntaxWarning,SystemError,%
+%SystemExit,TabError,True,TypeError,UnboundLocalError,UnicodeDecodeError,%
+%UnicodeEncodeError,UnicodeError,UnicodeTranslateError,UnicodeWarning,%
+%UserWarning,ValueError,Warning,ZeroDivisionError,abs,all,any,apply,%
+%basestring,bool,buffer,callable,chr,classmethod,cmp,coerce,compile,%
+%complex,copyright,credits,delattr,dict,dir,divmod,enumerate,eval,%
+%execfile,exit,file,filter,float,frozenset,getattr,globals,hasattr,%
+%hash,help,hex,id,input,int,intern,isinstance,issubclass,iter,len,%
+%license,list,locals,long,map,max,min,object,oct,open,ord,pow,property,%
+%quit,range,raw_input,reduce,reload,repr,reversed,round,set,setattr,%
+%slice,sorted,staticmethod,str,sum,super,tuple,type,unichr,unicode,%
+%vars,xrange,zip},
+%emphstyle=[4]\color{purple}\bfseries,
+%escapechar=\~,
+%upquote=true,
+%moredelim=**[is][\uncover<+>]{@}{@},
+%morecomment=[s][\color{lightgreen}]{"""}{"""},
+%commentstyle=\color{red}\slshape,
+%literate={>>>}{\textbf{\textcolor{darkred}{>{>}>}}}3%
+%         {...}{{\textcolor{gray}{...}}}3,
+%procnamekeys={def,class},
+%procnamestyle=\color{blue}\textbf,
+%framexleftmargin=1mm, framextopmargin=1mm, frame=shadowbox,
+%rulesepcolor=\color{blue},
+%}
+
+%\lstnewenvironment{python}[1][]{
+%\lstset{
+%language=pythontim,#1
+%%language=Python,#1
+%}}{}
+
+%\def\pythoni{\lstinline[language=pythontim]}
+%\def\pythoni{\lstinline[language=Python]}
+
+% This gives syntax highlighting in the python environment
+\renewcommand{\lstlistlistingname}{Code Listings}
+\renewcommand{\lstlistingname}{Code Listing}
+\definecolor{gray}{gray}{0.5}
+\definecolor{key}{rgb}{0,0.5,0}
+
+\lstdefinelanguage{pythontim}{
+basicstyle=\ttfamily\small\setstretch{1},
+stringstyle=\color{red},
+showstringspaces=false,
+alsoletter={1234567890},
+%otherkeywords={\ , \}, \{},
+keywordstyle=\color{blue},
+emph={access,and,as,break,class,continue,def,del,elif,else,%
+except,exec,finally,for,from,global,if,import,in,is,%
+lambda,not,or,pass,print,raise,return,try,while,assert},
+emphstyle=\color{orange}\bfseries,
+emph={[2]True, False, None, self},
+emphstyle=[2]\color{green},
+emph={[3]from, import, as},
+emphstyle=[3]\color{blue},
+upquote=true,
+%moredelim=**[is][\only<+>{\makebox[0cm]{•}}\hspace{1em}]{@}{@},
+moredelim=**[is][\only<+>{\hspace{-2mm}\makebox[2mm]{•}}]{@}{@},
+morecomment=[s]{"""}{"""},
+commentstyle=\color{gray}\slshape,
+%emph={[4]1, 2, 3, 4, 5, 6, 7, 8, 9, 0},
+%emphstyle=[4]\color{blue},
+literate=*{:}{{\textcolor{blue}:}}{1}%
+	{=}{{\textcolor{blue}=}}{1}%
+	{-}{{\textcolor{blue}-}}{1}%
+	{+}{{\textcolor{blue}+}}{1}%
+	{*}{{\textcolor{blue}*}}{1}%
+	{!}{{\textcolor{blue}!}}{1}%
+	{(}{{\textcolor{blue}(}}{1}%
+	{)}{{\textcolor{blue})}}{1}%
+	{[}{{\textcolor{blue}[}}{1}%
+	{]}{{\textcolor{blue}]}}{1}%
+	{<}{{\textcolor{blue}<}}{1}%
+	{>}{{\textcolor{blue}>}}{1},%
+emph={[5]ArithmeticError,AssertionError,AttributeError,BaseException,%
+DeprecationWarning,EOFError,Ellipsis,EnvironmentError,Exception,%
+False,FloatingPointError,FutureWarning,GeneratorExit,IOError,%
+ImportError,ImportWarning,IndentationError,IndexError,KeyError,%
+KeyboardInterrupt,LookupError,MemoryError,NameError,None,%
+NotImplemented,NotImplementedError,OSError,OverflowError,%
+PendingDeprecationWarning,ReferenceError,RuntimeError,RuntimeWarning,%
+StandardError,StopIteration,SyntaxError,SyntaxWarning,SystemError,%
+SystemExit,TabError,True,TypeError,UnboundLocalError,UnicodeDecodeError,%
+UnicodeEncodeError,UnicodeError,UnicodeTranslateError,UnicodeWarning,%
+UserWarning,ValueError,Warning,ZeroDivisionError,abs,all,any,apply,%
+basestring,bool,buffer,callable,chr,classmethod,cmp,coerce,compile,%
+complex,copyright,credits,delattr,dict,dir,divmod,enumerate,eval,%
+execfile,exit,file,filter,float,frozenset,getattr,globals,hasattr,%
+hash,help,hex,id,input,int,intern,isinstance,issubclass,iter,len,%
+license,list,locals,long,map,max,min,object,oct,open,ord,pow,property,%
+quit,range,raw_input,reduce,reload,repr,reversed,round,set,setattr,%
+slice,sorted,staticmethod,str,sum,super,tuple,type,unichr,unicode,%
+vars,xrange,zip},
+emphstyle=[5]\color{purple}\bfseries,
+escapechar=\~,
+xleftmargin=2mm,
+%xrightmargin=2mm,
+framexleftmargin=3mm, framextopmargin=1mm, frame=shadowbox,
+rulesepcolor=\color{blue},
+}
+
+\lstnewenvironment{python}[1][]{
+\lstset{
+language=pythontim,#1
+}}{}
+
+\def\pythoni{\lstinline[language=pythontim]}
+
+%%% TikZ settings %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% For every picture that defines or uses external nodes, you'll have to
+% apply the 'remember picture' style. To avoid some typing, we'll apply
+% the style to all pictures.
+\tikzstyle{every picture}+=[remember picture]
+\tikzstyle{na} = [baseline=-.5ex]
+
+\tikzset{
+    %Define standard arrow tip
+    >=stealth',
+    %Define style for boxes
+    punkt/.style={
+           rectangle,
+           rounded corners,
+           draw=black, very thick,
+           text width=6.5em,
+           minimum height=2em,
+           text centered},
+    % Define arrow style
+    pil/.style={
+           ->,
+           thick,
+           shorten <=2pt,
+           shorten >=2pt,}
+}
+
+%%% Presentation layout %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% No navigation symbols please
+\setbeamertemplate{navigation symbols}{}
+
+% Cover with some transparency
+%\setbeamercovered{dynamic}
+\setbeamercovered{invisible}
+
+% Delete this, if you do not want the table of contents to pop up at
+% the beginning of each section:
+\AtBeginSection[]
+{
+ \begin{frame}<beamer>
+   \frametitle{Outline}
+   \tableofcontents[currentsection]
+ \end{frame}
+}
+
+% If you wish to uncover everything in a step-wise fashion, uncomment
+% the following command: 
+%\beamerdefaultoverlayspecification{<+->}
+
+%%% Document details %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% This is only inserted into the PDF information catalog.
+
+\hypersetup{
+pdfauthor = {Tim van Werkhoven},
+pdftitle = {Python 101 introduction},
+pdfsubject = {Python 101 introduction},
+pdfkeywords = {Python, NumPy, SciPy, matplotlib, },
+pdfcreator = {LaTeX with hyperref package},
+pdfproducer = {pdfLaTeX},
+colorlinks = false,
+breaklinks = true,
+linkcolor = red,                    % color of internal links
+citecolor = green,                  % color of links to bibliography
+filecolor = magenta,                % color of file links
+urlcolor = blue,                    % color of external links
+}
+
+%%% Authors etc. %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Python 101}
+\subtitle{Introduction into Python scripting}
+\author{Tim van Werkoven}
+\institute[SIU, UU]{%
+Sterrekundig Instituut Utrecht, Utrecht University\\[1em]
+\includegraphics[height=10mm]{\imgpath logo_uu.pdf}\\[1cm]
+\includegraphics[width=0.7cm]{\imgpath cc.pdf}~%
+\includegraphics[width=0.7cm]{\imgpath by.pdf}~%
+\includegraphics[width=0.7cm]{\imgpath sa.pdf}~%
+}
+\date{}
+
+%%% Frames %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Structuring a talk is a difficult task and the following structure
+% may not be suitable. Here are some rules that apply for this
+% solution: 
+
+% - Exactly two or three sections (other than the summary).
+% - At *most* three subsections per section.
+% - Talk about 30s to 2min per frame. So there should be between about
+%   15 and 30 frames, all told.
+
+% - A conference audience is likely to know very little of what you
+%   are going to talk about. So *simplify*!
+% - In a 20min talk, getting the main ideas across is hard
+%   enough. Leave out details, even if it means being less precise than
+%   you think necessary.
+% - If you omit details that are vital to the proof/implementation,
+%   just say so once. Everybody will be happy with that.
+
+\begin{document}
+
+%\setbeameroption{show notes on second screen} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame{\titlepage}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+    \frametitle{Outline}
+    %\note{Some notes for the current slide}
+    \setcounter{tocdepth}{1}
+    \tableofcontents
+    % You might wish to add the option [pausesections]
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{Antigravity}
+	\begin{center}
+	\vfill
+	\setbeamercovered{transparent}
+	\only<1>{\Huge{Why Python?}}
+	\only<2>{\begin{figure}[!h]
+	\includegraphics[height=0.75\textheight]{\imgpath python.png}
+	\caption{\url{http://xkcd.com/353/}}
+	\end{figure}}
+	\vfill
+	\end{center}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{About Python}
+	\includegraphics[width=0.3\textwidth]{\imgpath python-logo-generic.pdf}
+	
+	\begin{itemize}
+		\item High-level ({\green +IDL}, {\green +Perl})
+		\item Cross-platform \& widely used ({\red -IDL}, {\green +Perl})
+		\item Flexible ({\red -IDL}, {\orange $\sim$Perl})
+		\item Active community ({\green +IDL}, {\green +Perl})
+		\item Well-documented ({\green + IDL}, {\green +Perl})
+		\item Free (GPL) ({\red -IDL}, {\green +Perl})
+		\item \emph{Dutch} ({\red -IDL}, {\red -Perl})
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{Versions}
+	
+	There are two branches:
+	
+	\begin{itemize}
+	\item Version 2.x (newest: 2.7.1, 2010-11-27)
+	\item Version 3.x (newest: 3.2, 2011-02-20)
+	\end{itemize}
+	
+	3.x is backward \emph{in}compatible with 2.x on purpose.\\
+	2.7 is the final version in the 2.x branch.\\[2em]
+	
+	I discuss version 2.7 (most third-party libraries available), some differences in Python 3\footnote[frame]{\url{http://docs.python.org/whatsnew/2.7.html\#python-3-1-features}}.
+	
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{This presentation}
+	
+	Python code is shown like this:
+\begin{python}
+alist = [1,2,3,4]
+for i in alist:
+    print i
+\end{python}
+	
+	\vspace*{1em}
+	
+	Python commands and output is shown like this:
+
+\begin{python}
+>>> print "Hello world"
+Hello world!
+\end{python}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Basics}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Running Python}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Getting Python}
+	
+	Python can be downloaded from \url{http://python.org/download/}, but it is probably better to get is as part of a distribution.
+
+	\vspace*{1em}
+
+	\begin{itemize}
+		\item Enthought\footnote[frame]{See \url{http://enthought.com/products/epd.php}} provides a complete Python package for scientific computing
+		\item Many package managers such as \verb!apt!, \verb!emerge!, \verb!port! and \verb!fink! support python
+	\end{itemize}
+	
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Python interpreter}
+	
+	Python can be run in interactive mode or on files (like IDL and perl).
+	
+\begin{verbatim}
+tim@Saturn ~ » python2.7
+Python 2.7.2 (default, Aug 29 2011, 10:42:48) 
+[GCC 4.2.1 (Based on Apple Inc. build 5658) (LLVM build 2335.15.00)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>> 
+\end{verbatim}
+
+Enter commands to do something
+
+\begin{python}
+>>> print "Hello world"
+Hello world!
+>>> 2 + 3
+5
+>>> 1.0/7
+0.14285714285714285
+\end{python}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{IPython\footnote[frame]{\url{http://ipython.org/}} }
+	
+	Besides the standard python interpreter, IPython is a strongly improved version.
+
+	\vspace*{1em}
+
+	\begin{itemize}
+		\item Syntax highlighting
+		\item Tab-completion
+		\item Inline shell commands
+		\item Tracebacks on errors
+		\item Object introspection
+		\item Built-in debugging through \verb!pdb!
+	\end{itemize}
+	
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Python scripts}
+	
+	Python can also be used as scripts, where the first line has to read something like
+	
+\begin{verbatim}
+#! /usr/bin/env python
+\end{verbatim}
+	
+	to tell the shell what interpreter to use for this file. Don't forget to \verb!chmod +x! afterwards.\\
+
+	\vspace*{1em}
+
+	You can use the line
+
+\begin{verbatim}
+# -*- coding: encoding -*-
+\end{verbatim}
+
+	to tell python what encoding you are using, in order to include Unicode literals, for example.
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\subsection{Objects}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Objects\footnote[frame]{See \href{http://docs.python.org/reference/datamodel.html\#objects-values-and-types}{http://docs.python.org/reference/datamodel.html¶3.1}}}
+
+	\begin{itemize}
+		\item Everything is stored in an object, \emph{even functions}.
+		\item Objects have identity, type and value.
+		\item Immutable (values cannot change) vs.\ mutable objects (can change)
+		%\item Objects are never destroyed, but are garbage collected
+		\item Some objects contain other objects: \emph{containers}
+	\end{itemize}
+	
+
+	\vspace*{1em}
+
+	
+	\begin{python}
+	>>> a = 10
+	>>> (id(a), type(a), a)
+	(4331745360, int, 10)
+	\end{python}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Objects II}
+	
+	Objects \& values
+
+	\vspace*{1em}
+
+	\begin{columns}[T]
+		\begin{column}{0.45 \textwidth}
+			\begin{python}
+			@>>> code = 'Python'@
+			@>>> version = 2.7@
+			@>>> p = code@
+			@>>> code = 'Fortran'@
+			\end{python}
+%			\begin{python}
+%			%\uncover<1->{>>> code = 'Python'}%
+%			%\uncover<2->{>>> version = 2.7}%
+%			%\uncover<3->{>>> p = code}%
+%			%\uncover<4->{>>> code = 'Fortran'}%
+%			\end{python}
+		\end{column}
+		\begin{column}{0.45 \textwidth}
+			\begin{tabular}{l|l}
+			Object & Value \\
+			\hline
+			\verb!code! \tikz[na] \node[coordinate] (v1) {}; & \tikz[na] \node[coordinate] (v1v) {}; `Python' \\
+			\verb!version! \tikz[na] \node[coordinate] (v2) {}; & \tikz[na] \node[coordinate] (v2v) {}; 2.7 \\
+			\verb!p! \tikz[na] \node[coordinate] (v3) {}; &  \\
+			& \tikz[na] \node[coordinate] (v3v) {}; `Fortran' \\
+			\end{tabular}
+		\end{column}
+	\end{columns}
+
+	
+	\begin{tikzpicture}[overlay]
+		\path[->]<1-3> (v1) edge [bend left] (v1v);
+		\path[->]<2-> (v2) edge [bend left] (v2v);
+		\path[->]<3-3> (v3) edge [bend right] (v1v);
+		\path[->]<4-> (v1) edge [bend right] (v3v);
+		\path[->]<4-> (v3) edge [] (v3v);
+	\end{tikzpicture}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Objects -- Examples}
+
+\begin{python}
+>>> a = 10; b = a
+>>> a is b
+True
+\end{python}
+
+\pythoni{a} and \pythoni{b} are the same \emph{object}.
+
+\begin{python}
+>>> b = 20; a is b
+False
+>>> b = 10; a is b
+True
+\end{python}
+
+\pythoni{a} and \pythoni{b} are again the same object, \emph{even though we did not assign them manually}
+
+\begin{python}
+>>> id(a), id(b)
+(4331745360, 4331745360)
+\end{python}
+
+\pythoni{id()}\footnote[frame]{\url{http://docs.python.org/library/functions.html\#id}} gives the identity of an object (memory location).
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Objects -- Examples}
+
+Two lists
+\begin{python}
+>>> a = [1,2,3]
+>>> b = [1,2,3]
+>>> a == b
+True
+\end{python}
+
+\pythoni{a} and \pythoni{b} have the same \emph{value}.	
+
+\begin{python}
+>>> a is b
+False
+\end{python}
+
+\pythoni{a} and \pythoni{b} are \emph{not} the same \emph{object}.	
+
+\begin{python}
+>>> a = b
+>>> a is b
+True
+\end{python}
+
+\pythoni{a} now points to \pythoni{b}.
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Objects -- Examples}
+
+\begin{python}
+>>> a[0] = 10
+>>> a is b
+True
+>>> a
+[10, 2, 3]
+>>> b
+[10, 2, 3]
+\end{python}
+
+Since \pythoni{a} points to \pythoni{b}, if we change \pythoni{a}, we also change \pythoni{b}.
+
+	\vspace*{1em}
+
+\emph{(This subtle difference arises from the fact that a list is mutable.)}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Datatypes}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Datatypes\footnote[frame]{See \url{http://docs.python.org/reference/datamodel.html\#3.2}}}
+	\begin{itemize}
+		\item Numbers (int, long, bool, float, complex)
+		\item Sequences (strings,  unicode, tuples, lists)
+		\item Mappings (dictionaries)
+		\item Callable (functions, methods, generators)
+		\item \ldots (modules, classes, files)
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Datatypes -- Numbers}
+
+	\begin{itemize}
+		\item int: 32 bit signed number
+		\item long\pypypy{all ints are long}: arbitrary length numer.
+		\item float: machine-level double precision floating point numbers
+		\item complex: pair of floats
+		\item bool: truth values \pythoni{True} and \pythoni{False}
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Datatypes -- Sequences \& mapping}
+
+	\begin{itemize}
+		\item string \& unicode\pypypy{all strings are unicode}: array of characters
+		\item tuples: set of objects, immutable
+		\item list: set of objects, mutable
+		\item dictionary: set of objects index by arbitrary values
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Datatypes -- Examples}
+
+	Integers, normal (32 and 64 bit) and `bignum' (arbitrary length)\pypypy{all ints are of `bignum' type}:
+
+	\vspace*{1em}
+
+\begin{python}
+>>> 2**16
+65536
+>>> 2**512
+1340780792994259709957402499820584612747936582059239337772356
+1443721764030073546976801874298166903427690031858186486050853
+753882811946569946433649006084096L
+>>> math.sin(2**512)
+0.9905786583658018
+\end{python}
+
+	\vspace*{1em}
+
+Note that bignum can generally not be used in external libraries.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Datatypes -- Examples}
+
+Floats\pypypy{\pythoni{int} divisions work differently}:
+\begin{python}
+>>> 5.0 / 3
+1.6666666666666667
+>>> 5 / 3
+1
+>>> 5.0 // 3
+1.0
+\end{python}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Datatypes -- Examples}
+
+Complex:
+\begin{python}
+>>> 1+2j + 1-1j
+(2+1j)
+>>> a=0j
+>>> type(a)
+complex
+\end{python}
+
+	\vspace*{1em}
+
+Boolean
+\begin{python}
+>>> 5 > 4
+True
+>>> 1 and True
+True
+\end{python}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Datatypes -- Examples}
+
+String
+\begin{python}
+>>> "Hello world"
+'Hello World'
+>>> "Hello" * 5
+'HelloHelloHelloHelloHello'
+\end{python}
+
+	\vspace*{1em}
+
+Strings are actually lists
+\begin{python}
+>>> msg = "Hello world"
+>>> msg[0]
+'H'
+>>> msg[0:5]
+'Hello'
+\end{python}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Containers}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Containers}
+
+	Containers: tuple, list, dict
+
+	\vspace*{1em}
+
+	\begin{itemize}
+	\item Tuple: holds arbitrary objects, immutable
+		\begin{itemize}
+		\item \emph{Usage: coordinates, shapes, properties}
+		\end{itemize}
+	\item List: holds arbitrary objects, mutable
+		\begin{itemize}
+		\item \emph{Usage: sequences of data}
+		\end{itemize}
+	\item Dict: holds key$\rightarrow$value mappings, mutable
+		\begin{itemize}
+		\item \emph{Usage: arbitrary properties}
+		\end{itemize}
+	\end{itemize}
+	
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Containers -- Tuples}
+
+Tuples
+\begin{python}
+>>> a = (1, 2, 3)
+>>> a
+(1, 2, 3)
+>>> a[1]
+1
+\end{python}
+
+	\vspace*{1em}
+
+
+Tuples are \emph{immutable}:
+\begin{python}
+>>> a[1] = 2
+TypeError: 'tuple' object does not support item assignment
+\end{python}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Containers -- Lists}
+
+Lists are mutable, ordered sequences and can hold different datatypes.
+\begin{python}
+>>> a = [1, 2, 3]
+>>> a.append("Hello")
+>>> a
+[1, 2, 3, 'Hello']
+>>> a[1]
+2
+>>> a.pop()
+'Hello'
+>>> a
+[1, 2, 3]
+\end{python}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Containers -- Dictionaries}
+
+Dictionaries are mutable, unordered sequences and hold values by a certain key.
+\begin{python}
+>>> a = {'length': 3, 'width': 8, 5.0: 'five point zero'}
+>>> a
+{5.0: 'five point zero', 'length': 3, 'width': 8}
+>>> a['length'] += 0.5
+>>> a
+{5.0: 'five point zero', 'length': 3.5, 'width': 8}
+>>> a[1]
+KeyError: 0
+\end{python}
+
+
+	\vspace*{1em}
+
+You can request the keys and values separately:
+
+\begin{python}
+>>> a.keys()
+['width', 'length', 5.0]
+>>> a.values()
+[8, 4, 'five point zero']
+\end{python}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Tests}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Tests}
+
+	\begin{itemize}
+	\item Use \pythoni{if}, \pythoni{elif}, \pythoni{else}
+	\item Python uses \emph{whitespace} for scope
+	\item Whitespace can be spaces or tabs (4 spaces recommended)
+	\end{itemize}
+
+\begin{python}
+if x > 0:
+    print "Positive!"
+elif x < 0:
+    print "Negative!"
+else:
+    print "Zero!"
+\end{python}
+
+	\vspace*{1em}
+
+\begin{python}
+if ((x > 0) and (y > 0)) or (z < 0):
+    print "Amazing!"
+\end{python}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Loops}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Loops}
+	Python knows \pythoni{for} \& \pythoni{while}:
+
+\begin{python}
+alist = [1,2,3,4,5,6,7,8,9,10]
+for i in alist:
+    print i
+\end{python}
+
+	\vspace*{1em}
+
+
+\begin{python}
+x = 0
+while x < 10:
+    x = x + 1
+    print x
+\end{python}
+
+	\vspace*{1em}
+
+
+Both snippets above print 1 through 10 inclusive on separate lines.
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Functions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Functions\footnote[frame]{More information in Software Carpentries `Python -- Functions'}}
+
+	Use \pythoni{def} for functions
+
+\begin{python}
+def hello():
+    print "Hello!"
+\end{python}
+\begin{python}
+>>> hello()
+Hello!
+\end{python}
+
+	\vspace*{1em}
+
+Functions are objects
+\begin{python}
+>>> (id(hello), type(hello), hello)
+(4449393912, <type 'function'>, <function hello at 0x109345cf8>)
+>>> func_holder = hello
+>>> func_holder()
+Hello!
+\end{python}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Functions}
+
+	Arguments can be mandatory or optional.
+	
+\begin{python}
+def hello2(what):			# what is mandatory
+    print "Hello " + what + "!"
+
+def hello3(what="World"):	# what is optional, default given
+    print "Hello " + what + "!"
+\end{python}
+
+	\vspace*{1em}
+
+\begin{python}
+>>> hello2('class')
+Hello class!
+>>> hello3('class')
+Hello class!
+>>> hello3()
+Hello World!
+\end{python}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Functions}
+	Return type is dynamic
+
+\begin{python}
+def sum_two(x, y):
+    return x + y
+\end{python}
+
+	\vspace*{1em}
+
+\begin{python}
+>>> sum_two(1, 1.5)
+2.5
+>>> sum_two("Hello", "World")
+'HelloWorld'
+>>> sum_two([1,2,3], [4, 5])
+[1, 2, 3, 4, 5]
+\end{python}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{More advanced}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Slicing}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Slicing\footnote[frame]{More information in Software Carpentries `Python -- Slicing'}}
+\vfill
+
+	\emph{Slicing} is advanced list indexing. In general: \pythoni{list[start:end:step]}
+\vfill
+
+\begin{python}
+>>> alist = range(15)
+>>> alist
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+\end{python}
+
+\vfill
+
+\begin{tabular}{ll@{}l@{}l@{}l@{}lll@{}l@{}l}
+index & 0 & 1 & 2 & 3 & 4 &  & 12 & 13 & 14 \\
+value & %
+\fbox{\squash{0}\phantom{xx}} & %
+\fbox{\squash{1}\phantom{xx}} & %
+\fbox{\squash{3}\phantom{xx}} & %
+\fbox{\squash{4}\phantom{xx}} & %
+\fbox{\squash{5}\phantom{xx}} & %
+\ldots & %
+\fbox{\squash{12}\phantom{xx}} & %
+\fbox{\squash{13}\phantom{xx}} & %
+\fbox{\squash{14}\phantom{xx}}\\
+index & -15 & -14 & -13 & -12 & -11 &  & -3 & -2 & -1 \\
+
+\end{tabular}
+
+\vfill
+
+\begin{python}
+>>> alist[0]
+0
+>>> alist[-15]
+0
+\end{python}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Slicing}
+
+Start at element 1, stop at (before) element 4
+
+\begin{python}
+>>> alist[1:4]
+[1, 2, 3]
+\end{python}
+
+Stop at (before) element -5
+
+\begin{python}
+>>> alist[:-5]
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+\end{python}
+
+Show every second element
+
+\begin{python}
+>>> alist[::2]
+[0, 2, 4, 6, 8, 10, 12, 14]
+\end{python}
+
+Start at element 10, step back, stop at (before) element 5 
+
+\begin{python}
+>>> alist[10:5:-1]
+[10, 9, 8, 7, 6]
+\end{python}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Slicing}
+
+Python checks bounds when indexing, but truncates when slicing:
+
+\begin{python}
+>>> alist[500]
+IndexError: list index out of range
+>>> alist[10:500]
+[10, 11, 12, 13, 14]
+\end{python}
+
+	\vspace*{1em}
+
+\pythoni{alist[x:y]} is empty when \pythoni{x >= y}.
+
+\begin{python}
+>>> alist[1:1]
+[]
+>>> alist[2:1]
+[]
+>>> alist[500:1]
+[]
+\end{python}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Aliases}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Aliases}
+
+	Different \emph{aliases} point to the same data.
+	\vspace{1em}
+
+	This does not matter when variables are immutable:
+	\vspace{1em}
+
+	\begin{columns}[T]
+		\begin{column}{0.45 \textwidth}
+			\begin{python}
+			@>>> foo = 'hello'@
+			@>>> bar = foo@
+			@>>> bar = bar + ' world!'@
+			\end{python}
+		\end{column}
+		\begin{column}{0.45 \textwidth}
+			\begin{tabular}{l|l}
+			Variable & Value \\
+			\hline
+			\verb!foo! \tikz[na] \node[coordinate] (v1) {}; & \tikz[na] \node[coordinate] (v1v) {};`hello' \\
+			\verb!bar! \tikz[na] \node[coordinate] (v2) {}; & \tikz[na] \node[coordinate] (v2v) {};`hello world!' \\
+			\end{tabular}
+		\end{column}
+	\end{columns}
+	
+	\begin{tikzpicture}[overlay]
+		\path[->]<1-> (v1) edge [bend left] (v1v);
+		\path[->]<2-> (v2) edge [bend right] (v1v);
+		\path[->]<3-> (v2) edge [bend right] (v2v);
+	\end{tikzpicture}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Aliases}
+
+	When variables are mutable, this can give unexpected results.
+	\vspace{1em}
+	
+	\begin{columns}[T]
+		\begin{column}{0.45 \textwidth}
+			\begin{python}
+			@>>> alist = [1, 2, 3, 4]@
+			@>>> blist = alist@
+			@>>> blist[0] = 5@
+			\end{python}
+		\end{column}
+		\begin{column}{0.45 \textwidth}
+			\begin{tabular}{l|l}
+			Variable & Value \\
+			\hline
+			\verb!alist! \tikz[na] \node[coordinate] (v1) {}; & \tikz[na] \node[coordinate] (v1v) {};\verb![1, 2, 3, 4]! \\
+			\verb!blist! \tikz[na] \node[coordinate] (v2) {}; & \tikz[na] \node[coordinate] (v2v) {};\verb![5, 2, 3, 4]! \\
+			\end{tabular}
+		\end{column}
+	\end{columns}
+	
+	\begin{tikzpicture}[overlay]
+		\path[->]<1-2> (v1) edge [bend left] (v1v);
+		\path[->]<2> (v2) edge [bend right] (v1v);
+		\path[->]<3-> (v1) edge [bend left] (v2v);
+		\path[->]<3-> (v2) edge [bend right] (v2v);
+	\end{tikzpicture}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Aliases -- Functions}
+
+	Variables are \emph{passed by object} to functions.
+	\vspace{1em}
+
+	If the variable is not mutable, it acts like `pass by value':
+	\vspace{1em}
+
+	\begin{columns}[T]
+		\begin{column}{0.45 \textwidth}
+			\begin{python}
+			@@>>> a = 1
+			@@>>> sum_two(a, 4)
+			@@>>> a
+			1
+			\end{python}
+		\end{column}
+		\begin{column}{0.45 \textwidth}
+			\begin{tabular}{ll}
+			Object & Value \\
+			\hline
+			\verb!a! \tikz[na] \node[coordinate] (v1) {}; & \tikz[na] \node[coordinate] (v1v) {}; 1 \\
+			\verb!x! \tikz[na] \node[coordinate] (v2) {}; & \tikz[na] \node[coordinate] (v2v) {}; 5 \\
+			\verb!y! \tikz[na] \node[coordinate] (v3) {}; & \tikz[na] \node[coordinate] (v3v) {}; 4 \\
+			\end{tabular}
+		\end{column}
+	\end{columns}
+
+	
+	\begin{tikzpicture}[overlay]
+		\path[->]<1-> (v1) edge [bend left] (v1v);
+		\path[->]<2> (v2) edge [bend left] (v1v);
+		\path[->]<2-> (v3) edge [bend left] (v3v);
+		\path[->]<3> (v2) edge [bend left] (v2v);
+	\end{tikzpicture}
+
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Aliases -- Functions}
+
+	If the variable is mutable, it is `passed by reference':
+	\vspace{1em}
+
+\begin{python}
+def inc_list(l1):
+    for i in range(len(l1)):
+        l1[i] += 1
+    return l1
+\end{python}
+
+	\vspace{1em}
+
+	\begin{columns}[T]
+		\begin{column}{0.45 \textwidth}
+			\begin{python}
+			@@>>> a = [1,2,3]
+			@@>>> inc_list(a)
+			@@>>> a
+			[2,3,4]
+			\end{python}
+		\end{column}
+		\begin{column}{0.45 \textwidth}
+			\begin{tabular}{lll}
+			Object & Object & Value \\
+			\hline
+			\verb!a!\tikz[na] \node[coordinate] (v1) {}; &%
+				\fbox{\phantom{x}}\tikz[na] \node[coordinate] (v1v1) {}; &%
+				\tikz[na] \node[coordinate] (v1vv1) {}; 1 \\
+			 & 
+				\tikz[na] \node[coordinate] (v1v) {};%
+				\fbox{\phantom{x}}\tikz[na] \node[coordinate] (v1v2) {}; & %
+				\tikz[na] \node[coordinate] (v1vv2) {}; 2 \\
+			 & 
+				\fbox{\phantom{x}}\tikz[na] \node[coordinate] (v1v3) {}; & %
+				\tikz[na] \node[coordinate] (v1vv3) {}; 3 \\
+			 &  & %
+				\tikz[na] \node[coordinate] (v1vv4) {}; 4 \\
+			\end{tabular}
+		\end{column}
+	\end{columns}
+	
+	\begin{tikzpicture}[overlay]
+		\path[->]<1-> (v1) edge [bend left] (v1v);
+		\path[->]<1> (v1v1) edge [bend right] (v1vv1);
+		\path[->]<1> (v1v2) edge [bend right] (v1vv2);
+		\path[->]<1> (v1v3) edge [bend right] (v1vv3);
+		\path[->]<3-> (v1v1) edge [bend right] (v1vv2);
+		\path[->]<3-> (v1v2) edge [bend right] (v1vv3);
+		\path[->]<3-> (v1v3) edge [bend right] (v1vv4);
+	\end{tikzpicture}
+
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Functional programming}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Functional programming -- filter}
+	
+	Python has three built-in functions that are very useful for lists, \pythoni{filter}, \pythoni{map} and \pythoni{reduce}.
+	
+
+	\vspace*{1em}
+	
+	\pythoni{filter(func, sequence)} returns only items from \pythoni{sequence} for which \pythoni{func(item)} is true:
+	
+	\begin{python}
+	>>> def f(x): return x % 2 != 0 and x % 3 != 0
+	...
+	>>> filter(f, range(2, 25))
+	[5, 7, 11, 13, 17, 19, 23]
+	\end{python}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Functional programming -- map}
+
+	\pythoni{map(func, sequence)} calls \pythoni{func(item)} on all items of \pythoni{sequence} and returns a list of return values:
+	
+	\begin{python}
+>>> def cube(x): return x*x*x
+...
+>>> map(cube, range(1, 11))
+[1, 8, 27, 64, 125, 216, 343, 512, 729, 1000]
+	\end{python}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Functional programming -- reduce}
+	\pythoni{reduce(func, sequence)} returns a single value constructed by calling the binary function \pythoni{func} on the first two items of the sequence, then on the result and the next item, and so on.
+	
+\begin{python}
+>>> def add(x,y): return x+y
+...
+>>> reduce(add, range(1, 5))
+10
+>>> add(add(add(1,2), 3), 4)
+10
+\end{python}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{List comprehension}
+
+\emph{List comprehensions} provide a concise way to create lists based on existing lists.
+	
+\begin{python}
+>>> vec = [2, 4, 6]
+>>> [3*x for x in vec]
+[6, 12, 18]
+>>> [3*x for x in vec if x > 3]
+[12, 18]
+\end{python}
+
+Generate tuples as list elements.
+
+\begin{python}
+>>> [(x, x**2) for x in vec]
+[(2, 4), (4, 16), (6, 36)]
+\end{python}
+
+Double list comprehension (all pairs).
+
+\begin{python}
+>>> vec1 = [2, 4, 6]
+>>> vec2 = [4, 3, -9]
+>>> [x*y for x in vec1 for y in vec2]
+[8, 6, -18, 16, 12, -36, 24, 18, -54]
+\end{python}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Libraries}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Libraries}
+
+Besides normal Python there are numerous libraries that can augment the functionality of Python.
+
+	\vspace*{1em}
+
+Analysis:
+\begin{itemize}
+\item Numpy -- Numeric Python, workhorse library
+\item SciPy -- Scientific Python, advanced numerical recipes
+\end{itemize}
+
+	\vspace*{1em}
+
+Data IO
+\begin{itemize}
+\item pyfits -- FITS file IO
+\item idlsave -- load IDL \texttt{.save} files
+\end{itemize}
+
+	\vspace*{1em}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Libraries cont'd}
+
+Plotting
+\begin{itemize}
+\item matplotlib -- interactive plotting as in MatLab
+\item GnuPlot -- interface for gnuplot
+\item pyds9 -- interface to ds9 viewer
+\end{itemize}
+
+	\vspace*{1em}
+
+Miscellaneous
+\begin{itemize}
+\item argparse -- parse command-line arguments
+\item re -- regular expressions
+\end{itemize}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Final words}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Things not covered -- Python}
+	Some Python things \emph{not} covered in this presentation include:
+	\vspace*{1em}
+	\begin{itemize}
+		\item object-oriented programming
+		\item unit-testing
+		\item making packages/distributions
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Things not covered -- The rest}
+	Other things that are not included here but equally important:
+	\vspace*{1em}
+	\begin{itemize}
+		\item version control (CVS, svn, git, bazaar, mercurial)
+		\item the shell (bash, zsh)
+		\item regular expressions
+		\item make
+		\item debugging
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{References}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Literature}
+	Some of the literature used for this presentation
+	\vspace{1em}
+	\begin{itemize}
+		\item Software carpentry -- \url{http://software-carpentry.org/}
+		\item Python online documentation -- \url{http://docs.python.org/}
+		\item NumPy/Scipy documentation -- \url{http://docs.scipy.org/doc/}
+		\item StackOverflow -- \url{http://stackoverflow.com/questions/tagged/python}
+	\end{itemize}
+	
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{License}
+
+	\begin{center}
+	\includegraphics[width=1cm]{\imgpath cc.pdf}~
+	\includegraphics[width=1cm]{\imgpath by.pdf}~
+	\includegraphics[width=1cm]{\imgpath sa.pdf}~
+	
+	Copyright © Tim van Werkhoven 2011
+	
+	This work is licensed under a \href{http://creativecommons.org/licenses/by-sa/3.0/}{Creative Commons Attribution-ShareAlike 3.0 Unported License}.
+
+	\end{center}
+	
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
+
+
+
