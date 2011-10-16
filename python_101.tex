@@ -381,7 +381,7 @@ urlcolor = blue,                    % color of external links
 	3.x is backward \emph{in}compatible with 2.x on purpose.\\
 	2.7 is the final version in the 2.x branch.\\[2em]
 	
-	I discuss version 2.7 (most third-party libraries available), some differences in Python 3. See \url{http://docs.python.org/release/3.0.1/whatsnew/3.0.html}.
+	I discuss version 2.7 (most third-party libraries available), some differences in Python 3.
 	
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -493,6 +493,7 @@ Hello world!
 	
 	to tell the shell what interpreter to use for this file. Don't forget to \verb!chmod +x! afterwards.\\
 
+	\pause
 	\spacer
 
 	You can use the line
@@ -516,15 +517,17 @@ Hello world!
 
 	\begin{itemize}
 		\item Everything is stored in an object, \emph{even functions}.
+		\pause
 		\item Objects have identity, type and value.
+		\pause
 		\item Immutable (values cannot change) vs.\ mutable objects (can change)
+		\pause
 		%\item Objects are never destroyed, but are garbage collected
+		%\pause
 		\item Some objects contain other objects: \emph{containers}
 	\end{itemize}
 	
-
 	\spacer
-
 	
 	\begin{python}
 	>>> a = 10
@@ -536,7 +539,7 @@ Hello world!
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]{Objects II}
+\begin{frame}[fragile]{Objects examples}
 	
 	Objects \& values
 
@@ -583,7 +586,7 @@ Hello world!
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-	\frametitle{Objects -- Examples}
+	\frametitle{Objects examples II}
 
 \begin{python}
 >>> a = 10; b = a
@@ -592,6 +595,7 @@ True
 \end{python}
 
 \pythoni{a} and \pythoni{b} are the same \emph{object}.
+\pause
 
 \begin{python}
 >>> b = 20; a is b
@@ -601,6 +605,7 @@ True
 \end{python}
 
 \pythoni{a} and \pythoni{b} are again the same object, \emph{even though we did not assign them manually}
+\pause
 
 \begin{python}
 >>> id(a), id(b)
@@ -614,7 +619,7 @@ True
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-	\frametitle{Objects -- Examples}
+	\frametitle{Objects examples III}
 
 Two lists
 \begin{python}
@@ -625,6 +630,7 @@ True
 \end{python}
 
 \pythoni{a} and \pythoni{b} have the same \emph{value}.	
+\pause
 
 \begin{python}
 >>> a is b
@@ -632,6 +638,7 @@ False
 \end{python}
 
 \pythoni{a} and \pythoni{b} are \emph{not} the same \emph{object}.	
+\pause
 
 \begin{python}
 >>> a = b
@@ -640,6 +647,7 @@ True
 \end{python}
 
 \pythoni{a} now points to \pythoni{b}.
+\pause
 
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -647,7 +655,7 @@ True
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-	\frametitle{Objects -- Examples}
+	\frametitle{Objects examples IV}
 
 \begin{python}
 >>> a[0] = 10
@@ -673,14 +681,20 @@ Since \pythoni{a} points to \pythoni{b}, if we change \pythoni{a}, we also chang
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-	\frametitle{Datatypes\footnote[frame]{See \url{http://docs.python.org/reference/datamodel.html\#3.2}}}
+	\frametitle{Datatypes}
+	
+	The different datatypes in Python include:
+	\spacer
 	\begin{itemize}
-		\item Numbers (int, long, bool, float, complex)
+		\item Numbers (\pythoni{int}, \pythoni{long}, \pythoni{bool}, \pythoni{float}, \pythoni{complex})
 		\item Sequences (strings,  unicode, tuples, lists)
 		\item Mappings (dictionaries)
 		\item Callable (functions, methods, generators)
 		\item \ldots (modules, classes, files)
 	\end{itemize}
+	
+	\spacer
+	See \url{http://docs.python.org/reference/datamodel.html\#3.2} for more details.
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1458,7 +1472,7 @@ Data IO
 \item idlsave -- load IDL \texttt{.save} files
 \end{itemize}
 
-	\vspace*{1em}
+	\spacer
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1472,7 +1486,7 @@ Plotting
 \item pyds9 -- interface to ds9 viewer
 \end{itemize}
 
-	\vspace*{1em}
+	\spacer
 
 Miscellaneous
 \begin{itemize}
@@ -1490,7 +1504,7 @@ Miscellaneous
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]{Things not covered -- Python}
 	Some Python things \emph{not} covered in this presentation include:
-	\vspace*{1em}
+	\spacer
 	\begin{itemize}
 		\item object-oriented programming
 		\item unit-testing
@@ -1502,7 +1516,7 @@ Miscellaneous
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]{Things not covered -- The rest}
 	Other things that are not included here but equally important:
-	\vspace*{1em}
+	\spacer
 	\begin{itemize}
 		\item version control (CVS, svn, git, bazaar, mercurial)
 		\item the shell (bash, zsh)
