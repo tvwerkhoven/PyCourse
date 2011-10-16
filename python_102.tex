@@ -1,6 +1,6 @@
 %% Python 102 -- Using Numpy, Scipy, matplotlib and other stuff
 %%
-%% Tim van Werkhoven (t.i.m.vanwerkhoven@xs4all.nl), 20111012
+%% Tim van Werkhoven (t.i.m.vanwerkhoven@gmail.com), 20111012
 %%
 %% This file is licensed under the Creative Commons Attribution-Share Alike
 %% license versions 3.0 or higher, see
@@ -27,16 +27,6 @@
 
 \usetheme{Madrid}
 
-\def\imgpath{./img/}
-
-\def\green{\color{green}}
-\def\orange{\color{orange}}
-\def\red{\color{red}}
-
-\newcommand{\squash}[1]{\parbox{0pt}{#1}}
-
-\def\spacer{\vspace*{1em}}
-
 %%% Packages %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Prefer British spelling & hyphenation
@@ -61,8 +51,6 @@
 % from http://www.imada.sdu.dk/~ehmsen/python.sty
 %\usepackage{python}
 
-\newcommand{\pypypy}[1]{\footnote[frame]{Py3: #1}}
-
 \usepackage{tikz}
 \usetikzlibrary{arrows,positioning} 
 
@@ -76,70 +64,11 @@
 \definecolor{lightgreen}{rgb}{0,0.7,0}
 \definecolor{purple}{rgb}{0.5,0,0.5}
 \definecolor{darkred}{rgb}{0.5,0,0}
-
-%\lstdefinelanguage{pythontim}{
-%basicstyle=\ttfamily\small\setstretch{1},
-%numberstyle=\footnotesize,      % the size of the fonts that are used for the line-numbers
-%showspaces=false,               % show spaces adding particular underscores
-%showstringspaces=false,         % underline spaces within strings
-%showtabs=false,                 % show tabs within strings adding particular underscores
-%stringstyle=\color{green},
-%alsoletter={1234567890},
-%keywordstyle=\color{blue},
-%emph={access,and,as,break,class,continue,def,del,elif,else,%
-%except,exec,finally,for,from,global,if,import,in,is,%
-%lambda,not,or,pass,print,raise,return,try,while,assert},
-%emphstyle=\color{orange}\bfseries,
-%tabsize=2,
-%emph={[2]self},
-%emphstyle=[2]\color{gray},
-%emph={[4]ArithmeticError,AssertionError,AttributeError,BaseException,%
-%DeprecationWarning,EOFError,Ellipsis,EnvironmentError,Exception,%
-%False,FloatingPointError,FutureWarning,GeneratorExit,IOError,%
-%ImportError,ImportWarning,IndentationError,IndexError,KeyError,%
-%KeyboardInterrupt,LookupError,MemoryError,NameError,None,%
-%NotImplemented,NotImplementedError,OSError,OverflowError,%
-%PendingDeprecationWarning,ReferenceError,RuntimeError,RuntimeWarning,%
-%StandardError,StopIteration,SyntaxError,SyntaxWarning,SystemError,%
-%SystemExit,TabError,True,TypeError,UnboundLocalError,UnicodeDecodeError,%
-%UnicodeEncodeError,UnicodeError,UnicodeTranslateError,UnicodeWarning,%
-%UserWarning,ValueError,Warning,ZeroDivisionError,abs,all,any,apply,%
-%basestring,bool,buffer,callable,chr,classmethod,cmp,coerce,compile,%
-%complex,copyright,credits,delattr,dict,dir,divmod,enumerate,eval,%
-%execfile,exit,file,filter,float,frozenset,getattr,globals,hasattr,%
-%hash,help,hex,id,input,int,intern,isinstance,issubclass,iter,len,%
-%license,list,locals,long,map,max,min,object,oct,open,ord,pow,property,%
-%quit,range,raw_input,reduce,reload,repr,reversed,round,set,setattr,%
-%slice,sorted,staticmethod,str,sum,super,tuple,type,unichr,unicode,%
-%vars,xrange,zip},
-%emphstyle=[4]\color{purple}\bfseries,
-%escapechar=\~,
-%upquote=true,
-%moredelim=**[is][\uncover<+>]{@}{@},
-%morecomment=[s][\color{lightgreen}]{"""}{"""},
-%commentstyle=\color{red}\slshape,
-%literate={>>>}{\textbf{\textcolor{darkred}{>{>}>}}}3%
-%         {...}{{\textcolor{gray}{...}}}3,
-%procnamekeys={def,class},
-%procnamestyle=\color{blue}\textbf,
-%framexleftmargin=1mm, framextopmargin=1mm, frame=shadowbox,
-%rulesepcolor=\color{blue},
-%}
-
-%\lstnewenvironment{python}[1][]{
-%\lstset{
-%language=pythontim,#1
-%%language=Python,#1
-%}}{}
-
-%\def\pythoni{\lstinline[language=pythontim]}
-%\def\pythoni{\lstinline[language=Python]}
+\definecolor{gray}{gray}{0.5}
 
 % This gives syntax highlighting in the python environment
 \renewcommand{\lstlistlistingname}{Code Listings}
 \renewcommand{\lstlistingname}{Code Listing}
-\definecolor{gray}{gray}{0.5}
-\definecolor{key}{rgb}{0,0.5,0}
 
 \lstdefinelanguage{pythontim}{
 basicstyle=\ttfamily\small\setstretch{1},
@@ -165,8 +94,6 @@ upquote=true,
 moredelim=**[is][\only<+>{\hspace{-2mm}\makebox[2mm]{•}}]{@}{@},
 morecomment=[l]{\#},
 commentstyle=\color{gray}\slshape,
-%emph={[4]1, 2, 3, 4, 5, 6, 7, 8, 9, 0},
-%emphstyle=[4]\color{blue},
 literate=*{:}{{\textcolor{blue}:}}{1}%
 	{=}{{\textcolor{blue}=}}{1}%
 	{-}{{\textcolor{blue}-}}{1}%
@@ -240,6 +167,20 @@ language=pythontim,#1
            shorten >=2pt,}
 }
 
+%%% Custom commands  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\def\imgpath{./img/}
+
+\def\green{\color{green}}
+\def\orange{\color{orange}}
+\def\red{\color{red}}
+
+\newcommand{\squash}[1]{\parbox{0pt}{#1}}
+
+\def\spacer{\vspace*{1em}}
+
+\newcommand{\pypypy}[1]{\footnote[frame]{Py3: #1}}
+
 %%% Presentation layout %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % No navigation symbols please
@@ -286,7 +227,9 @@ urlcolor = blue,                    % color of external links
 
 \title{Python 102}
 \subtitle{Using Python for numerical data analysis}
-\author{\href{https://www.staff.science.uu.nl/~werkh108/}{Tim van Werkoven}}
+\author[\href{http://work.vanwerkhoven.org/}{Tim van Werkoven}]%
+{\href{http://work.vanwerkhoven.org/}{Tim van Werkoven}\\%
+\url{t.i.m.vanwerkhoven@gmail.com}}
 \institute[SIU, UU]{%
 \href{http://www.astro.uu.nl/}{Sterrekundig Instituut Utrecht}, %
 \href{http://www.uu.nl}{Utrecht University}\\[1em]
@@ -662,7 +605,7 @@ fib_gen = fib()
 \begin{python}
 @@def zernike_rad(m, n, rho):
 @  """
-  Calculate the radial component of Zernike polynomial (m, n) 
+  Calculate the radial component of Zernike polynomial (m, n)
   given a grid of radial coordinates rho.
   """@
 @@  wf = N.zeros(rho.shape)
@@ -681,6 +624,13 @@ fib_gen = fib()
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]{Zernikes in Python}
+	\[
+	\begin{array}{lcl}
+	Z^{\,m}_n(\rho,\varphi) &=& R^{\,m}_{n}(\rho)\,\cos(m\,\varphi) \! \\
+	Z^{\,-\!m}_n(\rho,\varphi) &=& R^{\,m}_{n}(\rho)\,\sin(m\,\varphi), \! \\
+  	\end{array}
+	\]
+\spacer
 \begin{python}
 def zernike(m, n, rho, phi):
   """
@@ -698,6 +648,7 @@ def zernike(m, n, rho, phi):
 \begin{frame}[fragile]{Coordinate grids}
 
 Make coordinate grid for rho and phi
+\spacer
 \begin{python}
 @@grid = (N.indices((256, 256), dtype=N.float) - 128) / 128.0
 @@grid_rho = (grid**2.0).sum(0)**0.5
@@ -718,7 +669,7 @@ zern_list = [zernikel(i, grid_rho, grid_phi) * grid_mask \
 \end{python}
 
 \spacer
-
+\pause
 Generate test surface
 
 \begin{python}
@@ -742,7 +693,8 @@ cov_mat = N.array([[N.sum(zerni * zernj) \
 \end{python}
 
 \spacer
-Invert covariance matrix using SVD\footnote[frame]{Singular Value Decomposition}
+\pause
+Invert covariance matrix using singular value decomposition
 \begin{python}
 cov_mat_in = N.linalg.pinv(cov_mat)
 \end{python}
@@ -760,6 +712,7 @@ rec_wf_pow = N.dot(cov_mat_in, wf_zern_inprod)
 \end{python}
 
 \spacer
+\pause
 Reconstruct the surface
 \begin{python}
 rec_wf = 0
@@ -768,6 +721,7 @@ for (i, val) in enumerate(rec_wf_pow):
 \end{python}
 
 \spacer
+\pause
 Check solution
 \begin{python}
 print test_vec-rec_wf_pow
@@ -788,6 +742,7 @@ pylab.plot(xarr)
 \end{python}
 
 \spacer
+\pause
 More elaborate example
 
 \begin{python}
@@ -818,6 +773,7 @@ pylab.imshow(surf)
 \end{python}
 
 \spacer
+\pause
 More options
 
 \begin{python}
@@ -918,7 +874,7 @@ Interactive example... \pause \texttt{bleep bleep}
 	
 	\spacer
 
-	Copyright © \href{https://www.staff.science.uu.nl/~werkh108/}{Tim van Werkhoven}\footnote[frame]{\url{t.i.m.vanwerkhoven@gmail.com}} 2011\\
+	Copyright © \href{http://work.vanwerkhoven.org/}{Tim van Werkhoven}\footnote[frame]{\url{t.i.m.vanwerkhoven@gmail.com}} 2011\\
 	Available online at \url{http://python101.vanwerkhoven.org}
 	
 	\spacer
