@@ -1,4 +1,4 @@
-%% Python 101
+%% Python 101 -- introduction to basic use of Python 2.7
 %%
 %% Tim van Werkhoven (t.i.m.vanwerkhoven@xs4all.nl), 20110321
 %%
@@ -34,6 +34,8 @@
 \def\red{\color{red}}
 
 \newcommand{\squash}[1]{\parbox{0pt}{#1}}
+
+\def\spacer{\spacer}
 
 %%% Packages %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -265,7 +267,7 @@ language=pythontim,#1
 pdfauthor = {Tim van Werkhoven},
 pdftitle = {Python 101 introduction},
 pdfsubject = {Python 101 introduction},
-pdfkeywords = {Python, NumPy, SciPy, matplotlib, },
+pdfkeywords = {Python, slicing, aliases, objects, variables},
 pdfcreator = {LaTeX with hyperref package},
 pdfproducer = {pdfLaTeX},
 colorlinks = false,
@@ -280,15 +282,13 @@ urlcolor = blue,                    % color of external links
 
 \title{Python 101}
 \subtitle{Introduction into Python scripting}
-\author{Tim van Werkoven}
+\author{\href{https://www.staff.science.uu.nl/~werkh108/}{Tim van Werkoven}}
 \institute[SIU, UU]{%
-Sterrekundig Instituut Utrecht, Utrecht University\\[1em]
-\includegraphics[height=10mm]{\imgpath logo_uu.pdf}\\[1cm]
-\includegraphics[width=0.7cm]{\imgpath cc.pdf}~%
-\includegraphics[width=0.7cm]{\imgpath by.pdf}~%
-\includegraphics[width=0.7cm]{\imgpath sa.pdf}~%
+\href{http://www.astro.uu.nl/}{Sterrekundig Instituut Utrecht}, %
+\href{http://www.uu.nl}{Utrecht University}\\[1em]
+\includegraphics[height=10mm]{\imgpath logo_uu.pdf}
 }
-\date{}
+\date{October 2011}
 
 %%% Frames %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -314,7 +314,9 @@ Sterrekundig Instituut Utrecht, Utrecht University\\[1em]
 %\setbeameroption{show notes on second screen} 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\frame{\titlepage}
+\begin{frame}
+  \titlepage
+\end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -372,14 +374,14 @@ Sterrekundig Instituut Utrecht, Utrecht University\\[1em]
 	There are two branches:
 	
 	\begin{itemize}
-	\item Version 2.x (newest: 2.7.1, 2010-11-27)
-	\item Version 3.x (newest: 3.2, 2011-02-20)
+	\item Version 2.x (newest: 2.7.2, June 11, 2011)
+	\item Version 3.x (newest: 3.2.2, September 4, 2011)
 	\end{itemize}
 	
 	3.x is backward \emph{in}compatible with 2.x on purpose.\\
 	2.7 is the final version in the 2.x branch.\\[2em]
 	
-	I discuss version 2.7 (most third-party libraries available), some differences in Python 3\footnote[frame]{\url{http://docs.python.org/whatsnew/2.7.html\#python-3-1-features}}.
+	I discuss version 2.7 (most third-party libraries available), some differences in Python 3. See \url{http://docs.python.org/release/3.0.1/whatsnew/3.0.html}.
 	
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -395,7 +397,7 @@ for i in alist:
     print i
 \end{python}
 	
-	\vspace*{1em}
+	\spacer
 	
 	Python commands and output is shown like this:
 
@@ -420,7 +422,7 @@ Hello world!
 	
 	Python can be downloaded from \url{http://python.org/download/}, but it is probably better to get is as part of a distribution.
 
-	\vspace*{1em}
+	\spacer
 
 	\begin{itemize}
 		\item Enthought\footnote[frame]{See \url{http://enthought.com/products/epd.php}} provides a complete Python package for scientific computing
@@ -459,11 +461,11 @@ Hello world!
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-	\frametitle{IPython\footnote[frame]{\url{http://ipython.org/}} }
+	\frametitle{IPython}
 	
 	Besides the standard python interpreter, IPython is a strongly improved version.
 
-	\vspace*{1em}
+	\spacer
 
 	\begin{itemize}
 		\item Syntax highlighting
@@ -473,6 +475,9 @@ Hello world!
 		\item Object introspection
 		\item Built-in debugging through \verb!pdb!
 	\end{itemize}
+	
+	\spacer
+	IPython is available at \url{http://ipython.org/}.
 	
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -488,7 +493,8 @@ Hello world!
 	
 	to tell the shell what interpreter to use for this file. Don't forget to \verb!chmod +x! afterwards.\\
 
-	\vspace*{1em}
+	\pause
+	\spacer
 
 	You can use the line
 
@@ -511,15 +517,17 @@ Hello world!
 
 	\begin{itemize}
 		\item Everything is stored in an object, \emph{even functions}.
+		\pause
 		\item Objects have identity, type and value.
+		\pause
 		\item Immutable (values cannot change) vs.\ mutable objects (can change)
+		\pause
 		%\item Objects are never destroyed, but are garbage collected
+		%\pause
 		\item Some objects contain other objects: \emph{containers}
 	\end{itemize}
 	
-
-	\vspace*{1em}
-
+	\spacer
 	
 	\begin{python}
 	>>> a = 10
@@ -531,11 +539,11 @@ Hello world!
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]{Objects II}
+\begin{frame}[fragile]{Objects examples}
 	
 	Objects \& values
 
-	\vspace*{1em}
+	\spacer
 
 	\begin{columns}[T]
 		\begin{column}{0.45 \textwidth}
@@ -578,7 +586,7 @@ Hello world!
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-	\frametitle{Objects -- Examples}
+	\frametitle{Objects examples II}
 
 \begin{python}
 >>> a = 10; b = a
@@ -587,6 +595,7 @@ True
 \end{python}
 
 \pythoni{a} and \pythoni{b} are the same \emph{object}.
+\pause
 
 \begin{python}
 >>> b = 20; a is b
@@ -596,6 +605,7 @@ True
 \end{python}
 
 \pythoni{a} and \pythoni{b} are again the same object, \emph{even though we did not assign them manually}
+\pause
 
 \begin{python}
 >>> id(a), id(b)
@@ -609,7 +619,7 @@ True
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-	\frametitle{Objects -- Examples}
+	\frametitle{Objects examples III}
 
 Two lists
 \begin{python}
@@ -620,6 +630,7 @@ True
 \end{python}
 
 \pythoni{a} and \pythoni{b} have the same \emph{value}.	
+\pause
 
 \begin{python}
 >>> a is b
@@ -627,6 +638,7 @@ False
 \end{python}
 
 \pythoni{a} and \pythoni{b} are \emph{not} the same \emph{object}.	
+\pause
 
 \begin{python}
 >>> a = b
@@ -635,6 +647,7 @@ True
 \end{python}
 
 \pythoni{a} now points to \pythoni{b}.
+\pause
 
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -642,7 +655,7 @@ True
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-	\frametitle{Objects -- Examples}
+	\frametitle{Objects examples IV}
 
 \begin{python}
 >>> a[0] = 10
@@ -656,7 +669,7 @@ True
 
 Since \pythoni{a} points to \pythoni{b}, if we change \pythoni{a}, we also change \pythoni{b}.
 
-	\vspace*{1em}
+	\spacer
 
 \emph{(This subtle difference arises from the fact that a list is mutable.)}
 
@@ -668,14 +681,20 @@ Since \pythoni{a} points to \pythoni{b}, if we change \pythoni{a}, we also chang
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-	\frametitle{Datatypes\footnote[frame]{See \url{http://docs.python.org/reference/datamodel.html\#3.2}}}
+	\frametitle{Datatypes}
+	
+	The different datatypes in Python include:
+	\spacer
 	\begin{itemize}
-		\item Numbers (int, long, bool, float, complex)
+		\item Numbers (\pythoni{int}, \pythoni{long}, \pythoni{bool}, \pythoni{float}, \pythoni{complex})
 		\item Sequences (strings,  unicode, tuples, lists)
 		\item Mappings (dictionaries)
 		\item Callable (functions, methods, generators)
 		\item \ldots (modules, classes, files)
 	\end{itemize}
+	
+	\spacer
+	See \url{http://docs.python.org/reference/datamodel.html\#3.2} for more details.
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -713,7 +732,7 @@ Since \pythoni{a} points to \pythoni{b}, if we change \pythoni{a}, we also chang
 
 	Integers, normal (32 and 64 bit) and `bignum' (arbitrary length)\pypypy{all ints are of `bignum' type}:
 
-	\vspace*{1em}
+	\spacer
 
 \begin{python}
 >>> 2**16
@@ -726,7 +745,7 @@ Since \pythoni{a} points to \pythoni{b}, if we change \pythoni{a}, we also chang
 0.9905786583658018
 \end{python}
 
-	\vspace*{1em}
+	\spacer
 
 Note that bignum can generally not be used in external libraries.
 \end{frame}
@@ -763,7 +782,7 @@ Complex:
 complex
 \end{python}
 
-	\vspace*{1em}
+	\spacer
 
 Boolean
 \begin{python}
@@ -789,8 +808,8 @@ String
 'HelloHelloHelloHelloHello'
 \end{python}
 
-	\vspace*{1em}
-
+	\spacer
+	
 Strings are actually lists
 \begin{python}
 >>> msg = "Hello world"
@@ -811,7 +830,7 @@ Strings are actually lists
 
 	Containers: tuple, list, dict
 
-	\vspace*{1em}
+	\spacer
 
 	\begin{itemize}
 	\item Tuple: holds arbitrary objects, immutable
@@ -844,7 +863,7 @@ Tuples
 1
 \end{python}
 
-	\vspace*{1em}
+	\spacer
 
 
 Tuples are \emph{immutable}:
@@ -893,7 +912,7 @@ KeyError: 0
 \end{python}
 
 
-	\vspace*{1em}
+	\spacer
 
 You can request the keys and values separately:
 
@@ -917,7 +936,7 @@ You can request the keys and values separately:
 	\begin{itemize}
 	\item Use \pythoni{if}, \pythoni{elif}, \pythoni{else}
 	\item Python uses \emph{whitespace} for scope
-	\item Whitespace can be spaces or tabs (4 spaces recommended)
+	\item Whitespace can be spaces or tabs (4 spaces recommended\footnote[frame]{See PEP 8 \url{http://www.python.org/dev/peps/pep-0008/}})
 	\end{itemize}
 
 \begin{python}
@@ -929,7 +948,7 @@ else:
     print "Zero!"
 \end{python}
 
-	\vspace*{1em}
+	\spacer
 
 \begin{python}
 if ((x > 0) and (y > 0)) or (z < 0):
@@ -953,7 +972,7 @@ for i in alist:
     print i
 \end{python}
 
-	\vspace*{1em}
+	\spacer
 
 
 \begin{python}
@@ -963,7 +982,7 @@ while x < 10:
     print x
 \end{python}
 
-	\vspace*{1em}
+	\spacer
 
 
 Both snippets above print 1 through 10 inclusive on separate lines.
@@ -989,7 +1008,7 @@ def hello():
 Hello!
 \end{python}
 
-	\vspace*{1em}
+	\spacer
 
 Functions are objects
 \begin{python}
@@ -1016,7 +1035,7 @@ def hello3(what="World"):	# what is optional, default given
     print "Hello " + what + "!"
 \end{python}
 
-	\vspace*{1em}
+	\spacer
 
 \begin{python}
 >>> hello2('class')
@@ -1039,7 +1058,7 @@ def sum_two(x, y):
     return x + y
 \end{python}
 
-	\vspace*{1em}
+	\spacer
 
 \begin{python}
 >>> sum_two(1, 1.5)
@@ -1152,7 +1171,7 @@ IndexError: list index out of range
 [10, 11, 12, 13, 14]
 \end{python}
 
-	\vspace*{1em}
+	\spacer
 
 \pythoni{alist[x:y]} is empty when \pythoni{x >= y}.
 
@@ -1176,10 +1195,10 @@ IndexError: list index out of range
 	\frametitle{Aliases}
 
 	Different \emph{aliases} point to the same data.
-	\vspace{1em}
+	\spacer
 
 	This does not matter when variables are immutable:
-	\vspace{1em}
+	\spacer
 
 	\begin{columns}[T]
 		\begin{column}{0.45 \textwidth}
@@ -1213,7 +1232,7 @@ IndexError: list index out of range
 	\frametitle{Aliases}
 
 	When variables are mutable, this can give unexpected results.
-	\vspace{1em}
+	\spacer
 	
 	\begin{columns}[T]
 		\begin{column}{0.45 \textwidth}
@@ -1248,10 +1267,10 @@ IndexError: list index out of range
 	\frametitle{Aliases -- Functions}
 
 	Variables are \emph{passed by object} to functions.
-	\vspace{1em}
+	\spacer
 
 	If the variable is not mutable, it acts like `pass by value':
-	\vspace{1em}
+	\spacer
 
 	\begin{columns}[T]
 		\begin{column}{0.45 \textwidth}
@@ -1290,7 +1309,7 @@ IndexError: list index out of range
 	\frametitle{Aliases -- Functions}
 
 	If the variable is mutable, it is `passed by reference':
-	\vspace{1em}
+	\spacer
 
 \begin{python}
 def inc_list(l1):
@@ -1299,7 +1318,7 @@ def inc_list(l1):
     return l1
 \end{python}
 
-	\vspace{1em}
+	\spacer
 
 	\begin{columns}[T]
 		\begin{column}{0.45 \textwidth}
@@ -1353,7 +1372,7 @@ def inc_list(l1):
 	Python has three built-in functions that are very useful for lists, \pythoni{filter}, \pythoni{map} and \pythoni{reduce}.
 	
 
-	\vspace*{1em}
+	\spacer
 	
 	\pythoni{filter(func, sequence)} returns only items from \pythoni{sequence} for which \pythoni{func(item)} is true:
 	
@@ -1437,7 +1456,7 @@ Double list comprehension (all pairs).
 
 Besides normal Python there are numerous libraries that can augment the functionality of Python.
 
-	\vspace*{1em}
+	\spacer
 
 Analysis:
 \begin{itemize}
@@ -1445,7 +1464,7 @@ Analysis:
 \item SciPy -- Scientific Python, advanced numerical recipes
 \end{itemize}
 
-	\vspace*{1em}
+	\spacer
 
 Data IO
 \begin{itemize}
@@ -1453,7 +1472,7 @@ Data IO
 \item idlsave -- load IDL \texttt{.save} files
 \end{itemize}
 
-	\vspace*{1em}
+	\spacer
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1467,7 +1486,7 @@ Plotting
 \item pyds9 -- interface to ds9 viewer
 \end{itemize}
 
-	\vspace*{1em}
+	\spacer
 
 Miscellaneous
 \begin{itemize}
@@ -1485,7 +1504,7 @@ Miscellaneous
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]{Things not covered -- Python}
 	Some Python things \emph{not} covered in this presentation include:
-	\vspace*{1em}
+	\spacer
 	\begin{itemize}
 		\item object-oriented programming
 		\item unit-testing
@@ -1497,7 +1516,7 @@ Miscellaneous
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]{Things not covered -- The rest}
 	Other things that are not included here but equally important:
-	\vspace*{1em}
+	\spacer
 	\begin{itemize}
 		\item version control (CVS, svn, git, bazaar, mercurial)
 		\item the shell (bash, zsh)
@@ -1515,7 +1534,7 @@ Miscellaneous
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Literature}
 	Some of the literature used for this presentation
-	\vspace{1em}
+	\spacer
 	\begin{itemize}
 		\item Software carpentry -- \url{http://software-carpentry.org/}
 		\item Python online documentation -- \url{http://docs.python.org/}
@@ -1535,9 +1554,15 @@ Miscellaneous
 	\includegraphics[width=1cm]{\imgpath by.pdf}~
 	\includegraphics[width=1cm]{\imgpath sa.pdf}~
 	
-	Copyright © Tim van Werkhoven 2011
+	\spacer
 	
-	This work is licensed under a \href{http://creativecommons.org/licenses/by-sa/3.0/}{Creative Commons Attribution-ShareAlike 3.0 Unported License}.
+	Copyright © \href{https://www.staff.science.uu.nl/~werkh108/}{Tim van Werkhoven}\footnote[frame]{\url{t.i.m.vanwerkhoven@gmail.com}} 2011\\
+	Available online at \url{http://python101.vanwerkhoven.org}
+	
+	\spacer
+	
+	This work is licensed under a\\
+	\href{http://creativecommons.org/licenses/by-sa/3.0/}{Creative Commons Attribution-ShareAlike 3.0 Unported License}.
 
 	\end{center}
 	
