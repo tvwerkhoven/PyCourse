@@ -1,6 +1,6 @@
 %% Python 101 -- introduction to basic use of Python 2.7
 %%
-%% Tim van Werkhoven (t.i.m.vanwerkhoven@xs4all.nl), 20110321
+%% Tim van Werkhoven (t.i.m.vanwerkhoven@gmail.com), 20110321
 %%
 %% This file is licensed under the Creative Commons Attribution-Share Alike
 %% license versions 3.0 or higher, see
@@ -27,16 +27,6 @@
 
 \usetheme{Madrid}
 
-\def\imgpath{./img/}
-
-\def\green{\color{green}}
-\def\orange{\color{orange}}
-\def\red{\color{red}}
-
-\newcommand{\squash}[1]{\parbox{0pt}{#1}}
-
-\def\spacer{\vspace*{1em}}
-
 %%% Packages %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Prefer British spelling & hyphenation
@@ -61,8 +51,6 @@
 % from http://www.imada.sdu.dk/~ehmsen/python.sty
 %\usepackage{python}
 
-\newcommand{\pypypy}[1]{\footnote[frame]{Py3: #1}}
-
 \usepackage{tikz}
 \usetikzlibrary{arrows,positioning} 
 
@@ -76,70 +64,11 @@
 \definecolor{lightgreen}{rgb}{0,0.7,0}
 \definecolor{purple}{rgb}{0.5,0,0.5}
 \definecolor{darkred}{rgb}{0.5,0,0}
-
-%\lstdefinelanguage{pythontim}{
-%basicstyle=\ttfamily\small\setstretch{1},
-%numberstyle=\footnotesize,      % the size of the fonts that are used for the line-numbers
-%showspaces=false,               % show spaces adding particular underscores
-%showstringspaces=false,         % underline spaces within strings
-%showtabs=false,                 % show tabs within strings adding particular underscores
-%stringstyle=\color{green},
-%alsoletter={1234567890},
-%keywordstyle=\color{blue},
-%emph={access,and,as,break,class,continue,def,del,elif,else,%
-%except,exec,finally,for,from,global,if,import,in,is,%
-%lambda,not,or,pass,print,raise,return,try,while,assert},
-%emphstyle=\color{orange}\bfseries,
-%tabsize=2,
-%emph={[2]self},
-%emphstyle=[2]\color{gray},
-%emph={[4]ArithmeticError,AssertionError,AttributeError,BaseException,%
-%DeprecationWarning,EOFError,Ellipsis,EnvironmentError,Exception,%
-%False,FloatingPointError,FutureWarning,GeneratorExit,IOError,%
-%ImportError,ImportWarning,IndentationError,IndexError,KeyError,%
-%KeyboardInterrupt,LookupError,MemoryError,NameError,None,%
-%NotImplemented,NotImplementedError,OSError,OverflowError,%
-%PendingDeprecationWarning,ReferenceError,RuntimeError,RuntimeWarning,%
-%StandardError,StopIteration,SyntaxError,SyntaxWarning,SystemError,%
-%SystemExit,TabError,True,TypeError,UnboundLocalError,UnicodeDecodeError,%
-%UnicodeEncodeError,UnicodeError,UnicodeTranslateError,UnicodeWarning,%
-%UserWarning,ValueError,Warning,ZeroDivisionError,abs,all,any,apply,%
-%basestring,bool,buffer,callable,chr,classmethod,cmp,coerce,compile,%
-%complex,copyright,credits,delattr,dict,dir,divmod,enumerate,eval,%
-%execfile,exit,file,filter,float,frozenset,getattr,globals,hasattr,%
-%hash,help,hex,id,input,int,intern,isinstance,issubclass,iter,len,%
-%license,list,locals,long,map,max,min,object,oct,open,ord,pow,property,%
-%quit,range,raw_input,reduce,reload,repr,reversed,round,set,setattr,%
-%slice,sorted,staticmethod,str,sum,super,tuple,type,unichr,unicode,%
-%vars,xrange,zip},
-%emphstyle=[4]\color{purple}\bfseries,
-%escapechar=\~,
-%upquote=true,
-%moredelim=**[is][\uncover<+>]{@}{@},
-%morecomment=[s][\color{lightgreen}]{"""}{"""},
-%commentstyle=\color{red}\slshape,
-%literate={>>>}{\textbf{\textcolor{darkred}{>{>}>}}}3%
-%         {...}{{\textcolor{gray}{...}}}3,
-%procnamekeys={def,class},
-%procnamestyle=\color{blue}\textbf,
-%framexleftmargin=1mm, framextopmargin=1mm, frame=shadowbox,
-%rulesepcolor=\color{blue},
-%}
-
-%\lstnewenvironment{python}[1][]{
-%\lstset{
-%language=pythontim,#1
-%%language=Python,#1
-%}}{}
-
-%\def\pythoni{\lstinline[language=pythontim]}
-%\def\pythoni{\lstinline[language=Python]}
+\definecolor{gray}{gray}{0.5}
 
 % This gives syntax highlighting in the python environment
 \renewcommand{\lstlistlistingname}{Code Listings}
 \renewcommand{\lstlistingname}{Code Listing}
-\definecolor{gray}{gray}{0.5}
-\definecolor{key}{rgb}{0,0.5,0}
 
 \lstdefinelanguage{pythontim}{
 basicstyle=\ttfamily\small\setstretch{1},
@@ -154,7 +83,7 @@ alsoletter={1234567890},
 keywordstyle=\color{blue},
 emph={access,and,as,break,class,continue,def,del,elif,else,%
 except,exec,finally,for,from,global,if,import,in,is,%
-lambda,not,or,pass,print,raise,return,try,while,assert},
+lambda,not,or,pass,print,raise,return,try,while,assert,yield},
 emphstyle=\color{orange}\bfseries,
 emph={[2]True, False, None, self},
 emphstyle=[2]\color{green},
@@ -165,8 +94,6 @@ upquote=true,
 moredelim=**[is][\only<+>{\hspace{-2mm}\makebox[2mm]{•}}]{@}{@},
 morecomment=[l]{\#},
 commentstyle=\color{gray}\slshape,
-%emph={[4]1, 2, 3, 4, 5, 6, 7, 8, 9, 0},
-%emphstyle=[4]\color{blue},
 literate=*{:}{{\textcolor{blue}:}}{1}%
 	{=}{{\textcolor{blue}=}}{1}%
 	{-}{{\textcolor{blue}-}}{1}%
@@ -240,6 +167,20 @@ language=pythontim,#1
            shorten >=2pt,}
 }
 
+%%% Custom commands  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\def\imgpath{./img/}
+
+\def\green{\color{green}}
+\def\orange{\color{orange}}
+\def\red{\color{red}}
+
+\newcommand{\squash}[1]{\parbox{0pt}{#1}}
+
+\def\spacer{\vspace*{1em}}
+
+\newcommand{\pypypy}[1]{\footnote[frame]{Py3: #1}}
+
 %%% Presentation layout %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % No navigation symbols please
@@ -286,7 +227,7 @@ urlcolor = blue,                    % color of external links
 
 \title{Python 101}
 \subtitle{Introduction into Python scripting}
-\author{\href{https://www.staff.science.uu.nl/~werkh108/}{Tim van Werkoven}}
+\author{\href{http://work.vanwerkhoven.org/}{Tim van Werkoven}}
 \institute[SIU, UU]{%
 \href{http://www.astro.uu.nl/}{Sterrekundig Instituut Utrecht}, %
 \href{http://www.uu.nl}{Utrecht University}\\[1em]
@@ -1012,7 +953,7 @@ Both snippets above print 1 through 10 inclusive on separate lines.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-	\frametitle{Functions\footnote[frame]{More information in Software Carpentries `Python -- Functions'}}
+	\frametitle{Functions\footnote[frame]{More information in Software Carpentry's `Python -- Functions'}}
 
 	Use \pythoni{def} for functions
 \pause
@@ -1107,7 +1048,7 @@ def sum_two(x, y):
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-	\frametitle{Slicing\footnote[frame]{More information in Software Carpentrie's `Python -- Slicing'}}
+	\frametitle{Slicing\footnote[frame]{More information in Software Carpentry's `Python -- Slicing'}}
 	\vfill
 	\pause
 
@@ -1501,16 +1442,17 @@ Besides normal Python there are numerous libraries that can augment the function
 
 Analysis:
 \begin{itemize}
-\item Numpy -- Numeric Python, workhorse library
-\item SciPy -- Scientific Python, advanced numerical recipes
+\item \texttt{numpy} -- Numeric Python, workhorse library
+\item \texttt{scipy} -- Scientific Python, advanced numerical recipes
 \end{itemize}
 
 	\spacer
+	\pause
 
 Data IO
 \begin{itemize}
-\item pyfits -- FITS file IO
-\item idlsave -- load IDL \texttt{.save} files
+\item \texttt{pyfits} -- FITS file IO
+\item \texttt{idlsave} -- load IDL \texttt{.save} files
 \end{itemize}
 
 	\spacer
@@ -1522,17 +1464,17 @@ Data IO
 
 Plotting
 \begin{itemize}
-\item matplotlib -- interactive plotting as in MatLab
-\item GnuPlot -- interface for gnuplot
-\item pyds9 -- interface to ds9 viewer
+\item \texttt{matplotlib} -- interactive plotting as in MatLab
+\item \texttt{pyds9} -- interface to ds9
 \end{itemize}
 
 	\spacer
+	\pause
 
 Miscellaneous
 \begin{itemize}
-\item argparse -- parse command-line arguments
-\item re -- regular expressions
+\item \texttt{argparse} (py) -- parse command-line arguments
+\item \texttt{re} (py) -- regular expressions
 \end{itemize}
 
 \end{frame}
@@ -1597,7 +1539,7 @@ Miscellaneous
 	
 	\spacer
 	
-	Copyright © \href{https://www.staff.science.uu.nl/~werkh108/}{Tim van Werkhoven}\footnote[frame]{\url{t.i.m.vanwerkhoven@gmail.com}} 2011\\
+	Copyright © \href{http://work.vanwerkhoven.org/}{Tim van Werkhoven}\footnote[frame]{\url{t.i.m.vanwerkhoven@gmail.com}} 2011\\
 	Available online at \url{http://python101.vanwerkhoven.org}
 	
 	\spacer
