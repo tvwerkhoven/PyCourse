@@ -1,0 +1,937 @@
+%% Python 102 -- Using Numpy, Scipy, matplotlib and other stuff
+%%
+%% Tim van Werkhoven (t.i.m.vanwerkhoven@xs4all.nl), 20111012
+%%
+%% This file is licensed under the Creative Commons Attribution-Share Alike
+%% license versions 3.0 or higher, see
+%% http://creativecommons.org/licenses/by-sa/3.0/
+
+% Copyright 2004 by Till Tantau <tantau@users.sourceforge.net>.
+%
+% In principle, this file can be redistributed and/or modified under
+% the terms of the GNU Public License, version 2.
+%
+% However, this file is supposed to be a template to be modified
+% for your own needs. For this reason, if you use this file as a
+% template and not specifically distribute it as part of a another
+% package/program, I grant the extra permission to freely copy and
+% modify this file as you see fit and even to delete this copyright
+% notice. 
+
+% Generate either a full presentation, or just handouts. Handouts don't 
+% include the overlay things and 'compact' a presentation on less slides.
+\documentclass[xetex,10pt]{beamer}
+%\documentclass[xetex,mathserif,serif,10pt, handout]{beamer}
+
+%%% Theme %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usetheme{Madrid}
+
+\def\imgpath{./img/}
+
+\def\green{\color{green}}
+\def\orange{\color{orange}}
+\def\red{\color{red}}
+
+\newcommand{\squash}[1]{\parbox{0pt}{#1}}
+
+\def\spacer{\vspace*{1em}}
+
+%%% Packages %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Prefer British spelling & hyphenation
+\usepackage[british]{babel}
+\usepackage{xunicode}
+\usepackage{xltxtra}
+\defaultfontfeatures{Mapping=tex-text}
+
+\usepackage{graphicx}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{hyperref}
+
+% from http://blog.miliauskas.lt/2008/09/python-syntax-highlighting-in-latex.html
+% from http://licejus.lt/~gintas/files/pythonlisting.tex
+%\include{pythonlisting}
+\usepackage{color}
+\usepackage[procnames]{listings}
+\usepackage{setspace}
+\usepackage{textcomp}
+
+% from http://www.nabble.com/zorder-seems-to-cause-problems-when-embed-python-in-latex-files-td19949285.html
+% from http://www.imada.sdu.dk/~ehmsen/python.sty
+%\usepackage{python}
+
+\newcommand{\pypypy}[1]{\footnote[frame]{Py3: #1}}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows,positioning} 
+
+%%% Python code highlighting %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\renewcommand{\lstlistlistingname}{Python Listings}
+\renewcommand{\lstlistingname}{Code Listing}
+
+\definecolor{gray}{gray}{0.5}
+\definecolor{green}{rgb}{0,0.5,0}
+\definecolor{lightgreen}{rgb}{0,0.7,0}
+\definecolor{purple}{rgb}{0.5,0,0.5}
+\definecolor{darkred}{rgb}{0.5,0,0}
+
+%\lstdefinelanguage{pythontim}{
+%basicstyle=\ttfamily\small\setstretch{1},
+%numberstyle=\footnotesize,      % the size of the fonts that are used for the line-numbers
+%showspaces=false,               % show spaces adding particular underscores
+%showstringspaces=false,         % underline spaces within strings
+%showtabs=false,                 % show tabs within strings adding particular underscores
+%stringstyle=\color{green},
+%alsoletter={1234567890},
+%keywordstyle=\color{blue},
+%emph={access,and,as,break,class,continue,def,del,elif,else,%
+%except,exec,finally,for,from,global,if,import,in,is,%
+%lambda,not,or,pass,print,raise,return,try,while,assert},
+%emphstyle=\color{orange}\bfseries,
+%tabsize=2,
+%emph={[2]self},
+%emphstyle=[2]\color{gray},
+%emph={[4]ArithmeticError,AssertionError,AttributeError,BaseException,%
+%DeprecationWarning,EOFError,Ellipsis,EnvironmentError,Exception,%
+%False,FloatingPointError,FutureWarning,GeneratorExit,IOError,%
+%ImportError,ImportWarning,IndentationError,IndexError,KeyError,%
+%KeyboardInterrupt,LookupError,MemoryError,NameError,None,%
+%NotImplemented,NotImplementedError,OSError,OverflowError,%
+%PendingDeprecationWarning,ReferenceError,RuntimeError,RuntimeWarning,%
+%StandardError,StopIteration,SyntaxError,SyntaxWarning,SystemError,%
+%SystemExit,TabError,True,TypeError,UnboundLocalError,UnicodeDecodeError,%
+%UnicodeEncodeError,UnicodeError,UnicodeTranslateError,UnicodeWarning,%
+%UserWarning,ValueError,Warning,ZeroDivisionError,abs,all,any,apply,%
+%basestring,bool,buffer,callable,chr,classmethod,cmp,coerce,compile,%
+%complex,copyright,credits,delattr,dict,dir,divmod,enumerate,eval,%
+%execfile,exit,file,filter,float,frozenset,getattr,globals,hasattr,%
+%hash,help,hex,id,input,int,intern,isinstance,issubclass,iter,len,%
+%license,list,locals,long,map,max,min,object,oct,open,ord,pow,property,%
+%quit,range,raw_input,reduce,reload,repr,reversed,round,set,setattr,%
+%slice,sorted,staticmethod,str,sum,super,tuple,type,unichr,unicode,%
+%vars,xrange,zip},
+%emphstyle=[4]\color{purple}\bfseries,
+%escapechar=\~,
+%upquote=true,
+%moredelim=**[is][\uncover<+>]{@}{@},
+%morecomment=[s][\color{lightgreen}]{"""}{"""},
+%commentstyle=\color{red}\slshape,
+%literate={>>>}{\textbf{\textcolor{darkred}{>{>}>}}}3%
+%         {...}{{\textcolor{gray}{...}}}3,
+%procnamekeys={def,class},
+%procnamestyle=\color{blue}\textbf,
+%framexleftmargin=1mm, framextopmargin=1mm, frame=shadowbox,
+%rulesepcolor=\color{blue},
+%}
+
+%\lstnewenvironment{python}[1][]{
+%\lstset{
+%language=pythontim,#1
+%%language=Python,#1
+%}}{}
+
+%\def\pythoni{\lstinline[language=pythontim]}
+%\def\pythoni{\lstinline[language=Python]}
+
+% This gives syntax highlighting in the python environment
+\renewcommand{\lstlistlistingname}{Code Listings}
+\renewcommand{\lstlistingname}{Code Listing}
+\definecolor{gray}{gray}{0.5}
+\definecolor{key}{rgb}{0,0.5,0}
+
+\lstdefinelanguage{pythontim}{
+basicstyle=\ttfamily\small\setstretch{1},
+morestring=[s]{"""}{"""},
+morestring=[s]{'''}{'''},
+morestring=[s]{'}{'},
+morestring=[s]{"}{"},
+stringstyle=\color{red},
+showstringspaces=false,
+alsoletter={1234567890},
+%otherkeywords={\ , \}, \{},
+keywordstyle=\color{blue},
+emph={access,and,as,break,class,continue,def,del,elif,else,%
+except,exec,finally,for,from,global,if,import,in,is,%
+lambda,not,or,pass,print,raise,return,try,while,assert,yield},
+emphstyle=\color{orange}\bfseries,
+emph={[2]True, False, None, self},
+emphstyle=[2]\color{green},
+emph={[3]from, import, as},
+emphstyle=[3]\color{blue},
+upquote=true,
+%moredelim=**[is][\only<+>{\makebox[0cm]{•}}\hspace{1em}]{@}{@},
+moredelim=**[is][\only<+>{\hspace{-2mm}\makebox[2mm]{•}}]{@}{@},
+morecomment=[l]{\#},
+commentstyle=\color{gray}\slshape,
+%emph={[4]1, 2, 3, 4, 5, 6, 7, 8, 9, 0},
+%emphstyle=[4]\color{blue},
+literate=*{:}{{\textcolor{blue}:}}{1}%
+	{=}{{\textcolor{blue}=}}{1}%
+	{-}{{\textcolor{blue}-}}{1}%
+	{+}{{\textcolor{blue}+}}{1}%
+	{*}{{\textcolor{blue}*}}{1}%
+	{!}{{\textcolor{blue}!}}{1}%
+	{(}{{\textcolor{blue}(}}{1}%
+	{)}{{\textcolor{blue})}}{1}%
+	{[}{{\textcolor{blue}[}}{1}%
+	{]}{{\textcolor{blue}]}}{1}%
+	{<}{{\textcolor{blue}<}}{1}%
+	{>}{{\textcolor{blue}>}}{1},%
+emph={[5]ArithmeticError,AssertionError,AttributeError,BaseException,%
+DeprecationWarning,EOFError,Ellipsis,EnvironmentError,Exception,%
+False,FloatingPointError,FutureWarning,GeneratorExit,IOError,%
+ImportError,ImportWarning,IndentationError,IndexError,KeyError,%
+KeyboardInterrupt,LookupError,MemoryError,NameError,None,%
+NotImplemented,NotImplementedError,OSError,OverflowError,%
+PendingDeprecationWarning,ReferenceError,RuntimeError,RuntimeWarning,%
+StandardError,StopIteration,SyntaxError,SyntaxWarning,SystemError,%
+SystemExit,TabError,True,TypeError,UnboundLocalError,UnicodeDecodeError,%
+UnicodeEncodeError,UnicodeError,UnicodeTranslateError,UnicodeWarning,%
+UserWarning,ValueError,Warning,ZeroDivisionError,abs,all,any,apply,%
+basestring,bool,buffer,callable,chr,classmethod,cmp,coerce,compile,%
+complex,copyright,credits,delattr,dict,dir,divmod,enumerate,eval,%
+execfile,exit,file,filter,float,frozenset,getattr,globals,hasattr,%
+hash,help,hex,id,input,int,intern,isinstance,issubclass,iter,len,%
+license,list,locals,long,map,max,min,object,oct,open,ord,pow,property,%
+quit,range,raw_input,reduce,reload,repr,reversed,round,set,setattr,%
+slice,sorted,staticmethod,str,sum,super,tuple,type,unichr,unicode,%
+vars,xrange,zip},
+emphstyle=[5]\color{purple}\bfseries,
+escapechar=\~,
+xleftmargin=2mm,
+%xrightmargin=2mm,
+framexleftmargin=3mm, framextopmargin=1mm, frame=shadowbox,
+rulesepcolor=\color{blue},
+}
+
+\lstnewenvironment{python}[1][]{
+\lstset{
+language=pythontim,#1
+}}{}
+
+\def\pythoni{\lstinline[language=pythontim]}
+
+%%% TikZ settings %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% For every picture that defines or uses external nodes, you'll have to
+% apply the 'remember picture' style. To avoid some typing, we'll apply
+% the style to all pictures.
+\tikzstyle{every picture}+=[remember picture]
+\tikzstyle{na} = [baseline=-.5ex]
+
+\tikzset{
+    %Define standard arrow tip
+    >=stealth',
+    %Define style for boxes
+    punkt/.style={
+           rectangle,
+           rounded corners,
+           draw=black, very thick,
+           text width=6.5em,
+           minimum height=2em,
+           text centered},
+    % Define arrow style
+    pil/.style={
+           ->,
+           thick,
+           shorten <=2pt,
+           shorten >=2pt,}
+}
+
+%%% Presentation layout %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% No navigation symbols please
+\setbeamertemplate{navigation symbols}{}
+
+% Cover with some transparency
+\setbeamercovered{dynamic}
+%\setbeamercovered{invisible}
+
+% Delete this, if you do not want the table of contents to pop up at
+% the beginning of each section:
+\AtBeginSection[]
+{
+ \begin{frame}<beamer>
+   \frametitle{Outline}
+   \tableofcontents[currentsection]
+ \end{frame}
+}
+
+% If you wish to uncover everything in a step-wise fashion, uncomment
+% the following command: 
+%\beamerdefaultoverlayspecification{<+->}
+
+%%% Document details %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% This is only inserted into the PDF information catalog.
+
+\hypersetup{
+pdfauthor = {Tim van Werkhoven},
+pdftitle = {Python 102 using numpy},
+pdfsubject = {Python 102 using numpy},
+pdfkeywords = {Python, NumPy, SciPy, matplotlib},
+pdfcreator = {LaTeX with hyperref package},
+pdfproducer = {pdfLaTeX},
+colorlinks = false,
+breaklinks = true,
+linkcolor = red,                    % color of internal links
+citecolor = green,                  % color of links to bibliography
+filecolor = magenta,                % color of file links
+urlcolor = blue,                    % color of external links
+}
+
+%%% Authors etc. %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Python 102}
+\subtitle{Using Python for numerical data analysis}
+\author{\href{https://www.staff.science.uu.nl/~werkh108/}{Tim van Werkoven}}
+\institute[SIU, UU]{%
+\href{http://www.astro.uu.nl/}{Sterrekundig Instituut Utrecht}, %
+\href{http://www.uu.nl}{Utrecht University}\\[1em]
+\includegraphics[height=10mm]{\imgpath logo_uu.pdf}
+}
+\date{October 2011}
+
+%%% Frames %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Structuring a talk is a difficult task and the following structure
+% may not be suitable. Here are some rules that apply for this
+% solution: 
+
+% - Exactly two or three sections (other than the summary).
+% - At *most* three subsections per section.
+% - Talk about 30s to 2min per frame. So there should be between about
+%   15 and 30 frames, all told.
+
+% - A conference audience is likely to know very little of what you
+%   are going to talk about. So *simplify*!
+% - In a 20min talk, getting the main ideas across is hard
+%   enough. Leave out details, even if it means being less precise than
+%   you think necessary.
+% - If you omit details that are vital to the proof/implementation,
+%   just say so once. Everybody will be happy with that.
+
+\begin{document}
+
+%\setbeameroption{show notes on second screen} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \titlepage
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+    \frametitle{Outline}
+    %\note{Some notes for the current slide}
+    \setcounter{tocdepth}{1}
+    \tableofcontents
+    % You might wish to add the option [pausesections]
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Prerequisite knowledge}
+	
+	This lecture assumes the following understanding of Python
+	
+	\spacer
+	
+	\begin{itemize}
+		\item Running Python interactively or as script
+		\item Python variables, datatypes, control flow
+		\item Aliasing, slicing, data manipulation.
+	\end{itemize}
+	
+	\spacer
+
+	This is covered in the Python 101 lecture.
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Packages}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Package overview}
+	Python can be extended with \emph{packages}. Some are included with Python\footnote[frame]{See \url{http://docs.python.org/library/index.html} for an overview}, others have to be installed separately.
+	\spacer
+	\begin{itemize}
+		\item \href{http://docs.python.org/library/argparse.html}{\texttt{argparse}} (py) -- parse command-line arguments
+		\item \href{http://docs.python.org/library/re.html}{\texttt{re}} (py) -- regular expressions
+		\item \href{http://docs.python.org/library/sys.html}{\texttt{sys}}/%
+		\href{http://docs.python.org/library/os.html}{\texttt{os}} (py) -- system tools
+		\pause
+		\item \texttt{scipy} -- scientific tools
+		\item \texttt{numpy} -- scipy core utilities
+		\pause
+		\item \texttt{pyfits} -- FITS file IO
+		\item \texttt{idlsave} -- load IDL \texttt{.save} files\footnote[frame]{http://www.physics.wisc.edu/~craigm/idl/savefmt/}
+		\pause
+		\item \texttt{matplotlib} -- interactive plotting
+		\item \texttt{pyds9} -- interface to ds9
+		\pause
+		\item \texttt{ipython} -- enhanced python shell
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Package overview II}
+	Other packages that look promising.
+	\spacer
+	\begin{itemize}
+		\item \texttt{h5py} -- HDF5 interface
+		\item \texttt{tables} -- managing hierarchical datasets
+		\pause
+		\item \texttt{pyfftw3} -- bindings to FFTW3
+		\item \texttt{mpi4py} -- MPI for Python
+		\pause
+		\item \texttt{kapteyn} -- The Kapteyn Package
+		\item \texttt{vo} -- parse, validate and generate VOTable XML
+		\pause
+		\item \texttt{pybtex} -- BibTeX-compatible bibliography processor
+		\item \texttt{xlrd} -- extract data from Microsoft Excel files
+		\item \texttt{sympy} -- symbolic mathematics
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Obtaining packages}
+	To get a package, install it in one of several ways:
+	
+	\spacer
+	
+	\begin{itemize}
+		\item Package is already installed (Enthought\footnote[frame]{See \url{http://www.enthought.com/products/epdlibraries.php}}, Activestate\footnote[frame]{See \url{http://www.activestate.com/activepython}})
+		\pause
+		\item Use package manager to install (\texttt{apt}, \texttt{emerge}, \texttt{fink}, \texttt{macports}, \texttt{homebrew})
+		\pause
+		\item (Manually download and install (not recommended))
+	\end{itemize}
+	
+	\spacer
+	\pause
+	
+	Using a package manager is \emph{always} preferred because of dependencies and updates.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Using packages}
+	
+	To use a package, run \pythoni{import}\verb! <package_name> [as <alias>]!.
+	\spacer
+\begin{python}
+>>> import numpy as N
+>>> N.arange(10)
+array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+\end{python}
+	\spacer
+	\pause
+	You can also import specific functions to the current \emph{namespace}.
+	\spacer
+\begin{python}
+>>> from numpy import arange
+>>> arange(10)
+array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+\end{python}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Miscellaneous Examples}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Various examples}
+	The following are some didactical Python examples from \url{http://wiki.python.org/moin/SimplePrograms}.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{3 lines: for \& enumerate}
+	\begin{python}
+my_list = ['john', 'pat', 'gary', 'michael']
+for i, name in enumerate(my_list):
+  print "iteration %i is %s" % (i, name)
+	\end{python}
+	\spacer
+	\pause
+	\begin{itemize}
+	\item \pythoni{enumerate} returns a tuple of the count and value from a sequence.
+	\pause
+	\item tuple unpacking is done automatically in \pythoni{i, name in enumerate(my_list)}
+	\pause
+	\item string formatting goes as \pythoni{'format string' % (value1, value2, ...)}
+	\footnote[frame]{\url{http://docs.python.org/library/stdtypes.html\#string-formatting-operations}}
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{7 lines: dictionaries, generator expressions}
+	\begin{python}
+prices = {'apple': 0.40, 'banana': 0.50}
+my_purchase = {
+  'apple': 1,
+  'banana': 6}
+grocery_bill = sum(prices[fruit] * my_purchase[fruit]
+                 for fruit in my_purchase)
+print 'I owe the grocer $%.2f' % grocery_bill	
+\end{python}
+	\spacer
+	\pause
+	\begin{itemize}
+	\item A dictionary can store arbitrary key $\rightarrow$ value mappings.
+	\pause
+	\item \pythoni{sum()} returns the sum of an \emph{iterable} object.
+	\pause
+	\item \pythoni{'%.2f'} formats a value as a floating point with two digits after the decimal.
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{11 lines: triple-quotes, while loop }
+	\begin{python}
+REFRAIN = """
+%d bottles of beer on the wall,
+%d bottles of beer,
+take one down, pass it around,
+%d bottles of beer on the wall!
+"""
+bottles_of_beer = 99
+while bottles_of_beer > 1:
+    print REFRAIN % (bottles_of_beer, bottles_of_beer,
+        bottles_of_beer - 1)
+    bottles_of_beer -= 1
+\end{python}
+	\spacer
+	\pause
+	\begin{itemize}
+		\item Consistent variable naming, constants, functions, variables.
+		\pause
+		\item \pythoni{-=} and \pythoni{+=} do exactly what you think (but \emph{no} \pythoni{--} or \pythoni{++})\footnote[frame]{Overview of operators: \url{http://docs.python.org/reference/lexical_analysis.html\#operators}}
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Generators}
+	\begin{python}
+def fib():
+    a, b = 0, 1
+    while True:
+        yield a
+        a, b = b, a + b
+
+fib_gen = fib()
+[fib_gen.next() for i in xrange(20)]
+\end{python}
+	\spacer
+	\pause
+	\begin{itemize}
+		\item \emph{generators} are powerful tools to create iterators
+		\pause
+		\item generators \pythoni{yield} a value when \pythoni{next()} is called
+		\pause
+		\item \pythoni{range}\pypypy{\pythoni{xrange} replaced \pythoni{range}} is a generator for numbers
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Fitting a surface}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Fitting a surface}
+	\vfill
+	\emph{Given an arbitrary surface $\phi$, fit a set of (Zernike) polynomials to it.}
+	\vfill
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Zernike polynomials}
+	
+	Zernike polynomials are defined as:
+	
+	\[
+	\begin{array}{lcl}
+	Z^{\,m}_n(\rho,\varphi) &=& R^{\,m}_{n}(\rho)\,\cos(m\,\varphi) \! \\
+	Z^{\,-\!m}_n(\rho,\varphi) &=& R^{\,m}_{n}(\rho)\,\sin(m\,\varphi), \! \\
+  	\end{array}
+	\]
+	\pause 
+	with $R^{\,m}_{n}(\rho)$ given by
+	
+	\[
+	R^{\,m}_{n}(\rho) = \left\{
+	\begin{array}{l l}
+    \! \sum_{k=0}^{(n-m)/2} \!\!\! \frac{(-1)^k\,(n-k)!}{k!\,((n+m)/2-k)!\,((n-m)/2-k)!} \;\rho^{n-2\,k} & \quad \text{if $m-n$ is even}\\
+    0 & \quad \text{if $m-n$ is odd}\\
+  	\end{array} \right.
+	\]
+	\spacer
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Theory}
+	
+	Any surface can be expressed as 
+	
+	\[
+	\phi = \sum_i^N a_i Z_i
+	\]
+	
+	where $a_i$ are scalar coefficients. \pause Taking the inner product with each $Z_j$ on both sides gives
+	
+	\[
+	\begin{array}{ccc}
+	\langle \phi,Z_1 \rangle &=& \sum a_i \; \langle Z_i, Z_1 \rangle\\
+	\vdots &  & \vdots \\
+	\langle \phi,Z_N \rangle &=& \sum a_i \; \langle Z_i, Z_N \rangle\\
+  	\end{array}
+	\]
+	
+	\pause
+	or as matrix multiplication:
+	
+	\[
+	 \begin{pmatrix}
+	 \langle \phi,Z_1 \rangle \\
+	 \vdots \\
+	 \langle \phi,Z_N \rangle \\
+	 \end{pmatrix}
+	 = M_{\mathrm{cov}} 
+	 \begin{pmatrix}
+	 a_1 \\
+	 \vdots \\
+	 a_N \\
+	 \end{pmatrix}
+	\]
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Theory}
+	
+	Given $\phi$ and $Z_j$, we then solve for $a_j$ using
+	
+	\spacer
+
+	\[
+	 M_{\mathrm{cov}}^{\,-1} 
+	 \begin{pmatrix}
+	 \langle \phi,Z_1 \rangle \\
+	 \vdots \\
+	 \langle \phi,Z_N \rangle \\
+	 \end{pmatrix}
+	 =
+	 \begin{pmatrix}
+	 a_1 \\
+	 \vdots \\
+	 a_N \\
+	 \end{pmatrix}
+	\]
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Zernikes in Python}
+	\[
+	\sum_{k=0}^{(n-m)/2} \!\!\! \frac{(-1)^k\,(n-k)!}{k!\,((n+m)/2-k)!\,((n-m)/2-k)!} \;\rho^{n-2\,k}
+	\]
+\begin{python}
+@@def zernike_rad(m, n, rho):
+@  """
+  Calculate the radial component of Zernike polynomial (m, n) 
+  given a grid of radial coordinates rho.
+  """@
+@@  wf = N.zeros(rho.shape)
+@@  if (n-m % 2):
+    return wf
+  
+@@  for k in xrange((n-m)/2+1):
+@@    wf += rho**(n-2.0*k) * (-1.0)**k * fac(n-k) / \
+    	( fac(k) * fac( (n+m)/2.0 - k ) * \
+      fac( (n-m)/2.0 - k ) )
+  
+@@  return rho
+\end{python}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Zernikes in Python}
+\begin{python}
+def zernike(m, n, rho, phi):
+  """
+  Calculate Zernike polynomial (m, n) given a grid of radial
+  coordinates rho and azimuthal coordinates phi.
+  """
+@@  if (m > 0): return zernike_rad(m, n, rho) * N.cos(m * phi)
+@@  if (m < 0): return zernike_rad(-m, n, rho) * N.sin(-m * phi)
+@@  return zernike_rad(0, n, rho)
+\end{python}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Coordinate grids}
+
+Make coordinate grid for rho and phi
+\begin{python}
+@@grid = (N.indices((256, 256), dtype=N.float) - 128) / 128.0
+@@grid_rho = (grid**2.0).sum(0)**0.5
+@@grid_phi = N.arctan2(grid[0], grid[1])
+@@grid_mask = grid_rho <= 1
+\end{python}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Generate test surface}
+
+Compute a list of Zernikes
+
+\begin{python}
+zern_list = [zernikel(i, grid_rho, grid_phi) * grid_mask \
+  for i in xrange(25)]
+\end{python}
+
+\spacer
+
+Generate test surface
+
+\begin{python}
+test_vec = N.random.random(25)
+test_surf = 0
+for (i, val) in enumerate(test_vec):
+  test_surf += val * zernikel(i, grid_rho, grid_phi)
+\end{python}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Compute covariance matrix}
+
+Calculate covariance between all Zernike polynomials
+
+\begin{python}
+cov_mat = N.array([[N.sum(zerni * zernj) \
+  for zerni in zern_list] \
+    for zernj in zern_list])
+\end{python}
+
+\spacer
+Invert covariance matrix using SVD\footnote[frame]{Singular Value Decomposition}
+\begin{python}
+cov_mat_in = N.linalg.pinv(cov_mat)
+\end{python}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Solve equation}
+
+Given the inner-product vector and the inverse of the covariance matrix, solve for the vector of coefficients.
+
+\begin{python}
+rec_wf_pow = N.dot(cov_mat_in, wf_zern_inprod)
+\end{python}
+
+\spacer
+Reconstruct the surface
+\begin{python}
+rec_wf = 0
+for (i, val) in enumerate(rec_wf_pow):
+  rec_wf += val * zernikel(i, grid_rho, grid_phi)
+\end{python}
+
+\spacer
+Check solution
+\begin{python}
+print test_vec-rec_wf_pow
+print N.allclose(test_vec, rec_wf_pow)
+print N.allclose(test_surf, rec_wf)
+\end{python}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{2D plotting}
+
+Use package \pythoni{pylab} for plotting.
+
+\begin{python}
+pylab.plot(xarr)
+\end{python}
+
+\spacer
+More elaborate example
+
+\begin{python}
+fig = pylab.figure(1)
+ax = fig.add_subplot(111)
+
+ax.set_xlabel('Xlabel [AU]')
+ax.set_ylabel('Ylabel [AU]')
+ax.set_title('Plot title')
+
+ax.plot(xarr1, 'r-', label='Graph 1')
+ax.plot(xarr2, 'b--', label='Graph 2')
+ax.legend()
+
+fig.show()
+\end{python}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{3D plotting}
+
+Surface plotting goes with \pythoni{imshow}.
+
+\begin{python}
+pylab.imshow(surf)
+\end{python}
+
+\spacer
+More options
+
+\begin{python}
+fig = pylab.figure(1)
+fig.clf()
+ax = fig.add_subplot(111)
+
+surf_pl = ax.imshow(surf, interpolation='nearest')
+fig.colorbar(surf_pl)
+
+fig.show()
+
+fig.savefig('py-example-plot.pdf')
+fig.savefig('py-example-plot.png')
+\end{python}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Interactive Python}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Interactive python}
+
+Interactive example... \pause \texttt{bleep bleep}
+
+\spacer
+\pause
+
+\begin{itemize}
+	\item ipython shell commands (ls, cd)
+	\item data introspection/printing
+	\item command/variable auto completion
+	\item command history
+	\item inline documentation (system and user)
+\end{itemize}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Final words}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Things not covered -- The rest}
+	Other things that are not included here but equally important:
+	\vspace*{1em}
+	\begin{itemize}
+		\item version control (CVS, svn, git, bazaar, mercurial)
+		\item the shell (bash, zsh)
+		\item regular expressions
+		\item make
+		\item debugging
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Learn more}
+	You can learn more here.
+	\vspace*{1em}
+	\begin{itemize}
+		\item \url{http://wiki.python.org/moin/SimplePrograms}
+		\item \url{http://www.secnetix.de/olli/Python/}
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{References}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Literature}
+	Some of the literature used for this presentation
+	\spacer
+	\begin{itemize}
+		\item Software carpentry -- \url{http://software-carpentry.org/}
+		\item Python online documentation -- \url{http://docs.python.org/}
+		\item NumPy/Scipy documentation -- \url{http://docs.scipy.org/doc/}
+		\item StackOverflow -- \url{http://stackoverflow.com/questions/tagged/python}
+	\end{itemize}
+	
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{License}
+
+	\begin{center}
+	\includegraphics[width=1cm]{\imgpath cc.pdf}~
+	\includegraphics[width=1cm]{\imgpath by.pdf}~
+	\includegraphics[width=1cm]{\imgpath sa.pdf}~
+	
+	\spacer
+
+	Copyright © \href{https://www.staff.science.uu.nl/~werkh108/}{Tim van Werkhoven}\footnote[frame]{\url{t.i.m.vanwerkhoven@gmail.com}} 2011\\
+	Available online at \url{http://python101.vanwerkhoven.org}
+	
+	\spacer
+
+	This work is licensed under a\\
+	\href{http://creativecommons.org/licenses/by-sa/3.0/}{Creative Commons Attribution-ShareAlike 3.0 Unported License}.
+
+	\end{center}
+	
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
+
+
+
