@@ -143,6 +143,10 @@
 
 \lstdefinelanguage{pythontim}{
 basicstyle=\ttfamily\small\setstretch{1},
+morestring=[s]{"""}{"""},
+morestring=[s]{'''}{'''},
+morestring=[s]{'}{'},
+morestring=[s]{"}{"},
 stringstyle=\color{red},
 showstringspaces=false,
 alsoletter={1234567890},
@@ -159,7 +163,7 @@ emphstyle=[3]\color{blue},
 upquote=true,
 %moredelim=**[is][\only<+>{\makebox[0cm]{•}}\hspace{1em}]{@}{@},
 moredelim=**[is][\only<+>{\hspace{-2mm}\makebox[2mm]{•}}]{@}{@},
-morecomment=[s]{"""}{"""},
+morecomment=[l]{\#},
 commentstyle=\color{gray}\slshape,
 %emph={[4]1, 2, 3, 4, 5, 6, 7, 8, 9, 0},
 %emphstyle=[4]\color{blue},
@@ -703,11 +707,11 @@ Since \pythoni{a} points to \pythoni{b}, if we change \pythoni{a}, we also chang
 	\frametitle{Datatypes -- Numbers}
 
 	\begin{itemize}
-		\item int: 32 bit signed number
-		\item long\pypypy{all ints are long}: arbitrary length numer.
-		\item float: machine-level double precision floating point numbers
-		\item complex: pair of floats
-		\item bool: truth values \pythoni{True} and \pythoni{False}
+		\item \pythoni{int}: 32 bit (or more) signed number,
+		\item \pythoni{long}\pypypy{all ints are long}: arbitrary length numer,
+		\item \pythoni{float}: machine-level double precision floating point numbers,
+		\item \pythoni{complex}: tuple of floats,
+		\item \pythoni{bool}: truth values \pythoni{True} and \pythoni{False}.
 	\end{itemize}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -715,11 +719,16 @@ Since \pythoni{a} points to \pythoni{b}, if we change \pythoni{a}, we also chang
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
 	\frametitle{Datatypes -- Sequences \& mapping}
-
+	
+	Sequences
 	\begin{itemize}
-		\item string \& unicode\pypypy{all strings are unicode}: array of characters
-		\item tuples: set of objects, immutable
-		\item list: set of objects, mutable
+		\item string \& unicode\pypypy{all strings are unicode}: array of characters, immutable,
+		\item tuples: set of objects, immutable,
+		\item list: set of objects, mutable.
+	\end{itemize}
+	\spacer
+	Mappings
+	\begin{itemize}
 		\item dictionary: set of objects index by arbitrary values
 	\end{itemize}
 \end{frame}
@@ -728,9 +737,9 @@ Since \pythoni{a} points to \pythoni{b}, if we change \pythoni{a}, we also chang
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-	\frametitle{Datatypes -- Examples}
+	\frametitle{Datatypes -- Integers}
 
-	Integers, normal (32 and 64 bit) and `bignum' (arbitrary length)\pypypy{all ints are of `bignum' type}:
+	Integers, normal (32 or more) and `bignum' (arbitrary length)\pypypy{all ints are of `bignum' type}:
 
 	\spacer
 
@@ -754,7 +763,7 @@ Note that bignum can generally not be used in external libraries.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-	\frametitle{Datatypes -- Examples}
+	\frametitle{Datatypes -- Floats}
 
 Floats\pypypy{\pythoni{int} divisions work differently}:
 \begin{python}
@@ -771,7 +780,7 @@ Floats\pypypy{\pythoni{int} divisions work differently}:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-	\frametitle{Datatypes -- Examples}
+	\frametitle{Datatypes -- Complex \& boolean}
 
 Complex:
 \begin{python}
@@ -798,7 +807,7 @@ True
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-	\frametitle{Datatypes -- Examples}
+	\frametitle{Datatypes -- String}
 
 String
 \begin{python}
@@ -809,14 +818,17 @@ String
 \end{python}
 
 	\spacer
+\pause
 	
-Strings are actually lists
+Strings (or any sequence) can be indexed and sliced, but are not mutable
 \begin{python}
 >>> msg = "Hello world"
 >>> msg[0]
 'H'
 >>> msg[0:5]
 'Hello'
+>>> msg[0] = 'Y'
+TypeError: 'str' object does not support item assignment
 \end{python}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -828,23 +840,25 @@ Strings are actually lists
 \begin{frame}[fragile]
 	\frametitle{Containers}
 
-	Containers: tuple, list, dict
+	Containers: sequences or mappings that hold other objects.
 
 	\spacer
 
 	\begin{itemize}
-	\item Tuple: holds arbitrary objects, immutable
-		\begin{itemize}
-		\item \emph{Usage: coordinates, shapes, properties}
-		\end{itemize}
-	\item List: holds arbitrary objects, mutable
-		\begin{itemize}
-		\item \emph{Usage: sequences of data}
-		\end{itemize}
-	\item Dict: holds key$\rightarrow$value mappings, mutable
-		\begin{itemize}
-		\item \emph{Usage: arbitrary properties}
-		\end{itemize}
+		\item Tuple: holds arbitrary objects, immutable
+			\begin{itemize}
+			\item \emph{Usage: coordinates, shapes, properties}
+			\end{itemize}
+		\pause
+		\item List: holds arbitrary objects, mutable
+			\begin{itemize}
+			\item \emph{Usage: sequences of data}
+			\end{itemize}
+		\pause
+		\item Dict: holds key$\rightarrow$value mappings, mutable
+			\begin{itemize}
+			\item \emph{Usage: arbitrary properties}
+			\end{itemize}
 	\end{itemize}
 	
 \end{frame}
@@ -864,9 +878,8 @@ Tuples
 \end{python}
 
 	\spacer
-
-
-Tuples are \emph{immutable}:
+	\pause
+Tuples are \emph{immutable} (like strings):
 \begin{python}
 >>> a[1] = 2
 TypeError: 'tuple' object does not support item assignment
@@ -913,7 +926,7 @@ KeyError: 0
 
 
 	\spacer
-
+	\pause
 You can request the keys and values separately:
 
 \begin{python}
@@ -938,6 +951,7 @@ You can request the keys and values separately:
 	\item Python uses \emph{whitespace} for scope
 	\item Whitespace can be spaces or tabs (4 spaces recommended\footnote[frame]{See PEP 8 \url{http://www.python.org/dev/peps/pep-0008/}})
 	\end{itemize}
+\pause
 
 \begin{python}
 if x > 0:
@@ -949,6 +963,7 @@ else:
 \end{python}
 
 	\spacer
+\pause
 
 \begin{python}
 if ((x > 0) and (y > 0)) or (z < 0):
@@ -964,7 +979,9 @@ if ((x > 0) and (y > 0)) or (z < 0):
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
 	\frametitle{Loops}
-	Python knows \pythoni{for} \& \pythoni{while}:
+	Python knows \pythoni{for} \& \pythoni{while}.
+	\spacer
+	\pause
 
 \begin{python}
 alist = [1,2,3,4,5,6,7,8,9,10]
@@ -973,7 +990,7 @@ for i in alist:
 \end{python}
 
 	\spacer
-
+	\pause
 
 \begin{python}
 x = 0
@@ -998,6 +1015,7 @@ Both snippets above print 1 through 10 inclusive on separate lines.
 	\frametitle{Functions\footnote[frame]{More information in Software Carpentries `Python -- Functions'}}
 
 	Use \pythoni{def} for functions
+\pause
 
 \begin{python}
 def hello():
@@ -1009,6 +1027,7 @@ Hello!
 \end{python}
 
 	\spacer
+\pause
 
 Functions are objects
 \begin{python}
@@ -1036,6 +1055,7 @@ def hello3(what="World"):	# what is optional, default given
 \end{python}
 
 	\spacer
+	\pause
 
 \begin{python}
 >>> hello2('class')
@@ -1063,8 +1083,14 @@ def sum_two(x, y):
 \begin{python}
 >>> sum_two(1, 1.5)
 2.5
+\end{python}
+\pause
+\begin{python}
 >>> sum_two("Hello", "World")
 'HelloWorld'
+\end{python}
+\pause
+\begin{python}
 >>> sum_two([1,2,3], [4, 5])
 [1, 2, 3, 4, 5]
 \end{python}
@@ -1081,8 +1107,9 @@ def sum_two(x, y):
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-	\frametitle{Slicing\footnote[frame]{More information in Software Carpentries `Python -- Slicing'}}
-\vfill
+	\frametitle{Slicing\footnote[frame]{More information in Software Carpentrie's `Python -- Slicing'}}
+	\vfill
+	\pause
 
 	\emph{Slicing} is advanced list indexing. In general: \pythoni{list[start:end:step]}
 \vfill
@@ -1098,20 +1125,22 @@ def sum_two(x, y):
 \begin{tabular}{ll@{}l@{}l@{}l@{}lll@{}l@{}l}
 index & 0 & 1 & 2 & 3 & 4 &  & 12 & 13 & 14 \\
 value & %
-\fbox{\squash{0}\phantom{xx}} & %
-\fbox{\squash{1}\phantom{xx}} & %
-\fbox{\squash{3}\phantom{xx}} & %
-\fbox{\squash{4}\phantom{xx}} & %
-\fbox{\squash{5}\phantom{xx}} & %
+\fbox{\parbox{4ex}{0}} & %
+\fbox{\parbox{4ex}{1}} & %
+\fbox{\parbox{4ex}{3}} & %
+\fbox{\parbox{4ex}{4}} & %
+\fbox{\parbox{4ex}{5}} & %
 \ldots & %
-\fbox{\squash{12}\phantom{xx}} & %
-\fbox{\squash{13}\phantom{xx}} & %
-\fbox{\squash{14}\phantom{xx}}\\
+\fbox{\parbox{4ex}{12}} & %
+\fbox{\parbox{4ex}{13}} & %
+\fbox{\parbox{4ex}{14}}\\
+\pause
 index & -15 & -14 & -13 & -12 & -11 &  & -3 & -2 & -1 \\
 
 \end{tabular}
 
 \vfill
+\pause
 
 \begin{python}
 >>> alist[0]
@@ -1134,6 +1163,7 @@ Start at element 1, stop at (before) element 4
 [1, 2, 3]
 \end{python}
 
+\pause
 Stop at (before) element -5
 
 \begin{python}
@@ -1141,6 +1171,7 @@ Stop at (before) element -5
 [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 \end{python}
 
+\pause
 Show every second element
 
 \begin{python}
@@ -1148,6 +1179,7 @@ Show every second element
 [0, 2, 4, 6, 8, 10, 12, 14]
 \end{python}
 
+\pause
 Start at element 10, step back, stop at (before) element 5 
 
 \begin{python}
@@ -1173,6 +1205,7 @@ IndexError: list index out of range
 
 	\spacer
 
+\pause
 \pythoni{alist[x:y]} is empty when \pythoni{x >= y}.
 
 \begin{python}
@@ -1218,22 +1251,16 @@ IndexError: list index out of range
 		\end{column}
 	\end{columns}
 	
-	\begin{tikzpicture}[overlay]
+		\begin{tikzpicture}[overlay]
 		\path[->]<1-> (v1) edge [bend left] (v1v);
-		\path[->]<2-> (v2) edge [bend right] (v1v);
+		\path[->]<2> (v2) edge [bend right] (v1v);
 		\path[->]<3-> (v2) edge [bend right] (v2v);
 	\end{tikzpicture}
 
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-	\frametitle{Aliases}
-
+	\pause
+	\spacer
 	When variables are mutable, this can give unexpected results.
 	\spacer
-	
 	\begin{columns}[T]
 		\begin{column}{0.45 \textwidth}
 			\begin{python}
@@ -1246,17 +1273,17 @@ IndexError: list index out of range
 			\begin{tabular}{l|l}
 			Variable & Value \\
 			\hline
-			\verb!alist! \tikz[na] \node[coordinate] (v1) {}; & \tikz[na] \node[coordinate] (v1v) {};\verb![1, 2, 3, 4]! \\
-			\verb!blist! \tikz[na] \node[coordinate] (v2) {}; & \tikz[na] \node[coordinate] (v2v) {};\verb![5, 2, 3, 4]! \\
+			\verb!alist! \tikz[na] \node[coordinate] (w1) {}; & \tikz[na] \node[coordinate] (w1v) {};\verb![1, 2, 3, 4]! \\
+			\verb!blist! \tikz[na] \node[coordinate] (w2) {}; & \tikz[na] \node[coordinate] (w2v) {};\verb![5, 2, 3, 4]! \\
 			\end{tabular}
 		\end{column}
 	\end{columns}
 	
 	\begin{tikzpicture}[overlay]
-		\path[->]<1-2> (v1) edge [bend left] (v1v);
-		\path[->]<2> (v2) edge [bend right] (v1v);
-		\path[->]<3-> (v1) edge [bend left] (v2v);
-		\path[->]<3-> (v2) edge [bend right] (v2v);
+		\path[->]<5-6> (w1) edge [bend left] (w1v);
+		\path[->]<6> (w2) edge [bend right] (w1v);
+		\path[->]<7-> (w1) edge [bend left] (w2v);
+		\path[->]<7-> (w2) edge [bend right] (w2v);
 	\end{tikzpicture}
 
 \end{frame}
@@ -1270,6 +1297,13 @@ IndexError: list index out of range
 	\spacer
 
 	If the variable is not mutable, it acts like `pass by value':
+	\spacer
+	
+\begin{python}
+def sum_two(x, y):
+    return x + y
+\end{python}
+
 	\spacer
 
 	\begin{columns}[T]
@@ -1308,7 +1342,7 @@ IndexError: list index out of range
 \begin{frame}[fragile]
 	\frametitle{Aliases -- Functions}
 
-	If the variable is mutable, it is `passed by reference':
+	If the variable is mutable, it acts like \emph{pass by reference}:
 	\spacer
 
 \begin{python}
@@ -1376,6 +1410,8 @@ def inc_list(l1):
 	
 	\pythoni{filter(func, sequence)} returns only items from \pythoni{sequence} for which \pythoni{func(item)} is true:
 	
+	\spacer
+	
 	\begin{python}
 	>>> def f(x): return x % 2 != 0 and x % 3 != 0
 	...
@@ -1389,6 +1425,8 @@ def inc_list(l1):
 \begin{frame}[fragile]{Functional programming -- map}
 
 	\pythoni{map(func, sequence)} calls \pythoni{func(item)} on all items of \pythoni{sequence} and returns a list of return values:
+
+	\spacer
 	
 	\begin{python}
 >>> def cube(x): return x*x*x
@@ -1403,6 +1441,7 @@ def inc_list(l1):
 \begin{frame}[fragile]{Functional programming -- reduce}
 	\pythoni{reduce(func, sequence)} returns a single value constructed by calling the binary function \pythoni{func} on the first two items of the sequence, then on the result and the next item, and so on.
 	
+	\spacer
 \begin{python}
 >>> def add(x,y): return x+y
 ...
@@ -1428,6 +1467,7 @@ def inc_list(l1):
 [12, 18]
 \end{python}
 
+\pause
 Generate tuples as list elements.
 
 \begin{python}
@@ -1435,6 +1475,7 @@ Generate tuples as list elements.
 [(2, 4), (4, 16), (6, 36)]
 \end{python}
 
+\pause
 Double list comprehension (all pairs).
 
 \begin{python}
