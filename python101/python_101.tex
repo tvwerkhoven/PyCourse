@@ -42,7 +42,8 @@
 % from http://blog.miliauskas.lt/2008/09/python-syntax-highlighting-in-latex.html
 % from http://licejus.lt/~gintas/files/pythonlisting.tex
 %\include{pythonlisting}
-\usepackage{color}
+%\usepackage{color} % color is old, don't use
+\usepackage{xcolor}
 \usepackage[procnames]{listings}
 \usepackage{setspace}
 \usepackage{textcomp}
@@ -102,6 +103,8 @@ literate=*{:}{{\textcolor{blue}:}}{1}%
 	{!}{{\textcolor{blue}!}}{1}%
 	{(}{{\textcolor{blue}(}}{1}%
 	{)}{{\textcolor{blue})}}{1}%
+	{\{}{{\textcolor{blue}\{}}{1}%
+	{\}}{{\textcolor{blue}\}}}{1}%
 	{[}{{\textcolor{blue}[}}{1}%
 	{]}{{\textcolor{blue}]}}{1}%
 	{<}{{\textcolor{blue}<}}{1}%
@@ -227,7 +230,9 @@ urlcolor = blue,                    % color of external links
 
 \title{Python 101}
 \subtitle{Introduction into Python scripting}
-\author{\href{http://work.vanwerkhoven.org/}{Tim van Werkoven}}
+\author[\href{http://work.vanwerkhoven.org/}{Tim van Werkhoven}]%
+{\href{http://work.vanwerkhoven.org/}{Tim van Werkhoven}\\%
+\url{t.i.m.vanwerkhoven@gmail.com}}
 \institute[SIU, UU]{%
 \href{http://www.astro.uu.nl/}{Sterrekundig Instituut Utrecht}, %
 \href{http://www.uu.nl}{Utrecht University}\\[1em]
@@ -294,6 +299,33 @@ urlcolor = blue,                    % color of external links
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{Zen of Python}
+	\begin{quote}
+Beautiful is better than ugly.\\
+Explicit is better than implicit.\\
+Simple is better than complex.\\
+Complex is better than complicated.\\
+Flat is better than nested.\\
+Sparse is better than dense.\\
+Readability counts.\\
+Special cases aren't special enough to break the rules.\\
+Although practicality beats purity.\\
+Errors should never pass silently.\\
+Unless explicitly silenced.\\
+    In the face of ambiguity, refuse the temptation to guess.\\
+    There should be one-- and preferably only one --obvious way to do it.\\
+    Although that way may not be obvious at first unless you're Dutch.\\
+    Now is better than never.\\
+    Although never is often better than *right* now.\\
+    If the implementation is hard to explain, it's a bad idea.\\
+    If the implementation is easy to explain, it may be a good idea.\\
+    Namespaces are one honking great idea -- let's do more of those!\\
+\end{quote}
+From \url{http://www.python.org/dev/peps/pep-0020/}.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
@@ -370,8 +402,8 @@ Hello world!
 	\spacer
 
 	\begin{itemize}
-		\item Enthought\footnote[frame]{See \url{http://enthought.com/products/epd.php}} provides a complete Python package for scientific computing
-		\item Many package managers such as \verb!apt!, \verb!emerge!, \verb!port! and \verb!fink! support python
+		\item Enthought\footnote[frame]{See \url{http://enthought.com/products/epd.php}} provides a complete Python package for scientific computing for Windows, Mac or Linux.
+		\item Many package managers such as \verb!apt! \verb!emerge!, \verb!port! and \verb!fink! support python
 	\end{itemize}
 	
 \end{frame}
@@ -480,6 +512,53 @@ Hello world!
 	(4331745360, int, 10)
 	\end{python}
 
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Boxes vs. names}
+	
+	Other programming languages have `boxes' for variables:
+	
+	\spacer
+
+	\begin{python}
+	@@int a = 1;
+	@@a = 2;
+	@@int b = a;
+	\end{python}
+	
+	\spacer
+	
+	\begin{center}
+	\only<1>{\includegraphics[width=2cm]{\imgpath a1box.png}}
+	\only<2->{\includegraphics[width=2cm]{\imgpath a2box.png}}
+	\uncover<3->{\includegraphics[width=2cm]{\imgpath b2box.png}}
+	\end{center}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Boxes vs. names}
+	
+	Python does not use `boxes', but instead uses `names':
+
+	\spacer
+
+	\begin{python}
+	@@a = 1
+	@@a = 2
+	@@b = a
+	\end{python}
+	
+	\spacer
+	
+	\begin{center}
+	\only<1>{\includegraphics[height=2cm]{\imgpath a1tag.png}}
+	\only<2->{\includegraphics[height=1.4cm]{\imgpath 1.png}}
+	\only<2>{\includegraphics[height=2cm]{\imgpath a2tag.png}}
+	\only<3->{\includegraphics[height=2cm]{\imgpath ab2tag.png}}
+	\end{center}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -721,7 +800,7 @@ Floats\pypypy{\pythoni{int} divisions work differently}:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-	\frametitle{Datatypes -- Complex \& boolean}
+	\frametitle{Datatypes -- Complex}
 
 Complex:
 \begin{python}
@@ -732,8 +811,23 @@ Complex:
 complex
 \end{python}
 
-	\spacer
+\spacer
 
+Note operator precedence, use parentheses
+\begin{python}
+>>> 1+2j * 2
+(1+4j)
+>>> (1+2j) * 2
+(2+4j)
+\end{python}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Datatypes -- more boolean}
+	
 Boolean
 \begin{python}
 >>> 5 > 4
@@ -742,6 +836,41 @@ True
 True
 \end{python}
 
+Python has a lot of intrinsic truth values that can (and should) be used:	
+
+\begin{python}
+>>> bool([]), bool(0.0), bool(" ")
+(False, False, True)
+\end{python}
+\spacer
+\pause
+	\begin{columns}[T]
+		\begin{column}{0.3 \textwidth}
+			False
+			
+			\begin{itemize}
+			\item \pythoni{False} (== 0)
+			\item \pythoni{""} (empty string)
+			\item \pythoni{0}, \pythoni{0.0}
+			\item \pythoni{[]}, \pythoni{()}, \verb!{}!, \pythoni{set()}
+			\item \pythoni{None}
+			\end{itemize}
+			
+		\end{column}
+		\begin{column}{0.65 \textwidth}
+			True
+			
+			\begin{itemize}
+			\item \pythoni{True} (== 1)
+			\item any string but \pythoni{""} (\pythoni{" "}, \pythoni{"anything"})
+			\item any number but \pythoni{0} (\pythoni{1}, \pythoni{0.1}, \pythoni{-1}, \pythoni{3.14})
+			\item any non-empty container (\pythoni{[0]}, \pythoni{(None,)}, \pythoni{['']})
+			\item almost any object that's not explicitly \pythoni{False}
+			\end{itemize}
+		\end{column}
+	\end{columns}
+	\spacer
+	See also \url{http://python.net/~goodger/projects/pycon/2007/idiomatic/handout.html#id30}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1522,6 +1651,7 @@ Miscellaneous
 		\item Software carpentry -- \url{http://software-carpentry.org/}
 		\item Python online documentation -- \url{http://docs.python.org/}
 		\item NumPy/Scipy documentation -- \url{http://docs.scipy.org/doc/}
+		\item Idiomatic Python \url{http://python.net/~goodger/projects/pycon/2007/idiomatic/handout.html}
 		\item StackOverflow -- \url{http://stackoverflow.com/questions/tagged/python}
 	\end{itemize}
 	
