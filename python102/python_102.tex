@@ -393,6 +393,35 @@ array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Using packages -- warning}
+	One can also naively run
+	
+	\begin{python}
+	from package import *
+	\end{python}
+
+	to get all functionality into the current namespace. Generally, this is \textbf{bad}.
+	\spacer
+	\pause
+	
+	How will I know why explicit imports are better than the wild-card form?\\
+	\pause
+	You will know when your code you try to read six months from now.\\
+	
+	\spacer
+	\pause
+
+	In general:
+	\begin{itemize}
+	\item \pythoni{import numpy}
+	\item \pythoni{import numpy as np}
+	\item \pythoni{from numpy import arange}
+	\end{itemize}
+	
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Miscellaneous Examples}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
