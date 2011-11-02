@@ -1,0 +1,309 @@
+%!TEX TS-program = xelatex
+%!TEX encoding = UTF-8 Unicode
+
+% File: python_102-exercises.tex -- exercises for Python 102 lecture
+% Author: Tim van Werkhoven (t.i.m.vanwerkhoven@gmail.com, 2011)
+% URL: http://python101.vanwerkhoven.org
+%
+% This work is licensed under the Creative Commons Attribution-NonCommercial-
+% ShareAlike 3.0 Unported License. To view a copy of this license, visit 
+% http://creativecommons.org/licenses/by-nc-sa/3.0/ or send a letter to 
+% Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 
+% 94041, USA.
+
+%\documentclass{article}
+\documentclass[draft=false]{article}
+
+\newcommand{\answer}[1]{#1}%
+%\newcommand{\answer}[1]{}%
+
+%%% Load packages %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% For clickable URLS/references/etc. within the PDF document
+\usepackage[xetex, colorlinks, breaklinks]{hyperref}
+% Some improvements for xetex and latex. Loads fixltx2e, metalogo, xunicode, fontspec.
+% http://mirror.math.ku.edu/tex-archive/macros/latex/contrib/fontspec/fontspec.pdf
+\usepackage[no-math]{fontspec}
+\usepackage{xunicode}
+%\usepackage{xltxtra}
+% Load colors with names
+%\usepackage{color}
+\usepackage{xcolor}
+%\usepackage{xecolour}
+% For headers 
+\usepackage{fancyhdr}
+% Setup page size specifically
+%\usepackage[twoside,paperheight=240mm,paperwidth=170mm,centering,height=186mm,width=120mm,outermargin=45mm]{geometry}
+%\usepackage[xetex,twoside,paperheight=240mm,paperwidth=170mm,centering]{geometry}
+\usepackage[xetex,twoside]{geometry}
+\usepackage{multicol}
+% for source code stuff
+\usepackage[procnames]{listings}
+\usepackage{setspace}
+\usepackage{textcomp}
+
+% shows various LaTeX layout settings http://ftp.snt.utwente.nl/pub/software/tex/macros/latex/contrib/layouts/
+%\usepackage{layouts}
+%\usepackage{layout}
+% supersedes babel, http://www.ctan.org/tex-archive/macros/xetex/latex/polyglossia
+\usepackage{polyglossia} 
+% tiny package useful for spaces after commands
+\usepackage{xspace}
+% change font style of section headers http://www.ctan.org/tex-archive/macros/latex/contrib/sectsty/
+\usepackage{sectsty}
+% fancy verbatim http://ctan.org/tex-archive/macros/latex/contrib/fancyvrb
+\usepackage{fancyvrb}
+% footnotes stuff http://www.ctan.org/tex-archive/macros/latex/contrib/footmisc
+%\usepackage[side]{footmisc}
+\usepackage{footmisc}
+% Verbose referencing
+\usepackage{varioref}
+% Fix link target location
+\usepackage[all]{hypcap}
+% Subfigures
+\usepackage{subfig}
+% Graphics
+\usepackage[xetex]{graphicx}
+
+%%% Hyperref setup %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\hypersetup{
+pdfauthor = {Tim van Werkhoven},
+pdftitle = {Python 102 exercises},
+pdfsubject = {Python 102 exercises},
+pdfkeywords = {Python, slicing, aliases, objects, variables},
+pdfcreator = {LaTeX with hyperref package},
+pdfproducer = {pdfLaTeX},
+colorlinks = false,
+breaklinks = true,
+linkcolor = red,                    % color of internal links
+citecolor = green,                  % color of links to bibliography
+filecolor = magenta,                % color of file links
+urlcolor = blue,                    % color of external links
+}
+
+%%% Set Font options %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\defaultfontfeatures{Mapping=tex-text, Fractions=Diagonal}
+
+% Choose default fonts
+\setmainfont[Numbers={OldStyle}]{Garamond Premier Pro}
+\setsansfont[Scale=MatchLowercase]{Helvetica Neue}
+\setmonofont[Scale=0.6]{Monaco}
+
+% Math fonts aren't easy. Fontspec can only do so much (see http://www.ctan.org/tex-archive/macros/xetex/latex/fontspec). Another option is loading specific packages for math fonts, (see ftp://tug.ctan.org/pub/tex-archive/info/Free_Math_Font_Survey/survey.html and http://www.tug.org/pipermail/xetex/2008-March/009073.html) or sfmath for sans serif fonts (see http://dtrx.de/od/tex/sfmath.html).
+
+% Using fontspec:
+%\setmathrm{Arial}
+%\setmathsf{Arial}
+%\setmathtt{Arial}
+%\setboldmathrm[BoldFont={Optima ExtraBlack}]{Optima Bold}
+% With sfmath:
+% \usepackage[cm]{sfmath}
+% With specific packages
+%\usepackage[garamond]{mathdesign}
+\usepackage{eulervm}
+%\usepackage[math]{kurier}
+%\usepackage{cmbright}
+
+% A somewhat satisfactory solution seems to be using unicode-math in combination with math-compatible open type fonts such as the STIX fonts (see http://www.charlietanksley.net/philtex/the-unicode-math-package-for-xelatex-and-the-stix-fonts/ and http://tex.stackexchange.com/questions/720/is-it-already-possible-to-use-the-stix-fonts and http://typophile.com/node/71171)
+
+%\usepackage{unicode-math}
+%\setmainfont{XITS}
+%\setmathfont{XITS Math}
+%\usepackage[math-style=ISO]{unicode-math}
+% Problem: \setmathfont{} gives a bug when used in combination with amsmath...
+%\setmathfont{STIXGeneral}
+%\setmathfont[range=\mathit/{latin,Latin}]{Adobe Garamond Pro}
+%\setmathfont[range=\mathit/{greek,Greek}]{Linux Libertine O}
+%\usepackage{amsmath}
+
+%\setmathfont{Asana-Math.otf}
+%\setmathfont[range=\mathit/{greek,Greek,latin,Latin}]{Adobe Garamond Pro}
+
+% This is how you can define custom temporary font styles
+
+% Set default languages
+\setdefaultlanguage{english}
+
+%%% Page layout %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\sloppy								% don't care too much about a lot of 
+									% space in sentences
+\setlength{\parindent}{0ex}
+\setlength{\parskip}{1ex plus 0.5ex minus 0.5ex}
+
+%% Penalize widow and orphan lines
+\widowpenalty=300
+\clubpenalty=300
+
+%\geometry{includeheadfoot,includemp,papersize={170mm,240mm},total={124mm,185mm}, outermargin=5mm, innermargin=10mm}
+\geometry{paper=a4paper, layout=a4paper}
+%\setlength{\hoffset}{}
+%\addtolength{\hoffset}{0.5in}
+%\addtolength{\textwidth}{-1in}
+%\setlength{\marginparwidth}{200pt}
+%\setlength{\marginparwidth}{3cm}
+
+% Some path-shortcuts
+\newcommand{\imgpath}{../../00-img/}
+
+%%% Python code highlighting %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\renewcommand{\lstlistlistingname}{Python Listings}
+\renewcommand{\lstlistingname}{Code Listing}
+
+%\newcommand{\mat}[1]{\ensuremath{\mathbf{#1}}}%
+%\definecolor{gray}{gray}{0.5}
+%\definecolor{green}{rgb}{0,0.5,0}
+%\definecolor{lightgreen}{rgb}{0,0.7,0}
+%\definecolor{purple}{rgb}{0.5,0,0.5}
+%\definecolor{darkred}{rgb}{0.5,0,0}
+%\definecolor{gray}{gray}{0.5}
+%
+%\def\green{\color{green}}
+%\def\orange{\color{orange}}
+%\def\red{\color{red}}
+
+% This gives syntax highlighting in the python environment
+\renewcommand{\lstlistlistingname}{Code Listings}
+\renewcommand{\lstlistingname}{Code Listing}
+
+\lstdefinelanguage{pythontim}{
+basicstyle=\ttfamily\small,%\setstretch{1},
+morestring=[s]{"""}{"""},
+morestring=[s]{'''}{'''},
+morestring=[s]{'}{'},
+morestring=[s]{"}{"},
+stringstyle=\color{red},
+showstringspaces=false,
+alsoletter={1234567890},
+%otherkeywords={\ , \}, \{},
+keywordstyle=\color{blue},
+emph={access,and,as,break,class,continue,def,del,elif,else,%
+except,exec,finally,for,from,global,if,import,in,is,%
+lambda,not,or,pass,print,raise,return,try,while,assert,yield},
+emphstyle=\color{orange}\bfseries,
+emph={[2]True, False, None, self},
+emphstyle=[2]\color{green},
+emph={[3]from, import, as},
+emphstyle=[3]\color{blue},
+upquote=true,
+%moredelim=**[is][\only<+>{\makebox[0cm]{•}}\hspace{1em}]{@}{@},
+moredelim=**[is][\only<+>{\hspace{-2mm}\makebox[2mm]{•}}]{@}{@},
+morecomment=[l]{\#},
+commentstyle=\color{gray}\slshape,
+literate=*{:}{{\textcolor{blue}:}}{1}%
+	{=}{{\textcolor{blue}=}}{1}%
+	{-}{{\textcolor{blue}-}}{1}%
+	{+}{{\textcolor{blue}+}}{1}%
+	{*}{{\textcolor{blue}*}}{1}%
+	{!}{{\textcolor{blue}!}}{1}%
+	{(}{{\textcolor{blue}(}}{1}%
+	{)}{{\textcolor{blue})}}{1}%
+	{[}{{\textcolor{blue}[}}{1}%
+	{]}{{\textcolor{blue}]}}{1}%
+	{<}{{\textcolor{blue}<}}{1}%
+	{>}{{\textcolor{blue}>}}{1},%
+emph={[5]ArithmeticError,AssertionError,AttributeError,BaseException,%
+DeprecationWarning,EOFError,Ellipsis,EnvironmentError,Exception,%
+False,FloatingPointError,FutureWarning,GeneratorExit,IOError,%
+ImportError,ImportWarning,IndentationError,IndexError,KeyError,%
+KeyboardInterrupt,LookupError,MemoryError,NameError,None,%
+NotImplemented,NotImplementedError,OSError,OverflowError,%
+PendingDeprecationWarning,ReferenceError,RuntimeError,RuntimeWarning,%
+StandardError,StopIteration,SyntaxError,SyntaxWarning,SystemError,%
+SystemExit,TabError,True,TypeError,UnboundLocalError,UnicodeDecodeError,%
+UnicodeEncodeError,UnicodeError,UnicodeTranslateError,UnicodeWarning,%
+UserWarning,ValueError,Warning,ZeroDivisionError,abs,all,any,apply,%
+basestring,bool,buffer,callable,chr,classmethod,cmp,coerce,compile,%
+complex,copyright,credits,delattr,dict,dir,divmod,enumerate,eval,%
+execfile,exit,file,filter,float,frozenset,getattr,globals,hasattr,%
+hash,help,hex,id,input,int,intern,isinstance,issubclass,iter,len,%
+license,list,locals,long,map,max,min,object,oct,open,ord,pow,property,%
+quit,range,raw_input,reduce,reload,repr,reversed,round,set,setattr,%
+slice,sorted,staticmethod,str,sum,super,tuple,type,unichr,unicode,%
+vars,xrange,zip},
+emphstyle=[5]\color{purple}\bfseries,
+escapechar=\~,
+xleftmargin=2mm,
+%xrightmargin=2mm,
+framexleftmargin=3mm, framextopmargin=1mm, frame=shadowbox,
+rulesepcolor=\color{blue},
+}
+
+\lstnewenvironment{python}[1][]{
+\lstset{
+language=pythontim,#1
+}}{}
+
+\def\pythoni{\lstinline[language=pythontim]}
+
+%%% Custom commands %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Some command abbreviations
+\newcommand{\tsup}[1]{\textsuperscript{#1}}
+\newcommand{\tsub}[1]{\textsubscript{#1}}
+
+\renewcommand{\vec}[1]{\ensuremath{\boldsymbol{#1}}}%
+\newcommand{\mat}[1]{\ensuremath{\mathbf{#1}}}%
+
+%%% Begin document %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\thispagestyle{empty}
+
+%\sectionfont{\sectionrule{3ex}{3pt}{-1ex}{1pt}}
+
+\section*{Introduction}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+These exercises are part of the Python 102 lecture.
+
+\section{Flatfielding script}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Write a program that will read N>0 FITS files from disk, and then either 
+averages or sums these depending on the command line arguments passed. The 
+final output should be stored to disk as FITS file.
+
+Some pointers:
+
+\begin{itemize}
+	\item Use the \pythoni{argparse}, \pythoni{pyfits} and \pythoni{numpy} modules
+\end{itemize}
+
+\section{Palindromes}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\emph{From \url{http://projecteuler.net/problem=4}:}
+A palindromic number reads the same both ways. The largest palindrome made from the product of two 2-digit numbers is 9009 = 91 × 99.
+
+Find the largest palindrome made from the product of two 3-digit numbers.
+
+Some pointers:
+
+\begin{itemize}
+	\item To check if a number is a palindrome, consider strings.
+	\item Speed: Remember that multiplications are commutative.
+	\item Speed: At some point checking further does not make sense anymore. When and why?
+\end{itemize}
+
+\section{Reading a file}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\emph{From \url{https://www.facebook.com/careers/puzzles.php?puzzle_id=7}:}
+
+Given a file with a single positive integer (in base 10) expressed as a string using standard ASCII text (e.g. for example, the number "15" but without the double quotes), iterate over all lines, and for each line:
+
+For integers that are evenly divisible by three, output the exact string Hoppity, followed by a newline.
+For integers that are evenly divisible by five, output the exact string Hophop, followed by a newline.
+For integers that are evenly divisible by both three and five, do not do any of the above, but instead output the exact string Hop, followed by a newline.
+
+\section*{References}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\begin{itemize}
+%\end{itemize}
+
+This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
+
+\end{document}
