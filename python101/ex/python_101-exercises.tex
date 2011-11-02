@@ -14,6 +14,9 @@
 %\documentclass{article}
 \documentclass[draft=false]{article}
 
+\newcommand{\answer}[1]{#1}%
+%\newcommand{\answer}[1]{}%
+
 %%% Load packages %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % For clickable URLS/references/etc. within the PDF document
@@ -259,7 +262,7 @@ These exercises are part of the Python 101 lecture.
 \section{Reading Python}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Figure out what the output of these snippets will be, and understand why.
+Figure out what the output of these python snippets will be, and understand why.
 
 \setlength{\columnsep}{3em}
 
@@ -283,7 +286,7 @@ These exercises deal with different datatype handling in Python.
 [1,2] * 2
 (1+2j) * 2
 \end{python}
-
+\answer{Adding and multiplying integers and complex numbers goes as expected. With sequences (strings, tuples and lists), multiplication with an integer means \emph{repetition}, and addition means \emph{concatenation}. \pythoni{1,} is a tuple with only one element.}
 \subsubsection{(Im)mutable}
 
 \begin{python}
@@ -294,13 +297,23 @@ b[0] = 5
 c = ([1], 2, 3, 4)
 c[0][0] = 5
 \end{python}
+\answer{With variable \pythoni{a}, we change element 1 (at index 0) of a mutable sequence, a list. With var \pythoni{b}, we attempt to change the first element of an immutable tuple, which raises an error. In the final example, the tuple is immutable, but the first element of the tuple is a mutable list, so we can change the value in the list. Note that \pythoni{c[0] = [5]} would have been invalid.}
 
 \columnbreak
 
 \subsubsection{String concatenation}
 \begin{python}
 print 'o' 'n' "e"
+print "one" \
+"two" \
+"three"
+print """
+"hello"
+'world'
+"""
 \end{python}
+
+\answer{Simple string concatenation as in the first example. Strings are delimited by one or three times a single (\pythoni{'}) or double (\pythoni{"}) quote. A single backslash continues a line. Triple-quoted strings continue over multiple lines and can use quotes inside of them.}
 
 \subsubsection{Tuple (un)packing)}
 
@@ -316,6 +329,8 @@ b, a = a, b
 print a, b
 \end{python}
 
+\answer{Using tuples, one can switch variable `in place' without the need for a third variable as in other programming languages. The reason this works is that the tuple is \emph{packed} on the right side of the equation first, then transferred to the left side and \emph{unpacked} into the two variables \pythoni{a} and \pythoni{b}.}
+
 \end{multicols}
 
 \pagebreak
@@ -330,17 +345,22 @@ Here we investigate the behaviour and use of sequences in Python.
 \subsubsection{Looping over sequences}
 
 \begin{python}
-a = range(10)
+a = range(1, 10)
 out = 1
 for i in a:
-	out *= a
+	out *= i
+print out
 \end{python}
 
+\answer{\pythoni{range([start,] stop[, step])} generates a list from \pythoni{start} to \pythoni{stop} with \pythoni{step} increments. \pythoni{for} loops over all these values and multiplies \pythoni{out} with the current value all the time. The output will be 9!, or 362880.}
+
 \begin{python}
-mrbig = (5, 17, 4, ['mac', 'alex', 'sally'], 888, b)
-for el in mrbig:
+collection = (5, 17, 4, ['mac', 'alex', 'sally'], 888, b)
+for el in collection:
 	print el
 \end{python}
+
+\answer{\pythoni{for} loops over all elements in something that is \emph{iterable}, such as this tuple \pythoni{collection}. Because the fourth element of \pythoni{collection} is a list, python will print the list as a whole and not the individual elements separately.}
 
 \columnbreak
 
@@ -361,6 +381,8 @@ for i in map(len, mytext.split()):
 	prev += i+1
 \end{python}
 
+\answer{A python string is also a sequence, such that \pythoni{for} will loop over all elements. \pythoni{str.split()} splits a string at each space into a list, such that \pythoni{for} will loop over all words. The final \pythoni{for} loop gets a list of the word lengths as input, and the string slicing then prints each word. \pythoni{prev} is necessary to remember where the last word ended.}
+
 \end{multicols}
 
 \subsection{Functional programming}
@@ -373,11 +395,32 @@ mylist = [[[(x, y, z) for x in xrange(3)] for y in xrange(5)] for z in xrange(2)
 mylist[1][3][2]
 \end{python}
 
+\answer{Dissect this statement from outside to inside. We construct a list with \pythoni{for z in xrange(2)}. Each element of this list is a double list comprehension. The outer one is governed by \pythoni{for y in xrange(5)}, yielding a list of 5 elements. Each element of \emph{this} list is a list comprehension \pythoni{for x in xrange(3)} where the output is finally given, which is a tuple of \pythoni{(x, y, z)}. The final output is therefore a triple-nested listed with tuples as elements.}
+
 \begin{python}
 mytext = "Fruit flies like a banana, time flies like an arrow"
 reduce(lambda x, y: x+" "+y, mytext.split())
 \end{python}
 
+\answer{\pythoni{reduce(func, list)} maps func on each element of list, summing along the way. \pythoni{reduce(add, [1,2,3,4])} is equivalent to \pythoni{add(add(add(1,2),3),4)}. \pythoni{str.split()} works as above. The output of this \pythoni{reduce()} statement is therefore the same as \pythoni{mytext} itself.}
+
+\begin{python}
+arglist = ['apples', 1, 'cabbage', 9, 'pears', 2, 'oranges', 5, 'ananas', 7.5, 'pineapple', 3, 'potatoes', 4 ]
+ignore = ['cabbage', 'potatoes']
+remlist = [i for i,el in enumerate(arglist) if el in ignore]
+for idx in reversed(remlist):
+	arglist[idx:idx+2] = ''
+\end{python}
+
+\answer{\pythoni{enumerate(list)} returns a tuple (index, element) for each element in \pythoni{list}. The \pythoni{if} statement in list comprehension controls the execution of the expression for each element in the \pythoni{list}. This means for all elements of \pythoni{arglist} that are in the list \pythoni{ignore}, we get the index back. \pythoni{reversed(list)} returns an iterator to the reversed version of \pythoni{list}, which for this application is the same as reversing \pythoni{list} itself. Looping over all elements in \pythoni{remlist} (which are list indexes), we set the element at that index \emph{and} the next to an empty string, effectively deleting is. The final result is that \pythoni{arglist} will no longer contain the elements cabbage, 9, potatoes and 4.}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{References}
+
+%\begin{itemize}
+%\end{itemize}
+
+This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 
 \end{document}
