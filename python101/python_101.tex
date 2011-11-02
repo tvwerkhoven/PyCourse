@@ -21,6 +21,7 @@
 % Generate either a full presentation, or just handouts. Handouts don't 
 % include the overlay things and 'compact' a presentation on less slides.
 \documentclass[xetex,10pt]{beamer}
+%\documentclass[xetex,10pt, handout]{beamer}
 %\documentclass[xetex,mathserif,serif,10pt, handout]{beamer}
 
 %%% Theme %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -273,7 +274,7 @@ urlcolor = blue,                    % color of external links
 \begin{frame}
     \frametitle{Outline}
     %\note{Some notes for the current slide}
-    \setcounter{tocdepth}{1}
+    \setcounter{tocdepth}{2}
     \tableofcontents
     % You might wish to add the option [pausesections]
 \end{frame}
@@ -282,6 +283,45 @@ urlcolor = blue,                    % color of external links
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{Introduction}
+	
+	\LARGE
+	\begin{block}{}
+		\begin{itemize}
+			\item Why this presentation?
+			\item Why me?
+			\item Why you?
+			\item Why Python?
+		\end{itemize}
+	\end{block}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{This presentation}
+	
+	This presentation is part one of two.
+
+	\spacer
+	\begin{itemize}
+		\item Now, 101: basic Python language syntax
+		\begin{itemize}
+			\item \emph{objects, data types, flow control, functions, slicing}
+		\end{itemize}
+		\item Later, 102: (numerical) data processing, plotting
+		\begin{itemize}
+			\item \emph{packages, NumPy, pyfits, matplotlib, fitting surface}
+		\end{itemize}
+	\end{itemize}
+	
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
@@ -303,27 +343,20 @@ urlcolor = blue,                    % color of external links
 \begin{frame}
 	\frametitle{Zen of Python}
 	\begin{quote}
-Beautiful is better than ugly.\\
-Explicit is better than implicit.\\
-Simple is better than complex.\\
-Complex is better than complicated.\\
-Flat is better than nested.\\
-Sparse is better than dense.\\
-Readability counts.\\
-Special cases aren't special enough to break the rules.\\
-Although practicality beats purity.\\
-Errors should never pass silently.\\
-Unless explicitly silenced.\\
-    In the face of ambiguity, refuse the temptation to guess.\\
-    There should be one-- and preferably only one --obvious way to do it.\\
-    Although that way may not be obvious at first unless you're Dutch.\\
+	Beautiful is better than ugly.\\
+	\pause
+	Simple is better than complex.\\
+	Complex is better than complicated.\\
+	\pause
+	Readability counts.\\
+	\pause
     Now is better than never.\\
     Although never is often better than *right* now.\\
-    If the implementation is hard to explain, it's a bad idea.\\
-    If the implementation is easy to explain, it may be a good idea.\\
-    Namespaces are one honking great idea -- let's do more of those!\\
 \end{quote}
-From \url{http://www.python.org/dev/peps/pep-0020/}.
+
+\spacer
+
+\emph{Abridged, from \url{http://www.python.org/dev/peps/pep-0020/}.}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -341,6 +374,30 @@ From \url{http://www.python.org/dev/peps/pep-0020/}.
 		\item Free (GPL) ({\red -IDL}, {\green +Perl})
 		\item \emph{Dutch} ({\red -IDL}, {\red -Perl})
 	\end{itemize}
+	
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{About Python}
+	
+	Compared to Perl:
+	\begin{itemize}
+		\item Closer to C/C++
+		\item More explicit
+		\item Easier to learn(?)
+	\end{itemize}
+	
+	\spacer
+	
+	Compared to IDL:
+	\begin{itemize}
+		\item More modern, more flexible
+		\item More packages (although not all)
+		\item Open and free
+	\end{itemize}
+	
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -365,7 +422,7 @@ From \url{http://www.python.org/dev/peps/pep-0020/}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-	\frametitle{This presentation}
+	\frametitle{Syntax}
 	
 	Python code is shown like this:
 \begin{python}
@@ -403,7 +460,7 @@ Hello world!
 
 	\begin{itemize}
 		\item Enthought\footnote[frame]{See \url{http://enthought.com/products/epd.php}} provides a complete Python package for scientific computing for Windows, Mac or Linux.
-		\item Many package managers such as \verb!apt! \verb!emerge!, \verb!port! and \verb!fink! support python
+		\item Many package managers such as \verb!apt!, \verb!emerge!, \verb!port! and \verb!fink! support Python
 	\end{itemize}
 	
 \end{frame}
@@ -440,7 +497,7 @@ Hello world!
 \begin{frame}[fragile]
 	\frametitle{IPython}
 	
-	Besides the standard python interpreter, IPython is a strongly improved version.
+	Besides the standard Python interpreter, IPython is a strongly improved version.
 
 	\spacer
 
@@ -479,223 +536,7 @@ Hello world!
 # -*- coding: encoding -*-
 \end{verbatim}
 
-	to tell python what encoding you are using, in order to include Unicode literals, for example.
-
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-\subsection{Objects}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-	\frametitle{Objects\footnote[frame]{See \href{http://docs.python.org/reference/datamodel.html\#objects-values-and-types}{http://docs.python.org/reference/datamodel.html¶3.1}}}
-
-	\begin{itemize}
-		\item Everything is stored in an object, \emph{even functions}.
-		\pause
-		\item Objects have identity, type and value.
-		\pause
-		\item Immutable (values cannot change) vs.\ mutable objects (can change)
-		\pause
-		%\item Objects are never destroyed, but are garbage collected
-		%\pause
-		\item Some objects contain other objects: \emph{containers}
-	\end{itemize}
-	
-	\spacer
-	
-	\begin{python}
-	>>> a = 10
-	>>> (id(a), type(a), a)
-	(4331745360, int, 10)
-	\end{python}
-
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]{Boxes vs. names}
-	
-	Other programming languages have `boxes' for variables:
-	
-	\spacer
-
-	\begin{python}
-	@@int a = 1;
-	@@a = 2;
-	@@int b = a;
-	\end{python}
-	
-	\spacer
-	
-	\begin{center}
-	\only<1>{\includegraphics[width=2cm]{\imgpath a1box.png}}
-	\only<2->{\includegraphics[width=2cm]{\imgpath a2box.png}}
-	\uncover<3->{\includegraphics[width=2cm]{\imgpath b2box.png}}
-	\end{center}
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]{Boxes vs. names}
-	
-	Python does not use `boxes', but instead uses `names':
-
-	\spacer
-
-	\begin{python}
-	@@a = 1
-	@@a = 2
-	@@b = a
-	\end{python}
-	
-	\spacer
-	
-	\begin{center}
-	\only<1>{\includegraphics[height=2cm]{\imgpath a1tag.png}}
-	\only<2->{\includegraphics[height=1.4cm]{\imgpath 1.png}}
-	\only<2>{\includegraphics[height=2cm]{\imgpath a2tag.png}}
-	\only<3->{\includegraphics[height=2cm]{\imgpath ab2tag.png}}
-	\end{center}
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]{Objects examples}
-	
-	Objects \& values
-
-	\spacer
-
-	\begin{columns}[T]
-		\begin{column}{0.45 \textwidth}
-			\begin{python}
-			@>>> code = 'Python'@
-			@>>> version = 2.7@
-			@>>> p = code@
-			@>>> code = 'Fortran'@
-			\end{python}
-%			\begin{python}
-%			%\uncover<1->{>>> code = 'Python'}%
-%			%\uncover<2->{>>> version = 2.7}%
-%			%\uncover<3->{>>> p = code}%
-%			%\uncover<4->{>>> code = 'Fortran'}%
-%			\end{python}
-		\end{column}
-		\begin{column}{0.45 \textwidth}
-			\begin{tabular}{l|l}
-			Object & Value \\
-			\hline
-			\verb!code! \tikz[na] \node[coordinate] (v1) {}; & \tikz[na] \node[coordinate] (v1v) {}; `Python' \\
-			\verb!version! \tikz[na] \node[coordinate] (v2) {}; & \tikz[na] \node[coordinate] (v2v) {}; 2.7 \\
-			\verb!p! \tikz[na] \node[coordinate] (v3) {}; &  \\
-			& \tikz[na] \node[coordinate] (v3v) {}; `Fortran' \\
-			\end{tabular}
-		\end{column}
-	\end{columns}
-
-	
-	\begin{tikzpicture}[overlay]
-		\path[->]<1-3> (v1) edge [bend left] (v1v);
-		\path[->]<2-> (v2) edge [bend left] (v2v);
-		\path[->]<3-3> (v3) edge [bend right] (v1v);
-		\path[->]<4-> (v1) edge [bend right] (v3v);
-		\path[->]<4-> (v3) edge [] (v3v);
-	\end{tikzpicture}
-
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-	\frametitle{Objects examples II}
-
-\begin{python}
->>> a = 10; b = a
->>> a is b
-True
-\end{python}
-
-\pythoni{a} and \pythoni{b} are the same \emph{object}.
-\pause
-
-\begin{python}
->>> b = 20; a is b
-False
->>> b = 10; a is b
-True
-\end{python}
-
-\pythoni{a} and \pythoni{b} are again the same object, \emph{even though we did not assign them manually}
-\pause
-
-\begin{python}
->>> id(a), id(b)
-(4331745360, 4331745360)
-\end{python}
-
-\pythoni{id()}\footnote[frame]{\url{http://docs.python.org/library/functions.html\#id}} gives the identity of an object (memory location).
-
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-	\frametitle{Objects examples III}
-
-Two lists
-\begin{python}
->>> a = [1,2,3]
->>> b = [1,2,3]
->>> a == b
-True
-\end{python}
-
-\pythoni{a} and \pythoni{b} have the same \emph{value}.	
-\pause
-
-\begin{python}
->>> a is b
-False
-\end{python}
-
-\pythoni{a} and \pythoni{b} are \emph{not} the same \emph{object}.	
-\pause
-
-\begin{python}
->>> a = b
->>> a is b
-True
-\end{python}
-
-\pythoni{a} now points to \pythoni{b}.
-\pause
-
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-	\frametitle{Objects examples IV}
-
-\begin{python}
->>> a[0] = 10
->>> a is b
-True
->>> a
-[10, 2, 3]
->>> b
-[10, 2, 3]
-\end{python}
-
-Since \pythoni{a} points to \pythoni{b}, if we change \pythoni{a}, we also change \pythoni{b}.
-
-	\spacer
-
-\emph{(This subtle difference arises from the fact that a list is mutable.)}
+	to tell Python what encoding you are using, in order to include Unicode literals, for example.
 
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -728,7 +569,7 @@ Since \pythoni{a} points to \pythoni{b}, if we change \pythoni{a}, we also chang
 
 	\begin{itemize}
 		\item \pythoni{int}: 32 bit (or more) signed number,
-		\item \pythoni{long}\pypypy{all ints are long}: arbitrary length numer,
+		\item \pythoni{long}\pypypy{all ints are long}: arbitrary length number,
 		\item \pythoni{float}: machine-level double precision floating point numbers,
 		\item \pythoni{complex}: tuple of floats,
 		\item \pythoni{bool}: truth values \pythoni{True} and \pythoni{False}.
@@ -785,7 +626,7 @@ Note that bignum can generally not be used in external libraries.
 \begin{frame}[fragile]
 	\frametitle{Datatypes -- Floats}
 
-Floats\pypypy{\pythoni{int} divisions work differently}:
+Floats\pypypy{\pythoni{int} divisions are float by default}:
 \begin{python}
 >>> 5.0 / 3
 1.6666666666666667
@@ -794,6 +635,20 @@ Floats\pypypy{\pythoni{int} divisions work differently}:
 >>> 5.0 // 3
 1.0
 \end{python}
+
+\spacer
+
+\pause
+In Python 3:
+
+\begin{python}
+>>> from __future__ import division
+>>> 5 / 3
+1.6666666666666667
+>>> 5.0 // 3
+1.0
+\end{python}
+
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1172,6 +1027,391 @@ def sum_two(x, y):
 \section{More advanced}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\subsection{Objects \& aliases}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Objects\footnote[frame]{See \href{http://docs.python.org/reference/datamodel.html\#objects-values-and-types}{http://docs.python.org/reference/datamodel.html¶3.1}}}
+
+	\begin{itemize}
+		\item Everything is stored in an object, \emph{even functions}.
+		\pause
+		\item Objects have identity, type and value.
+		\pause
+		\item Immutable (values cannot change) vs.\ mutable objects (can change)
+		\pause
+		%\item Objects are never destroyed, but are garbage collected
+		%\pause
+		\item Some objects contain other objects: \emph{containers}
+	\end{itemize}
+	
+	\spacer
+	
+	\begin{python}
+	>>> a = 10
+	>>> (id(a), type(a), a)
+	(4331745360, int, 10)
+	\end{python}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Boxes vs. names}
+	
+	Other programming languages have `boxes' for variables:
+	
+	\spacer
+
+	\begin{python}
+	@@int a = 1;
+	@@a = 2;
+	@@int b = a;
+	\end{python}
+	
+	\spacer
+	
+	\begin{center}
+	\only<1>{\includegraphics[width=2cm]{\imgpath a1box.png}}
+	\only<2->{\includegraphics[width=2cm]{\imgpath a2box.png}}
+	\uncover<3->{\includegraphics[width=2cm]{\imgpath b2box.png}}
+	\end{center}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Boxes vs. names}
+	
+	Python does not use `boxes', but instead uses `names'. Different names can point to the same data, these are \emph{aliases}:
+
+	\spacer
+
+	\begin{python}
+	@@a = 1
+	@@a = 2
+	@@b = a
+	\end{python}
+	
+	\spacer
+	
+	\begin{center}
+	\only<1>{\includegraphics[height=2cm]{\imgpath a1tag.png}}
+	\only<2->{\includegraphics[height=1.4cm]{\imgpath 1.png}}
+	\only<2>{\includegraphics[height=2cm]{\imgpath a2tag.png}}
+	\only<3->{\includegraphics[height=2cm]{\imgpath ab2tag.png}}
+	\end{center}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{frame}[fragile]{Objects examples}
+%	
+%	Objects \& values
+%
+%	\spacer
+%
+%	\begin{columns}[T]
+%		\begin{column}{0.45 \textwidth}
+%			\begin{python}
+%			@>>> code = 'Python'@
+%			@>>> version = 2.7@
+%			@>>> p = code@
+%			@>>> code = 'Fortran'@
+%			\end{python}
+%%			\begin{python}
+%%			%\uncover<1->{>>> code = 'Python'}%
+%%			%\uncover<2->{>>> version = 2.7}%
+%%			%\uncover<3->{>>> p = code}%
+%%			%\uncover<4->{>>> code = 'Fortran'}%
+%%			\end{python}
+%		\end{column}
+%		\begin{column}{0.45 \textwidth}
+%			\begin{tabular}{l|l}
+%			Object & Value \\
+%			\hline
+%			\verb!code! \tikz[na] \node[coordinate] (v1) {}; & \tikz[na] \node[coordinate] (v1v) {}; `Python' \\
+%			\verb!version! \tikz[na] \node[coordinate] (v2) {}; & \tikz[na] \node[coordinate] (v2v) {}; 2.7 \\
+%			\verb!p! \tikz[na] \node[coordinate] (v3) {}; &  \\
+%			& \tikz[na] \node[coordinate] (v3v) {}; `Fortran' \\
+%			\end{tabular}
+%		\end{column}
+%	\end{columns}
+%
+%	
+%	\begin{tikzpicture}[overlay]
+%		\path[->]<1-3> (v1) edge [bend left] (v1v);
+%		\path[->]<2-> (v2) edge [bend left] (v2v);
+%		\path[->]<3-3> (v3) edge [bend right] (v1v);
+%		\path[->]<4-> (v1) edge [bend right] (v3v);
+%		\path[->]<4-> (v3) edge [] (v3v);
+%	\end{tikzpicture}
+%
+%\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{frame}[fragile]
+%	\frametitle{Objects examples II}
+%
+%\begin{python}
+%>>> a = 10; b = a
+%>>> a is b
+%True
+%\end{python}
+%
+%\pythoni{a} and \pythoni{b} are the same \emph{object}.
+%\pause
+%
+%\begin{python}
+%>>> b = 20; a is b
+%False
+%>>> b = 10; a is b
+%True
+%\end{python}
+%
+%\pythoni{a} and \pythoni{b} are again the same object, \emph{even though we did not assign them manually}
+%\pause
+%
+%\begin{python}
+%>>> id(a), id(b)
+%(4331745360, 4331745360)
+%\end{python}
+%
+%\pythoni{id()}\footnote[frame]{\url{http://docs.python.org/library/functions.html\#id}} gives the identity of an object (memory location).
+%
+%\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Objects examples}
+
+Two lists
+\begin{python}
+>>> a = [1,2,3]
+>>> b = [1,2,3]
+>>> a == b
+True
+>>> a is b
+False
+>>> id(a), id(b)
+(4437960320, 4438341248)
+\end{python}
+
+\pythoni{a} and \pythoni{b} have the same \emph{value}, but are \emph{not} the same \emph{object}.	\pythoni{id()}\footnote[frame]{\url{http://docs.python.org/library/functions.html\#id}} gives the identity of an object (memory location).
+\pause
+
+\begin{python}
+>>> a = b
+>>> a is b
+True
+>>> id(a), id(b)
+(4438341248, 4438341248)
+\end{python}
+
+\pythoni{a} and \pythoni{b} point to the same data.
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Objects examples cont'd}
+
+\begin{python}
+>>> a[0] = 10
+>>> a is b
+True
+>>> a
+[10, 2, 3]
+>>> b
+[10, 2, 3]
+\end{python}
+
+Since \pythoni{a} points to \pythoni{b}, if we change \pythoni{a}, we also change \pythoni{b}.
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\subsection{Aliases}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{frame}[fragile]
+%	\frametitle{Aliases}
+%
+%	Different \emph{aliases} point to the same data.
+%	\spacer
+%
+%	This does not matter when variables are immutable:
+%	\spacer
+%
+%	\begin{columns}[T]
+%		\begin{column}{0.45 \textwidth}
+%			\begin{python}
+%			@>>> foo = 'hello'@
+%			@>>> bar = foo@
+%			@>>> bar = bar + ' world!'@
+%			\end{python}
+%		\end{column}
+%		\begin{column}{0.45 \textwidth}
+%			\begin{tabular}{l|l}
+%			Variable & Value \\
+%			\hline
+%			\verb!foo! \tikz[na] \node[coordinate] (v1) {}; & \tikz[na] \node[coordinate] (v1v) {};`hello' \\
+%			\verb!bar! \tikz[na] \node[coordinate] (v2) {}; & \tikz[na] \node[coordinate] (v2v) {};`hello world!' \\
+%			\end{tabular}
+%		\end{column}
+%	\end{columns}
+%	
+%		\begin{tikzpicture}[overlay]
+%		\path[->]<1-> (v1) edge [bend left] (v1v);
+%		\path[->]<2> (v2) edge [bend right] (v1v);
+%		\path[->]<3-> (v2) edge [bend right] (v2v);
+%	\end{tikzpicture}
+%
+%	\pause
+%	\spacer
+%	When variables are mutable, this can give unexpected results.
+%	\spacer
+%	\begin{columns}[T]
+%		\begin{column}{0.45 \textwidth}
+%			\begin{python}
+%			@>>> alist = [1, 2, 3, 4]@
+%			@>>> blist = alist@
+%			@>>> blist[0] = 5@
+%			\end{python}
+%		\end{column}
+%		\begin{column}{0.45 \textwidth}
+%			\begin{tabular}{l|l}
+%			Variable & Value \\
+%			\hline
+%			\verb!alist! \tikz[na] \node[coordinate] (w1) {}; & \tikz[na] \node[coordinate] (w1v) {};\verb![1, 2, 3, 4]! \\
+%			\verb!blist! \tikz[na] \node[coordinate] (w2) {}; & \tikz[na] \node[coordinate] (w2v) {};\verb![5, 2, 3, 4]! \\
+%			\end{tabular}
+%		\end{column}
+%	\end{columns}
+%	
+%	\begin{tikzpicture}[overlay]
+%		\path[->]<5-6> (w1) edge [bend left] (w1v);
+%		\path[->]<6> (w2) edge [bend right] (w1v);
+%		\path[->]<7-> (w1) edge [bend left] (w2v);
+%		\path[->]<7-> (w2) edge [bend right] (w2v);
+%	\end{tikzpicture}
+%
+%\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Aliases -- Functions}
+
+	Variables are \emph{passed by object} to functions.
+	\spacer
+
+	If the variable is not mutable, it acts like `pass by value':
+	\spacer
+	
+\begin{python}
+def sum_two(x, y):
+    return x + y
+\end{python}
+
+	\spacer
+
+	\begin{columns}[T]
+		\begin{column}{0.45 \textwidth}
+			\begin{python}
+			@@>>> a = 1
+			@@>>> sum_two(a, 4)
+			@@>>> a
+			1
+			\end{python}
+		\end{column}
+		\begin{column}{0.45 \textwidth}
+			\begin{tabular}{ll}
+			Object & Value \\
+			\hline
+			\verb!a! \tikz[na] \node[coordinate] (v1) {}; & \tikz[na] \node[coordinate] (v1v) {}; 1 \\
+			\verb!x! \tikz[na] \node[coordinate] (v2) {}; & \tikz[na] \node[coordinate] (v2v) {}; 5 \\
+			\verb!y! \tikz[na] \node[coordinate] (v3) {}; & \tikz[na] \node[coordinate] (v3v) {}; 4 \\
+			\end{tabular}
+		\end{column}
+	\end{columns}
+
+	
+	\begin{tikzpicture}[overlay]
+		\path[->]<1-> (v1) edge [bend left] (v1v);
+		\path[->]<2> (v2) edge [bend left] (v1v);
+		\path[->]<2-> (v3) edge [bend left] (v3v);
+		\path[->]<3> (v2) edge [bend left] (v2v);
+	\end{tikzpicture}
+
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Aliases -- Functions}
+
+	If the variable is mutable, it acts like \emph{pass by reference}:
+	\spacer
+
+\begin{python}
+def inc_list(l1):
+    for i in range(len(l1)):
+        l1[i] += 1
+    return l1
+\end{python}
+
+	\spacer
+
+	\begin{columns}[T]
+		\begin{column}{0.45 \textwidth}
+			\begin{python}
+			@@>>> a = [1,2,3]
+			@@>>> inc_list(a)
+			@@>>> a
+			[2,3,4]
+			\end{python}
+		\end{column}
+		\begin{column}{0.45 \textwidth}
+			\begin{tabular}{lll}
+			Object & Object & Value \\
+			\hline
+			\verb!a!\tikz[na] \node[coordinate] (v1) {}; &%
+				\fbox{\phantom{x}}\tikz[na] \node[coordinate] (v1v1) {}; &%
+				\tikz[na] \node[coordinate] (v1vv1) {}; 1 \\
+			 & 
+				\tikz[na] \node[coordinate] (v1v) {};%
+				\fbox{\phantom{x}}\tikz[na] \node[coordinate] (v1v2) {}; & %
+				\tikz[na] \node[coordinate] (v1vv2) {}; 2 \\
+			 & 
+				\fbox{\phantom{x}}\tikz[na] \node[coordinate] (v1v3) {}; & %
+				\tikz[na] \node[coordinate] (v1vv3) {}; 3 \\
+			 &  & %
+				\tikz[na] \node[coordinate] (v1vv4) {}; 4 \\
+			\end{tabular}
+		\end{column}
+	\end{columns}
+	
+	\begin{tikzpicture}[overlay]
+		\path[->]<1-> (v1) edge [bend left] (v1v);
+		\path[->]<1> (v1v1) edge [bend right] (v1vv1);
+		\path[->]<1> (v1v2) edge [bend right] (v1vv2);
+		\path[->]<1> (v1v3) edge [bend right] (v1vv3);
+		\path[->]<3-> (v1v1) edge [bend right] (v1vv2);
+		\path[->]<3-> (v1v2) edge [bend right] (v1vv3);
+		\path[->]<3-> (v1v3) edge [bend right] (v1vv4);
+	\end{tikzpicture}
+
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \subsection{Slicing}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1290,183 +1530,6 @@ IndexError: list index out of range
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Aliases}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-	\frametitle{Aliases}
-
-	Different \emph{aliases} point to the same data.
-	\spacer
-
-	This does not matter when variables are immutable:
-	\spacer
-
-	\begin{columns}[T]
-		\begin{column}{0.45 \textwidth}
-			\begin{python}
-			@>>> foo = 'hello'@
-			@>>> bar = foo@
-			@>>> bar = bar + ' world!'@
-			\end{python}
-		\end{column}
-		\begin{column}{0.45 \textwidth}
-			\begin{tabular}{l|l}
-			Variable & Value \\
-			\hline
-			\verb!foo! \tikz[na] \node[coordinate] (v1) {}; & \tikz[na] \node[coordinate] (v1v) {};`hello' \\
-			\verb!bar! \tikz[na] \node[coordinate] (v2) {}; & \tikz[na] \node[coordinate] (v2v) {};`hello world!' \\
-			\end{tabular}
-		\end{column}
-	\end{columns}
-	
-		\begin{tikzpicture}[overlay]
-		\path[->]<1-> (v1) edge [bend left] (v1v);
-		\path[->]<2> (v2) edge [bend right] (v1v);
-		\path[->]<3-> (v2) edge [bend right] (v2v);
-	\end{tikzpicture}
-
-	\pause
-	\spacer
-	When variables are mutable, this can give unexpected results.
-	\spacer
-	\begin{columns}[T]
-		\begin{column}{0.45 \textwidth}
-			\begin{python}
-			@>>> alist = [1, 2, 3, 4]@
-			@>>> blist = alist@
-			@>>> blist[0] = 5@
-			\end{python}
-		\end{column}
-		\begin{column}{0.45 \textwidth}
-			\begin{tabular}{l|l}
-			Variable & Value \\
-			\hline
-			\verb!alist! \tikz[na] \node[coordinate] (w1) {}; & \tikz[na] \node[coordinate] (w1v) {};\verb![1, 2, 3, 4]! \\
-			\verb!blist! \tikz[na] \node[coordinate] (w2) {}; & \tikz[na] \node[coordinate] (w2v) {};\verb![5, 2, 3, 4]! \\
-			\end{tabular}
-		\end{column}
-	\end{columns}
-	
-	\begin{tikzpicture}[overlay]
-		\path[->]<5-6> (w1) edge [bend left] (w1v);
-		\path[->]<6> (w2) edge [bend right] (w1v);
-		\path[->]<7-> (w1) edge [bend left] (w2v);
-		\path[->]<7-> (w2) edge [bend right] (w2v);
-	\end{tikzpicture}
-
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-	\frametitle{Aliases -- Functions}
-
-	Variables are \emph{passed by object} to functions.
-	\spacer
-
-	If the variable is not mutable, it acts like `pass by value':
-	\spacer
-	
-\begin{python}
-def sum_two(x, y):
-    return x + y
-\end{python}
-
-	\spacer
-
-	\begin{columns}[T]
-		\begin{column}{0.45 \textwidth}
-			\begin{python}
-			@@>>> a = 1
-			@@>>> sum_two(a, 4)
-			@@>>> a
-			1
-			\end{python}
-		\end{column}
-		\begin{column}{0.45 \textwidth}
-			\begin{tabular}{ll}
-			Object & Value \\
-			\hline
-			\verb!a! \tikz[na] \node[coordinate] (v1) {}; & \tikz[na] \node[coordinate] (v1v) {}; 1 \\
-			\verb!x! \tikz[na] \node[coordinate] (v2) {}; & \tikz[na] \node[coordinate] (v2v) {}; 5 \\
-			\verb!y! \tikz[na] \node[coordinate] (v3) {}; & \tikz[na] \node[coordinate] (v3v) {}; 4 \\
-			\end{tabular}
-		\end{column}
-	\end{columns}
-
-	
-	\begin{tikzpicture}[overlay]
-		\path[->]<1-> (v1) edge [bend left] (v1v);
-		\path[->]<2> (v2) edge [bend left] (v1v);
-		\path[->]<2-> (v3) edge [bend left] (v3v);
-		\path[->]<3> (v2) edge [bend left] (v2v);
-	\end{tikzpicture}
-
-
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-	\frametitle{Aliases -- Functions}
-
-	If the variable is mutable, it acts like \emph{pass by reference}:
-	\spacer
-
-\begin{python}
-def inc_list(l1):
-    for i in range(len(l1)):
-        l1[i] += 1
-    return l1
-\end{python}
-
-	\spacer
-
-	\begin{columns}[T]
-		\begin{column}{0.45 \textwidth}
-			\begin{python}
-			@@>>> a = [1,2,3]
-			@@>>> inc_list(a)
-			@@>>> a
-			[2,3,4]
-			\end{python}
-		\end{column}
-		\begin{column}{0.45 \textwidth}
-			\begin{tabular}{lll}
-			Object & Object & Value \\
-			\hline
-			\verb!a!\tikz[na] \node[coordinate] (v1) {}; &%
-				\fbox{\phantom{x}}\tikz[na] \node[coordinate] (v1v1) {}; &%
-				\tikz[na] \node[coordinate] (v1vv1) {}; 1 \\
-			 & 
-				\tikz[na] \node[coordinate] (v1v) {};%
-				\fbox{\phantom{x}}\tikz[na] \node[coordinate] (v1v2) {}; & %
-				\tikz[na] \node[coordinate] (v1vv2) {}; 2 \\
-			 & 
-				\fbox{\phantom{x}}\tikz[na] \node[coordinate] (v1v3) {}; & %
-				\tikz[na] \node[coordinate] (v1vv3) {}; 3 \\
-			 &  & %
-				\tikz[na] \node[coordinate] (v1vv4) {}; 4 \\
-			\end{tabular}
-		\end{column}
-	\end{columns}
-	
-	\begin{tikzpicture}[overlay]
-		\path[->]<1-> (v1) edge [bend left] (v1v);
-		\path[->]<1> (v1v1) edge [bend right] (v1vv1);
-		\path[->]<1> (v1v2) edge [bend right] (v1vv2);
-		\path[->]<1> (v1v3) edge [bend right] (v1vv3);
-		\path[->]<3-> (v1v1) edge [bend right] (v1vv2);
-		\path[->]<3-> (v1v2) edge [bend right] (v1vv3);
-		\path[->]<3-> (v1v3) edge [bend right] (v1vv4);
-	\end{tikzpicture}
-
-
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \subsection{Functional programming}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1475,7 +1538,6 @@ def inc_list(l1):
 	
 	Python has three built-in functions that are very useful for lists, \pythoni{filter}, \pythoni{map} and \pythoni{reduce}.
 	
-
 	\spacer
 	
 	\pythoni{filter(func, sequence)} returns only items from \pythoni{sequence} for which \pythoni{func(item)} is true:
@@ -1646,8 +1708,9 @@ Miscellaneous
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Learn more}
-	If you want to learn more, here are some suggestions
+	If you want to learn more: Python 102.
 	\spacer
+	In the meantime, see:
 	\begin{itemize}
 		\item \url{http://docs.python.org/tutorial/}
 		\item \url{https://secure.wikimedia.org/wikibooks/en/wiki/Non-Programmer\%27s_Tutorial_for_Python_2.6}
