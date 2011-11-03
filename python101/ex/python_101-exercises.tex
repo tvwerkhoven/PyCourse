@@ -257,23 +257,18 @@ language=pythontim,#1
 \section*{Introduction}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-These exercises are part of the Python 101 lecture.
-
-\section{Reading Python}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-Figure out what the output of these python snippets will be, and understand why.
+These exercises are part of the Python 101 lecture. Figure out what the output of these python snippets will be, and understand why.
 
 \setlength{\columnsep}{3em}
 
-\subsection{Datatypes}
+\section{Datatypes}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 These exercises deal with different datatype handling in Python.
 
 \begin{multicols}{2}
 
-\subsubsection{Adding and multiplying}
+\subsection{Adding and multiplying}
 
 \begin{python}
 1 + 1
@@ -287,7 +282,7 @@ These exercises deal with different datatype handling in Python.
 (1+2j) * 2
 \end{python}
 \answer{Adding and multiplying integers and complex numbers goes as expected. With sequences (strings, tuples and lists), multiplication with an integer means \emph{repetition}, and addition means \emph{concatenation}. \pythoni{1,} is a tuple with only one element.}
-\subsubsection{(Im)mutable}
+\subsection{(Im)mutable}
 
 \begin{python}
 a = [1, 2, 3, 4]
@@ -301,7 +296,7 @@ c[0][0] = 5
 
 \columnbreak
 
-\subsubsection{String concatenation}
+\subsection{String concatenation}
 \begin{python}
 print 'o' 'n' "e"
 print "one" \
@@ -315,7 +310,7 @@ print """
 
 \answer{Simple string concatenation as in the first example. Strings are delimited by one or three times a single (\pythoni{'}) or double (\pythoni{"}) quote. A single backslash continues a line. Triple-quoted strings continue over multiple lines and can use quotes inside of them.}
 
-\subsubsection{Tuple (un)packing)}
+\subsection{Tuple (un)packing)}
 
 \begin{python}
 a=1; b=2
@@ -335,14 +330,14 @@ print a, b
 
 \pagebreak
 
-\subsection{Sequences}
+\section{Sequences}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Here we investigate the behaviour and use of sequences in Python.
 
 \begin{multicols}{2}
 
-\subsubsection{Looping over sequences}
+\subsection{Looping over sequences}
 
 \begin{python}
 a = range(1, 10)
@@ -364,7 +359,7 @@ for el in collection:
 
 \columnbreak
 
-\subsubsection{Strings as sequences}
+\subsection{Strings as sequences}
 
 \begin{python}
 mytext = "Fruit flies like a banana, time flies like 
@@ -385,7 +380,7 @@ for i in map(len, mytext.split()):
 
 \end{multicols}
 
-\subsection{Functional programming}
+\section{Functional programming}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Some more interesting use of Python with \pythoni{reduce} and \emph{list comprehension}.
