@@ -624,7 +624,7 @@ Note that bignum can generally not be used in external libraries.
 \begin{frame}[fragile]
 	\frametitle{Datatypes -- Floats}
 
-Floats\pypypy{\pythoni{int} divisions are float by default}:
+Floats:
 \begin{python}
 >>> 5.0 / 3
 1.6666666666666667
@@ -637,7 +637,8 @@ Floats\pypypy{\pythoni{int} divisions are float by default}:
 \spacer
 
 \pause
-In Python 3:
+In Python 3 float divisions are default. 
+We can emulate Python 3 behaviour in Python 2 by \pythoni{import}ing from the future:
 
 \begin{python}
 >>> from __future__ import division
@@ -797,14 +798,14 @@ Tuples
 >>> a
 (1, 2, 3)
 >>> a[1]
-1
+2
 \end{python}
 
 	\spacer
 	\pause
 Tuples are \emph{immutable} (like strings):
 \begin{python}
->>> a[1] = 2
+>>> a[1] = 10
 TypeError: 'tuple' object does not support item assignment
 \end{python}
 \end{frame}
@@ -938,6 +939,7 @@ Both snippets above print 1 through 10 inclusive on separate lines.
 	\frametitle{Functions\footnote[frame]{More information in Software Carpentry's `Python -- Functions'}}
 
 	Use \pythoni{def} for functions
+	\spacer
 \pause
 
 \begin{python}
@@ -949,17 +951,8 @@ def hello():
 Hello!
 \end{python}
 
-	\spacer
-\pause
+\spacer
 
-Functions are objects
-\begin{python}
->>> (id(hello), type(hello), hello)
-(4449393912, <type 'function'>, <function hello at 0x109345cf8>)
->>> func_holder = hello
->>> func_holder()
-Hello!
-\end{python}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -984,6 +977,8 @@ def hello3(what="World"):	# what is optional, default given
 >>> hello2('class')
 Hello class!
 >>> hello3('class')
+Hello class!
+>>> hello3(what='class')
 Hello class!
 >>> hello3()
 Hello World!
@@ -1046,11 +1041,23 @@ def sum_two(x, y):
 	
 	\spacer
 	
+	
 	\begin{python}
 	>>> a = 10
 	>>> (id(a), type(a), a)
 	(4331745360, int, 10)
 	\end{python}
+	
+	\pause	
+
+	\begin{python}
+	>>> (id(hello), type(hello), hello)
+	(4449393912, <type 'function'>, <function hello at 0x109345cf8>)
+	>>> func_holder = hello
+	>>> func_holder()
+	Hello!
+	\end{python}
+
 
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1185,7 +1192,7 @@ def sum_two(x, y):
 \begin{frame}[fragile]
 	\frametitle{Objects examples}
 
-Two lists
+Two lists with the same contents
 \begin{python}
 >>> a = [1,2,3]
 >>> b = [1,2,3]
@@ -1198,7 +1205,14 @@ False
 \end{python}
 
 \pythoni{a} and \pythoni{b} have the same \emph{value}, but are \emph{not} the same \emph{object}.	\pythoni{id()}\footnote[frame]{\url{http://docs.python.org/library/functions.html\#id}} gives the identity of an object (memory location).
-\pause
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Objects examples cont'd}
 
 \begin{python}
 >>> a = b
@@ -1210,13 +1224,7 @@ True
 
 \pythoni{a} and \pythoni{b} point to the same data.
 
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-	\frametitle{Objects examples cont'd}
+\pause
 
 \begin{python}
 >>> a[0] = 10
@@ -1314,7 +1322,8 @@ Since \pythoni{a} points to \pythoni{b}, if we change \pythoni{a}, we also chang
 	
 \begin{python}
 def sum_two(x, y):
-    return x + y
+	x += y
+    return x
 \end{python}
 
 	\spacer
@@ -1435,9 +1444,9 @@ index & 0 & 1 & 2 & 3 & 4 &  & 12 & 13 & 14 \\
 value & %
 \fbox{\parbox{4ex}{0}} & %
 \fbox{\parbox{4ex}{1}} & %
+\fbox{\parbox{4ex}{2}} & %
 \fbox{\parbox{4ex}{3}} & %
 \fbox{\parbox{4ex}{4}} & %
-\fbox{\parbox{4ex}{5}} & %
 \ldots & %
 \fbox{\parbox{4ex}{12}} & %
 \fbox{\parbox{4ex}{13}} & %
@@ -1456,6 +1465,8 @@ index & -15 & -14 & -13 & -12 & -11 &  & -3 & -2 & -1 \\
 >>> alist[-15]
 0
 \end{python}
+
+Slices return a \emph{shallow copy} of the list, see \url{docs.python.org/library/copy.html}.
 
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1521,7 +1532,7 @@ IndexError: list index out of range
 []
 >>> alist[2:1]
 []
->>> alist[500:1]
+>>> alist[500:600]
 []
 \end{python}
 
@@ -1543,11 +1554,17 @@ IndexError: list index out of range
 	\spacer
 	
 	\begin{python}
-	>>> def f(x): return x % 2 != 0 and x % 3 != 0
+	>>> def div_by_three(x): return (x % 3 == 0)
 	...
-	>>> filter(f, range(2, 25))
-	[5, 7, 11, 13, 17, 19, 23]
+	>>> filter(div_by_three, range(15))
+	[0, 3, 6, 9, 12]
 	\end{python}
+	
+	\spacer
+	
+	\pythoni{div_by_three(x)} is \pythoni{True} for numbers divisible by three, and \pythoni{False} otherwise. Therefore, this \pythoni{filter} statement returns a list of all integers up to 15 divisible by three.
+	
+	
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1577,9 +1594,16 @@ IndexError: list index out of range
 ...
 >>> reduce(add, range(1, 5))
 10
+\end{python}
+\spacer
+The code above is identical to this statement:
+\begin{python}
 >>> add(add(add(1,2), 3), 4)
 10
 \end{python}
+\spacer
+N.B. The function passed to \pythoni{reduce} must take exactly two arguments.
+
 
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1605,27 +1629,45 @@ Generate tuples as list elements.
 [(2, 4), (4, 16), (6, 36)]
 \end{python}
 
-\pause
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{List comprehension}
+
 Double list comprehension (all pairs).
 
 \begin{python}
->>> vec1 = [2, 4, 6]
+>>> vec1 = [2, 4]
 >>> vec2 = [4, 3, -9]
 >>> [x*y for x in vec1 for y in vec2]
-[8, 6, -18, 16, 12, -36, 24, 18, -54]
+[8, 6, -18, 16, 12, -36]
+\end{python}
+
+Read from right to left: \pythoni{y} is the fast changing variable here.
+
+\pause
+\spacer
+
+The above is also possible as nested list:
+
+\begin{python}
+>>> [[x*y for x in vec1] for y in vec2]
+[[8, 16], [6, 12], [-18, -36]]
 \end{python}
 
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Libraries}
+\section{Packages}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]{Libraries}
+\begin{frame}[fragile]{Packages}
 
-Besides normal Python there are numerous libraries that can augment the functionality of Python.
+Besides normal Python there are numerous \emph{packages} that can augment the functionality of Python. You can use these packages by installing them and then using \pythoni{import <package>}.
 
 	\spacer
 
@@ -1649,7 +1691,7 @@ Data IO
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]{Libraries cont'd}
+\begin{frame}[fragile]{Packages cont'd}
 
 Plotting
 \begin{itemize}
