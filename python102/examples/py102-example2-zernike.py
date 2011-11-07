@@ -163,6 +163,6 @@ clist.append(pyfits.Card('utctime', asctime(gmtime(time()))) )
 clist.append(pyfits.Card('loctime', asctime(localtime(time()))) )
 
 hdr = pyfits.Header(cards=clist+[pyfits.Card('Desc', 'Surface input')])
-pyfits.writeto('py102-example2-surf.fits', test_surf, header=hdr, clobber=True, checksum=True)
+pyfits.writeto('py102-example2-surf.fits', test_surf*grid_mask, header=hdr, clobber=True, checksum=True)
 hdr = pyfits.Header(cards=clist+[pyfits.Card('Desc', 'Reconstructed surface')])
-pyfits.writeto('py102-example2-rec.fits', rec_wf, header=hdr, clobber=True, checksum=True)
+pyfits.writeto('py102-example2-rec.fits', rec_wf*grid_mask, header=hdr, clobber=True, checksum=True)
