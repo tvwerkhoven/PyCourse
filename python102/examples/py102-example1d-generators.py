@@ -2,9 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-@file py-example1-generators.py
+@file py102-example1d-generators.py
 @brief First set of example for Python 102 lecture
-@author Tim van Werkhoven (t.i.m.vanwerkhoven@xs4all.nl)
+@author Tim van Werkhoven (t.i.m.vanwerkhoven@gmail.com)
+@url http://python101.vanwerkhoven.org
 @date 20111012
 
 Created by Tim van Werkhoven (t.i.m.vanwerkhoven@xs4all.nl) on 2011-10-12

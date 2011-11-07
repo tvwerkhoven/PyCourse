@@ -2,9 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-@file py-example2.py
-@brief Second example for Python 102 lecture
-@author Tim van Werkhoven (t.i.m.vanwerkhoven@xs4all.nl)
+@file py102-example2-zernike.py
+@brief Fitting a surface in Python example for Python 102 lecture
+@author Tim van Werkhoven (t.i.m.vanwerkhoven@gmail.com)
+@url http://python101.vanwerkhoven.org
 @date 20111012
 
 Created by Tim van Werkhoven (t.i.m.vanwerkhoven@xs4all.nl) on 2011-10-12

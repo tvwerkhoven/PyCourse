@@ -2,9 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-@file py-example1-11.py
+@file py102-example1c-while.py
 @brief First set of example for Python 102 lecture
-@author Tim van Werkhoven (t.i.m.vanwerkhoven@xs4all.nl)
+@author Tim van Werkhoven (t.i.m.vanwerkhoven@gmail.com)
+@url http://python101.vanwerkhoven.org
 @date 20111012
 
 Examples taken from http://wiki.python.org/moin/SimplePrograms
