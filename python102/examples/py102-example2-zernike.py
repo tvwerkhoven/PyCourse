@@ -96,9 +96,8 @@ zern_list = [zernikel(i, grid_rho, grid_phi)*grid_mask for i in xrange(25)]
 ### Generate test surface
 
 test_vec = N.random.random(25)
-test_surf = 0
-for (i, val) in enumerate(test_vec):
-	test_surf += val * zernikel(i, grid_rho, grid_phi)
+test_surf = sum(val * zernikel(i, grid_rho, grid_phi) \
+	for (i, val) in enumerate(test_vec))
 
 ### Try to reconstruct test surface
 
@@ -118,16 +117,16 @@ wf_zern_inprod = N.array([N.sum(test_surf * zerni) for zerni in zern_list])
 rec_wf_pow = N.dot(cov_mat_in, wf_zern_inprod)
 
 # Reconstruct surface from Zernike components
-rec_wf = 0
-for (i, val) in enumerate(rec_wf_pow):
-	rec_wf += val * zernikel(i, grid_rho, grid_phi)
+rec_wf = sum(val * zernikel(i, grid_rho, grid_phi) for (i, val) in enumerate(rec_wf_pow))
 
 # Test reconstruct
-print test_vec-rec_wf_pow
+print "Input - reconstruction: ", test_vec-rec_wf_pow
 print N.allclose(test_vec, rec_wf_pow)
 print N.allclose(test_surf, rec_wf)
 
 ### Plot some results
+
+import pylab as plt
 
 fig = plt.figure(1)
 ax = fig.add_subplot(111)
@@ -140,14 +139,30 @@ ax.plot(test_vec, 'r-', label='Input')
 ax.plot(rec_wf_pow, 'b--', label='Recovered')
 ax.legend()
 fig.show()
-fig.savefig('py-example2-plot1.pdf')
+fig.savefig('py102-example2-plot1.pdf')
 
-plt.imshow(surf)
-
-fig = plt.figure(1)
+fig = plt.figure(2)
 fig.clf()
 ax = fig.add_subplot(111)
-surf_pl = ax.imshow(test_surf*grid_mask, interpolation='nearest')
+surf_pl = ax.imshow(rec_wf*grid_mask, interpolation='nearest')
 fig.colorbar(surf_pl)
 fig.show()
-fig.savefig('py-example2-plot2.pdf')
+fig.savefig('py102-example2-plot2.pdf')
+fig.savefig('py102-example2-plot2.png')
+fig.savefig('py102-example2-plot2.eps')
+
+raw_input()
+
+### Store data to disk
+from time import time, asctime, gmtime, localtime
+
+clist = pyfits.CardList()
+clist.append(pyfits.Card('Program', 'py102-example2-zernike.py') )
+clist.append(pyfits.Card('Epoch', time()) )
+clist.append(pyfits.Card('utctime', asctime(gmtime(time()))) )
+clist.append(pyfits.Card('loctime', asctime(localtime(time()))) )
+
+hdr = pyfits.Header(cards=clist+[pyfits.Card('Desc', 'Surface input')])
+pyfits.writeto('py102-example2-surf.fits', test_surf, header=hdr, clobber=True, checksum=True)
+hdr = pyfits.Header(cards=clist+[pyfits.Card('Desc', 'Reconstructed surface')])
+pyfits.writeto('py102-example2-rec.fits', rec_wf, header=hdr, clobber=True, checksum=True)
