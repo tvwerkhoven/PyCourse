@@ -57,8 +57,6 @@
 
 %%% Python code highlighting %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\renewcommand{\lstlistlistingname}{Python Listings}
-\renewcommand{\lstlistingname}{Code Listing}
 
 \definecolor{gray}{gray}{0.5}
 \definecolor{green}{rgb}{0,0.5,0}
@@ -68,8 +66,8 @@
 \definecolor{gray}{gray}{0.5}
 
 % This gives syntax highlighting in the python environment
-\renewcommand{\lstlistlistingname}{Code Listings}
-\renewcommand{\lstlistingname}{Code Listing}
+\renewcommand{\lstlistlistingname}{Python Snippets}
+\renewcommand{\lstlistingname}{Python Snippet}
 
 \lstdefinelanguage{pythontim}{
 basicstyle=\ttfamily\small\setstretch{1},
@@ -128,16 +126,28 @@ slice,sorted,staticmethod,str,sum,super,tuple,type,unichr,unicode,%
 vars,xrange,zip},
 emphstyle=[5]\color{purple}\bfseries,
 escapechar=\~,
-xleftmargin=2mm,
 %xrightmargin=2mm,
-framexleftmargin=3mm, framextopmargin=1mm, frame=shadowbox,
+framextopmargin=1mm, frame=shadowbox,
 rulesepcolor=\color{blue},
 }
 
 \lstnewenvironment{python}[1][]{
 \lstset{
-language=pythontim,#1
+language=pythontim,
+xleftmargin=2mm,
+framexleftmargin=3mm, 
+#1
 }}{}
+\lstnewenvironment{pythonln}[1][]{
+\lstset{
+language=pythontim,
+numbers=left,
+numberstyle=\ttfamily\scriptsize,
+xleftmargin=6mm,
+framexleftmargin=7mm,
+#1
+}}{}
+
 
 \def\pythoni{\lstinline[language=pythontim]}
 
@@ -267,19 +277,31 @@ urlcolor = blue,                    % color of external links
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-    \frametitle{Outline}
-    %\note{Some notes for the current slide}
-    \setcounter{tocdepth}{2}
-    \tableofcontents
-    % You might wish to add the option [pausesections]
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{This presentation}
+	
+	This presentation is part two of two.
+
+	\spacer
+	\begin{itemize}
+		\item Before, 101: basic Python language syntax
+		\begin{itemize}
+			\item \emph{objects, data types, flow control, functions, slicing}
+		\end{itemize}
+		\item Now, 102: (numerical) data processing, plotting
+		\begin{itemize}
+			\item \emph{packages, NumPy, pyfits, matplotlib, fitting surface}
+		\end{itemize}
+		\item After that: anything can happen. Suggestions?
+	\end{itemize}
+	
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Prerequisite knowledge}
@@ -301,6 +323,16 @@ urlcolor = blue,                    % color of external links
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+    \frametitle{Outline}
+    %\note{Some notes for the current slide}
+    \setcounter{tocdepth}{2}
+    \tableofcontents
+    % You might wish to add the option [pausesections]
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Packages}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -319,7 +351,7 @@ urlcolor = blue,                    % color of external links
 		\item \texttt{numpy} -- scipy core utilities
 		\pause
 		\item \texttt{pyfits} -- FITS file IO
-		\item \texttt{idlsave} -- load IDL \texttt{.save} files\footnote[frame]{http://www.physics.wisc.edu/~craigm/idl/savefmt/}
+		\item \texttt{idlsave} -- load IDL \texttt{.save} files\footnote[frame]{\url{http://www.physics.wisc.edu/~craigm/idl/savefmt/}}
 		\pause
 		\item \texttt{matplotlib} -- interactive plotting
 		\item \texttt{pyds9} -- interface to ds9
@@ -350,6 +382,10 @@ urlcolor = blue,                    % color of external links
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Obtaining packages}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]{Obtaining packages}
 	To get a package, install it in one of several ways:
@@ -361,13 +397,13 @@ urlcolor = blue,                    % color of external links
 		\pause
 		\item Use package manager to install (\texttt{apt}, \texttt{emerge}, \texttt{fink}, \texttt{macports}, \texttt{homebrew})
 		\pause
-		\item (Manually download and install (not recommended))
+		\item Manually download and install (not recommended)
 	\end{itemize}
 	
 	\spacer
 	\pause
 	
-	Using a package manager is \emph{always} preferred because of dependencies and updates.
+	Using a package manager is preferred because of dependencies tracking and updates.
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -434,8 +470,8 @@ array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]{3 lines: for \& enumerate}
-	\begin{python}
+\begin{frame}[fragile]{Example -- for \& enumerate}
+	\begin{python}[caption=\texttt{py102-example1a-enumerate.py}]
 my_list = ['john', 'pat', 'gary', 'michael']
 for i, name in enumerate(my_list):
   print "iteration %i is %s" % (i, name)
@@ -454,8 +490,8 @@ for i, name in enumerate(my_list):
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]{7 lines: dictionaries, generator expressions}
-	\begin{python}
+\begin{frame}[fragile]{Example -- dictionaries, generator expressions}
+	\begin{python}[caption=\texttt{py102-example1b-dictsum.py}]
 prices = {'apple': 0.40, 'banana': 0.50}
 my_purchase = {
   'apple': 1,
@@ -477,8 +513,8 @@ print 'I owe the grocer $%.2f' % grocery_bill
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]{11 lines: triple-quotes, while loop }
-	\begin{python}
+\begin{frame}[fragile]{Example -- triple-quotes, while loop }
+	\begin{python}[caption=\texttt{py102-example1c-while.py}]
 REFRAIN = """
 %d bottles of beer on the wall,
 %d bottles of beer,
@@ -502,8 +538,8 @@ while bottles_of_beer > 1:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]{Generators}
-	\begin{python}
+\begin{frame}[fragile]{Example -- Generators}
+	\begin{python}[caption=\texttt{py102-example1d-generators.py}]
 def fib():
     a, b = 0, 1
     while True:
@@ -519,6 +555,8 @@ fib_gen = fib()
 		\item \emph{generators} are powerful tools to create iterators
 		\pause
 		\item generators \pythoni{yield} a value when \pythoni{next()} is called
+		\pause
+		\item generators do not take up memory, as opposed to lists
 		\pause
 		\item \pythoni{range}\pypypy{\pythoni{xrange} replaced \pythoni{range}} is a generator for numbers
 	\end{itemize}
@@ -536,6 +574,10 @@ fib_gen = fib()
 	\vfill
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Zernike polynomials}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]{Zernike polynomials}
@@ -627,12 +669,93 @@ fib_gen = fib()
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Implementation in Python}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Analysis in Python}
+
+Implementing this in Python step by step. See results in \texttt{py102-example2-zernike.py}.
+
+\pause
+\spacer
+
+Tell interpreter to use \verb!python2.7!, specify encoding, document file.
+\begin{pythonln}[firstnumber=1]
+#!/usr/bin/env python2.7
+# -*- coding: utf-8 -*-
+
+"""
+Description on what this file does goes here
+"""
+\end{pythonln}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Import packages}
+
+We need extra libraries to do the hard work, import them before usage
+
+\spacer
+
+\begin{pythonln}[firstnumber=21]
+import pyfits
+import numpy as N
+from scipy.misc import factorial as fac
+\end{pythonln}
+\spacer
+
+Three different import methods: regular, as alias or specific functions.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Coordinate grids}
+
+Before we can construct Zernike polynomials, we need a coordinate grid.
+
+\spacer
+\begin{pythonln}[firstnumber=87]
+@@grid = (N.indices((256, 256), dtype=N.float) - 128) / 128.0
+@@grid_rho = (grid**2.0).sum(0)**0.5
+@@grid_phi = N.arctan2(grid[0], grid[1])
+@@grid_mask = grid_rho <= 1
+\end{pythonln}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Zernikes in Python}
+Implement Zernike polynomials in Python
+\spacer
+	\[
+	\begin{array}{lcl}
+	Z^{\,m}_n(\rho,\varphi) &=& R^{\,m}_{n}(\rho)\,\cos(m\,\varphi) \! \\
+	Z^{\,-\!m}_n(\rho,\varphi) &=& R^{\,m}_{n}(\rho)\,\sin(m\,\varphi), \! \\
+  	\end{array}
+	\]
+\spacer
+\begin{pythonln}[firstnumber=49]
+def zernike(m, n, rho, phi):
+  """
+  Calculate Zernike polynomial (m, n) given a grid of radial
+  coordinates rho and azimuthal coordinates phi.
+  """
+@@  if (m > 0): return zernike_rad(m, n, rho) * N.cos(m * phi)
+@@  if (m < 0): return zernike_rad(-m, n, rho) * N.sin(-m * phi)
+@@  return zernike_rad(0, n, rho)
+\end{pythonln}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]{Zernikes in Python}
 	\[
 	\sum_{k=0}^{(n-m)/2} \!\!\! \frac{(-1)^k\,(n-k)!}{k!\,((n+m)/2-k)!\,((n-m)/2-k)!} \;\rho^{n-2\,k}
 	\]
-\begin{python}
+\begin{pythonln}[firstnumber=26]
 @@def zernike_rad(m, n, rho):
 @  """
   Calculate the radial component of Zernike polynomial (m, n)
@@ -648,66 +771,29 @@ fib_gen = fib()
       fac( (n-m)/2.0 - k ) )
   
 @@  return rho
-\end{python}
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]{Zernikes in Python}
-	\[
-	\begin{array}{lcl}
-	Z^{\,m}_n(\rho,\varphi) &=& R^{\,m}_{n}(\rho)\,\cos(m\,\varphi) \! \\
-	Z^{\,-\!m}_n(\rho,\varphi) &=& R^{\,m}_{n}(\rho)\,\sin(m\,\varphi), \! \\
-  	\end{array}
-	\]
-\spacer
-\begin{python}
-def zernike(m, n, rho, phi):
-  """
-  Calculate Zernike polynomial (m, n) given a grid of radial
-  coordinates rho and azimuthal coordinates phi.
-  """
-@@  if (m > 0): return zernike_rad(m, n, rho) * N.cos(m * phi)
-@@  if (m < 0): return zernike_rad(-m, n, rho) * N.sin(-m * phi)
-@@  return zernike_rad(0, n, rho)
-\end{python}
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]{Coordinate grids}
-
-Make coordinate grid for rho and phi
-\spacer
-\begin{python}
-@@grid = (N.indices((256, 256), dtype=N.float) - 128) / 128.0
-@@grid_rho = (grid**2.0).sum(0)**0.5
-@@grid_phi = N.arctan2(grid[0], grid[1])
-@@grid_mask = grid_rho <= 1
-\end{python}
+\end{pythonln}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]{Generate test surface}
 
-Compute a list of Zernikes
-
-\begin{python}
+Compute a list of 25 Zernikes (\pythoni{zernikel()} uses single-indexing for Zernikes)
+\spacer
+\begin{pythonln}[firstnumber=94]
 zern_list = [zernikel(i, grid_rho, grid_phi) * grid_mask \
   for i in xrange(25)]
-\end{python}
+\end{pythonln}
 
 \spacer
 \pause
 Generate test surface
 
-\begin{python}
+\begin{pythonln}[firstnumber=98]
 test_vec = N.random.random(25)
-test_surf = 0
-for (i, val) in enumerate(test_vec):
-  test_surf += val * zernikel(i, grid_rho, grid_phi)
-\end{python}
+test_surf = sum(val * zernikel(i, grid_rho, grid_phi) \
+  for (i, val) in enumerate(test_vec))
+\end{pythonln}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -716,18 +802,35 @@ for (i, val) in enumerate(test_vec):
 
 Calculate covariance between all Zernike polynomials
 
-\begin{python}
+\spacer
+
+\begin{pythonln}[firstnumber=105]
 cov_mat = N.array([[N.sum(zerni * zernj) \
   for zerni in zern_list] \
     for zernj in zern_list])
-\end{python}
+\end{pythonln}
 
 \spacer
 \pause
-Invert covariance matrix using singular value decomposition
-\begin{python}
+Invert covariance matrix using singular value decomposition (pseudo-inverse)
+
+\spacer
+
+\begin{pythonln}[firstnumber=108]
 cov_mat_in = N.linalg.pinv(cov_mat)
-\end{python}
+\end{pythonln}
+
+\spacer
+\pause
+Calculate the inner product of each Zernike mode with the test surface
+
+\spacer
+
+\begin{pythonln}[firstnumber=112]
+wf_zern_inprod = N.array([N.sum(test_surf * zerni) \
+  for zerni in zern_list])
+\end{pythonln}
+
 
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -737,30 +840,33 @@ cov_mat_in = N.linalg.pinv(cov_mat)
 
 Given the inner-product vector and the inverse of the covariance matrix, solve for the vector of coefficients.
 
-\begin{python}
+\begin{pythonln}[firstnumber=117]
 rec_wf_pow = N.dot(cov_mat_in, wf_zern_inprod)
-\end{python}
+\end{pythonln}
 
 \spacer
 \pause
 Reconstruct the surface
-\begin{python}
-rec_wf = 0
-for (i, val) in enumerate(rec_wf_pow):
-  rec_wf += val * zernikel(i, grid_rho, grid_phi)
-\end{python}
+\begin{pythonln}[firstnumber=117]
+rec_wf = sum(val * zernikel(i, grid_rho, grid_phi) \
+  for (i, val) in enumerate(rec_wf_pow))
+\end{pythonln}
 
 \spacer
 \pause
 Check solution
-\begin{python}
+\begin{pythonln}[firstnumber=123]
 print test_vec-rec_wf_pow
 print N.allclose(test_vec, rec_wf_pow)
 print N.allclose(test_surf, rec_wf)
-\end{python}
+\end{pythonln}
 
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Plotting results}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]{2D plotting}
@@ -775,20 +881,20 @@ pylab.plot(xarr)
 \pause
 More elaborate example
 
-\begin{python}
-fig = pylab.figure(1)
-ax = fig.add_subplot(111)
+\begin{pythonln}[firstnumber=131]
+@@fig = plt.figure(1)
+@@ax = fig.add_subplot(111)
 
-ax.set_xlabel('Xlabel [AU]')
-ax.set_ylabel('Ylabel [AU]')
-ax.set_title('Plot title')
+@@ax.set_xlabel('Zernike mode')
+ax.set_ylabel('Power [AU]')
+ax.set_title('Reconstruction quality')
 
-ax.plot(xarr1, 'r-', label='Graph 1')
-ax.plot(xarr2, 'b--', label='Graph 2')
-ax.legend()
-
-fig.show()
-\end{python}
+@@ax.plot(test_vec, 'r-', label='Input')
+ax.plot(rec_wf_pow, 'b--', label='Recovered')
+@@ax.legend()
+@@fig.show()
+@@fig.savefig('py102-example2-plot1.pdf')
+\end{pythonln}
 
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -806,22 +912,75 @@ pylab.imshow(surf)
 \pause
 More options
 
-\begin{python}
-fig = pylab.figure(1)
-fig.clf()
-ax = fig.add_subplot(111)
+\begin{pythonln}[firstnumber=144]
+@@fig = plt.figure(2)
+@@fig.clf()
 
-surf_pl = ax.imshow(surf, interpolation='nearest')
-fig.colorbar(surf_pl)
+ax = fig.add_subplot(111)
+@@surf_pl = ax.imshow(test_surf*grid_mask, \
+  interpolation='nearest')
+@@fig.colorbar(surf_pl)
 
 fig.show()
-
-fig.savefig('py-example-plot.pdf')
-fig.savefig('py-example-plot.png')
-\end{python}
+fig.savefig('py102-example2-plot2.pdf')
+fig.savefig('py102-example2-plot2.png')
+\end{pythonln}
 
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Archive results}
+
+Storing results as \texttt{FITS} files with \pythoni{pyfits}.
+
+\begin{python}
+pyfits.writeto(fname, data)
+\end{python}
+
+\spacer
+\pause
+More options. Generate a header
+
+\begin{pythonln}[firstnumber=159]
+@@from time import time, asctime, \
+  gmtime, localtime
+
+@@clist = pyfits.CardList()
+@@clist.append(pyfits.Card('Program', \
+  'py102-example2-zernike.py') )
+clist.append(pyfits.Card('Epoch', time()) )
+clist.append(pyfits.Card('utctime', \
+  asctime(gmtime(time()))) )
+clist.append(pyfits.Card('loctime', \
+  asctime(localtime(time()))) )
+\end{pythonln}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Archive results}
+
+Store two data matrices including some metadata
+
+\spacer
+
+\begin{pythonln}[firstnumber=165]
+@@hdr = pyfits.Header(cards=clist+\
+  [pyfits.Card('Desc', 'Surface input')])
+@@pyfits.writeto('file1.fits', \
+  test_surf, header=hdr, clobber=True, checksum=True)
+
+hdr = pyfits.Header(cards=clist+\
+  [pyfits.Card('Desc', 'Reconstructed surface')])
+pyfits.writeto('file2.fits', \
+  rec_wf, header=hdr, clobber=True, checksum=True)
+\end{pythonln}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Interactive Python}
@@ -841,6 +1000,7 @@ Interactive example... \pause \texttt{bleep bleep}
 	\item command/variable auto completion
 	\item command history
 	\item inline documentation (system and user)
+	\item \ldots requests?
 \end{itemize}
 
 \end{frame}
@@ -873,6 +1033,7 @@ Interactive example... \pause \texttt{bleep bleep}
 		\item \url{http://www.secnetix.de/olli/Python/}
 		\item \url{https://secure.wikimedia.org/wikibooks/en/wiki/Python_Programming}
 	\end{itemize}
+	
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -887,7 +1048,10 @@ Interactive example... \pause \texttt{bleep bleep}
 	\begin{itemize}
 		\item Software carpentry -- \url{http://software-carpentry.org/}
 		\item Python online documentation -- \url{http://docs.python.org/}
+		\pause
 		\item NumPy/Scipy documentation -- \url{http://docs.scipy.org/doc/}
+		\item matplotlib -- \url{http://matplotlib.sourceforge.net/gallery.html}
+		\pause
 		\item StackOverflow -- \url{http://stackoverflow.com/questions/tagged/python}
 	\end{itemize}
 	
