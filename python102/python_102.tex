@@ -246,7 +246,7 @@ urlcolor = blue,                    % color of external links
 \href{http://www.uu.nl}{Utrecht University}\\[1em]
 \includegraphics[height=10mm]{\imgpath logo_uu.pdf}
 }
-\date{October 2011}
+\date{November 2011}
 
 %%% Frames %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -311,14 +311,14 @@ urlcolor = blue,                    % color of external links
 	\spacer
 	
 	\begin{itemize}
-		\item Running Python interactively or as script
-		\item Python variables, datatypes, control flow
+		\item Running Python interactively or as script,
+		\item Python variables, datatypes, control flow,
 		\item Aliasing, slicing, data manipulation.
 	\end{itemize}
 	
 	\spacer
 
-	This is covered in the Python 101 lecture.
+	This is covered in the Python 101 lecture, see \url{python101.vanwerkhoven.org}.
 
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -335,6 +335,10 @@ urlcolor = blue,                    % color of external links
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Packages}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Package overview}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -356,14 +360,14 @@ urlcolor = blue,                    % color of external links
 		\item \texttt{matplotlib} -- interactive plotting
 		\item \texttt{pyds9} -- interface to ds9
 		\pause
-		\item \texttt{ipython} -- enhanced python shell
+		\item \texttt{ipython} -- enhanced Python shell
 	\end{itemize}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]{Package overview II}
-	Other packages that look promising.
+	Other packages that look promising (I haven't tried these myself).
 	\spacer
 	\begin{itemize}
 		\item \texttt{h5py} -- HDF5 interface
@@ -407,6 +411,10 @@ urlcolor = blue,                    % color of external links
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Using packages}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]{Using packages}
 	
@@ -444,7 +452,7 @@ array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
 	
 	How will I know why explicit imports are better than the wild-card form?\\
 	\pause
-	You will know when your code you try to read six months from now.\\
+	You will know when you try to read your code six months from now.\\
 	
 	\spacer
 	\pause
@@ -456,6 +464,40 @@ array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
 	\item \pythoni{from numpy import arange}
 	\end{itemize}
 	
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{NumPy}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Some words on NumPy}
+	
+	NumPy is the numerical workhorse for Python. 
+	
+	\spacer
+	
+	\begin{itemize}
+		\item Python is an interpreter, mathematical algorithms are slow compared to C (1000x)\footnote[frame]{\url{http://scipy.org/PerformancePython}}
+		\item NumPy provides optimized data formats \emph{and} algorithms
+		\item Any algorithm that can be run as matrix operation is fast (10x)
+	\end{itemize}
+
+	\spacer
+	
+	The main NumPy datatype is the \texttt{ndarray}\footnote[frame]{\url{http://docs.scipy.org/doc/numpy/reference/arrays.ndarray.html}}:
+
+	\begin{itemize}
+		\item homogeneous (data is contiguous)
+		\item multidimensional (called `axes')
+		\item elements all the same type (types are C types, not Python)
+		\item some \texttt{ndarray} properties: shape, ndim, size, itemsize, nbytes,
+	\end{itemize}
+	
+	\spacer
+	
+	For more information, see the references.
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -770,7 +812,7 @@ def zernike(m, n, rho, phi):
     	( fac(k) * fac( (n+m)/2.0 - k ) * \
       fac( (n-m)/2.0 - k ) )
   
-@@  return rho
+@@  return wf
 \end{pythonln}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -981,13 +1023,12 @@ pyfits.writeto('file2.fits', \
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Interactive Python}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]{Interactive python}
+\begin{frame}[fragile]{Interactive Python}
 
 Interactive example... \pause \texttt{bleep bleep}
 
@@ -995,7 +1036,7 @@ Interactive example... \pause \texttt{bleep bleep}
 \pause
 
 \begin{itemize}
-	\item ipython shell commands (ls, cd)
+	\item IPython shell commands (ls, cd)
 	\item data introspection/printing
 	\item command/variable auto completion
 	\item command history
@@ -1050,6 +1091,13 @@ Interactive example... \pause \texttt{bleep bleep}
 		\item Python online documentation -- \url{http://docs.python.org/}
 		\pause
 		\item NumPy/Scipy documentation -- \url{http://docs.scipy.org/doc/}
+		\begin{itemize}
+			\item \url{http://www.scipy.org/Tentative_NumPy_Tutorial}
+			\item \url{http://docs.scipy.org/doc/numpy/user/index.html\#user}
+			\item \url{http://www.scipy.org/Numpy_Functions_by_Category}
+			\item \url{http://docs.scipy.org/doc/numpy/reference/}
+			\item \url{http://scipy.org/PerformancePython}
+		\end{itemize}
 		\item matplotlib -- \url{http://matplotlib.sourceforge.net/gallery.html}
 		\pause
 		\item StackOverflow -- \url{http://stackoverflow.com/questions/tagged/python}
