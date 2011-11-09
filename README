@@ -1,0 +1,16 @@
+PyCourse -- an introductory course in Python
+============================================
+
+These are (currently) two introductory lectures on Python. The first lecture
+focuses on the Python language syntax itself, while the second is aimed at
+explaining how to use Python for numerical data analysis on a daily basis.
+
+This presentation is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+Installation
+============
+
+To compile the TeX source yourself, you need to obtain some images from the web.
+To do this, run the script <getimgs.sh> in the directory 00-imgs/.
