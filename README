@@ -12,5 +12,23 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 Installation
 ============
 
-To compile the TeX source yourself, you need to obtain some images from the web.
-To do this, run the script <getimgs.sh> in the directory 00-imgs/.
+To compile the TeX source yourself, you need to obtain some images from the 
+web. To do this, run the script <getimgs.sh> in the directory 00-imgs/.
+
+Version history
+===============
+
+20111109
+   * Update presentation 102
+   * Added this README
+
+20111104
+   * Updated & finalized presentation 101
+
+Copyright
+=========
+
+© 2011 Tim van Werkhoven <timvanwerkhoven@gmail.com>
+
+This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/3.0/ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
+
